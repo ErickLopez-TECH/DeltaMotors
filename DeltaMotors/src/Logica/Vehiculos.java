@@ -167,10 +167,10 @@ public class Vehiculos {
     
     System.out.print("Digite la placa a buscar: ");
     leer.nextLine();
-    String userBuscado = leer.nextLine();
+    String vehiculoBuscado = leer.nextLine();
 
     // Llamamos al método buscar dentro de tu estructura
-    ObjVehiculo usuarioEncontrado = Estructuras.buscarVehiculoPlaca(userBuscado);
+    ObjVehiculo usuarioEncontrado = Estructuras.buscarVehiculoPlaca(vehiculoBuscado);
 
     if (usuarioEncontrado != null) {
         System.out.println("\nn---[!] ¡Vehículo Encontrado! ---");
@@ -182,7 +182,7 @@ public class Vehiculos {
             usuarioEncontrado.getPlaca()
         );
     } else {
-        System.out.println("\n[!] No se encontró ningún vehículo con la placa " + userBuscado);
+        System.out.println("\n[!] No se encontró ningún vehículo con la placa " + vehiculoBuscado);
     }
 
 }

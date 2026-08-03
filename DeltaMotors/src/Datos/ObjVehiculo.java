@@ -14,8 +14,10 @@ public class ObjVehiculo {
     private String marca;
     private String modelo;
     private int anio;
+    private String estado;
     private int kilometroActual;//concexion con reportes por km
-    
+    private String tipoVehiculo;
+    private String combustible;
     
     //contructor
     public ObjVehiculo() {
@@ -25,18 +27,14 @@ public class ObjVehiculo {
         this.marca = "";
         this.modelo = "";
         this.anio = 0;
+        this.estado = "";
         this.kilometroActual= 0;
+        this.tipoVehiculo = "";
+        this.combustible = "";
     }
     
        
-    public ObjVehiculo(int idVehiculo, String placa, String marca, String modelo, int anio, int kilometrajeActual) {
-    this.id = idVehiculo;
-    this.placa = placa;
-    this.marca = marca;
-    this.modelo = modelo;
-    this.anio = anio;
-    this.kilometroActual= kilometrajeActual;
-    }
+    
     
     //-------------------------------------------------
     //------------------getters------------------------
@@ -64,6 +62,22 @@ public class ObjVehiculo {
     public String getPlaca() {
         return placa;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public String getTipoVehiculo() {
+        return tipoVehiculo;
+    }
+
+    public String getCombustible() {
+        return combustible;
+    }
+    
+    
+    
+    
     
     //-------------------------------------------------
     //------------------setters------------------------
@@ -92,13 +106,18 @@ public class ObjVehiculo {
     public void setPlaca(String placa) {
         this.placa = placa;
     }
-    
-    
 
- 
-    //para archivo .txt
-    public String aTextoArchivo() {
-        return id + ";" + placa + ";" + marca + ";" + modelo + ";" + anio + ";" + kilometroActual;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
+
+    public void setTipoVehiculo(String tipoVehiculo) {
+        this.tipoVehiculo = tipoVehiculo;
+    }
+
+    public void setCombustible(String combustible) {
+        this.combustible = combustible;
+    }
+    
     
 }

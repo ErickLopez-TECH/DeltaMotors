@@ -13,16 +13,24 @@ import java.util.ArrayList;
 public class Estructuras {
 
     public static ArrayList<ObjUsuarios> listaUsuarios = new ArrayList<>();
-    static ArrayList<ObjVehiculo> listaVehiculos = new ArrayList<>();
+    public static ArrayList<ObjVehiculo> listaVehiculos = new ArrayList<>();
     static ArrayList<ObjMantenimiento> listaMantenimeinto = new ArrayList<>();
     static ArrayList<ObjBoletaTaller> listaBoletasTaller = new ArrayList<>();
     static ArrayList<ObjBoletaCombustible> listaBoletaCombustible = new ArrayList<>();
     static ArrayList<ObjAsignacionMantenimiento> listaAsignaciones = new ArrayList<>();
-    private static int contadorUserId = 0;
+   public static int contadorUserId = 0;
     private static int contadorVehiculoId = 0;
     
     public Estructuras() {
+        
+        
+        
+
+       
+     
     }
+    
+    
     
     /*---------------------------------------------------
     |--------------Metodos usuarios----------------------|
@@ -58,7 +66,7 @@ public class Estructuras {
     
      public static ObjUsuarios buscarUsuarioPorId(String idBuscado) {
     for (ObjUsuarios user : listaUsuarios) { 
-        if (user.getUsuario().equals(idBuscado)) {
+        if (user.getUsuario() != null && user.getUsuario().equals(idBuscado)) {
             return user;
         }
     }
