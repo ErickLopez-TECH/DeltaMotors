@@ -13,6 +13,7 @@ public class ObjUsuarios {
     private int id;//automatico
     private String usuario;
     private String contrasena;
+    private String cedula;
     private String rol;
     private String estado;
     
@@ -27,7 +28,7 @@ public class ObjUsuarios {
 
     public ObjUsuarios() {
         this.id = 0;
-        
+        this.cedula = "";
         this.rol ="";
         this.contrasena = "";
         this.estado = "";
@@ -60,6 +61,12 @@ public class ObjUsuarios {
     public String getRol() {
         return rol;
     }
+
+    public String getCedula() {
+        return cedula;
+    }
+    
+    
     
     //-------------------------------------------------
     //------------------setters------------------------
@@ -85,6 +92,10 @@ public class ObjUsuarios {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
     
     

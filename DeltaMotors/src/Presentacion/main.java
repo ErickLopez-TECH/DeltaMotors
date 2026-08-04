@@ -5,6 +5,7 @@
 package Presentacion;
 
 import java.util.Scanner;
+import Logica.Usuarios;
 
 /**
  *
@@ -39,7 +40,7 @@ public class main {
             opcion = leer.nextInt();
             
             switch(opcion){
-            case 1: Usuario.gestionUsuarios();
+            case 1: Logica.Usuarios.gestionUsuarios(); ;
                 
                 break;
             case 2: Vehiculo.gestionVehiculos();
@@ -68,7 +69,7 @@ public class main {
             System.out.println("Ingrese una opcion (1-9) luego presione ");
             System.out.println("la tecla enter.");
             System.out.println("");
-            System.out.println("1. Gestion Usuarios ");
+            
             System.out.println("2. Gestion Vehiculos");
             System.out.println("3. Empleados"); //TAREA -- id Identificación
             System.out.println("4. Reservaciones");
@@ -81,7 +82,7 @@ public class main {
             opcion = leer.nextInt();
             
             switch(opcion){
-            case 1: Usuario.gestionUsuarios();
+            case 1: ;
                 
                 break;
             case 2: Vehiculo.gestionVehiculos();
