@@ -9,6 +9,7 @@ import Datos.ObjUsuarios;
 import Datos.ObjUsuarios;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,7 +18,7 @@ import java.util.Scanner;
 public class Usuarios {
     
     static Scanner leer = new Scanner(System.in);
-    
+    static Usuarios misUsuarios = new Usuarios();
     public static Estructuras Almacen = new Estructuras();
     
     
@@ -26,7 +27,7 @@ public class Usuarios {
         int opcion;
         do {            
             System.out.println("----------------------------------------");
-            System.out.println("|             GESTION USUARIOS o         |");
+            System.out.println("|             GESTION USUARIOS         |");
             System.out.println("----------------------------------------");
             System.out.println("Ingrese una opcion (1-4) luego presione ");
             System.out.println("la tecla enter.");
@@ -46,9 +47,9 @@ public class Usuarios {
             case 1: addUsuario();
                 
                 break;
-            case 2:   
+            case 2:misUsuarios.modificarUsuario();
                 break;
-            case 3:  ;
+            case 3:borrarUsuario() ;
                 
                 break;
             case 4: consultarUsuario();
@@ -95,12 +96,27 @@ public class Usuarios {
       return estadoStr;
   }
   
-  public int buscarUsuario(){
+   public static int placaRepetida(String cedula){
+        
+     ArrayList<ObjUsuarios> misUsuarios= new ArrayList<>();
+     misUsuarios = Almacen.consultarUsuarios();
+     
+        for (int i = 0; i <misUsuarios.size(); i++) {
+            if(misUsuarios.get(i).getCedula().equals(cedula)){
+                return 1;
+            }
+        }
+    return -1;
+    
+}
+  
+  public static int buscarUsuario(){
         System.out.println("===================================");
         System.out.println("|           BUSCAR USUARIO       |");
         System.out.println("===================================");
         System.out.println("");
-        System.out.println("Digite la cedula del usuario ");
+        leer.nextLine();
+        System.out.print("Digite la cedula: ");
         String cedula = leer.nextLine();
         int indice = -1;
         
@@ -120,10 +136,25 @@ public class Usuarios {
         }
          return indice;
     }
-    
+  public static void borrarUsuario(){
+        int indice = buscarUsuario();
+        if (indice == -1) {
+            System.out.println("No se encontro el Usuario");
+            
+        }else{
+            ArrayList<ObjUsuarios> misUsuarios= new ArrayList<>();
+            misUsuarios = Almacen.consultarUsuarios();
+            System.out.println("Usuario: " + misUsuarios.get(indice).getUsuario());//ve el indice y luego get cedula
+            System.out.println("Cedula: " + misUsuarios.get(indice).getCedula());
+            Almacen.eliminarCliente(indice);
+            Almacen.escribeArchivoUsuarios();
+            JOptionPane.showMessageDialog(null,"USUARIO BORRADO","ATENCION",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+  
   public static void addUsuario(){
         System.out.println("=======================================");
-        System.out.println("|           REGISTRAR USUARIOS add       |");
+        System.out.println("|           REGISTRAR USUARIOS        |");
         System.out.println("=======================================");
         System.out.println("");
         ObjUsuarios nuevoUsuario = new ObjUsuarios();
@@ -134,15 +165,18 @@ public class Usuarios {
         String usuario = leer.nextLine();
         nuevoUsuario.setUsuario(usuario);
         
-        //Validacion de repetidos
-        if (Logica.LogUsuario.usuarioRepetido(usuario) == 1) {
+         //Validacion de repetidos
+        if (usuarioRepetido(usuario) == 1) {
             System.out.println("[!] Error: El usuario ya está registrado. Intente con otro.");
             return;
         }
         
-        System.out.println("Digite la cedula: ");
+        
+        System.out.print("Digite la cedula: ");
         String cedula = leer.nextLine();
         nuevoUsuario.setCedula(cedula);
+        
+        
 
         // Si pasa la validación, continúa pidiendo el resto con normalidad
         System.out.print("Digite la contrasena: ");
@@ -153,9 +187,11 @@ public class Usuarios {
 
         int opcionRol = 0;
         do {
+            System.out.println("");
             System.out.println("Digite la opcion del rol: ");
             System.out.println("1. Operador");
             System.out.println("2. Administrador");
+            System.out.print("Opcion: ");
             opcionRol = leer.nextInt();
 
             if ((opcionRol != 1) && (opcionRol != 2)) {
@@ -172,6 +208,7 @@ public class Usuarios {
 
     // Guardado final
     Almacen.agregarUsuarios(nuevoUsuario);
+    Almacen.escribeArchivoUsuarios();
     System.out.println("[✔] ¡Usuario registrado con éxito!");
 
     }
@@ -196,12 +233,14 @@ public class Usuarios {
              System.out.println("Cedula: "+ usuario.getCedula());
              System.out.println("Rol: " +  usuario.getRol());
              System.out.println("Estado: " + usuario.getEstado());
+            // System.out.println("Contra: " + usuario.getContrasena());
              System.out.println("");
              System.out.println("-------------------------------------");
              System.out.println("");
         }
     }
-  
+   
+   
    public void modificarUsuario(){
         int indice = buscarUsuario();
         if (indice == -1) {
@@ -212,51 +251,86 @@ public class Usuarios {
             misUsuarios = Almacen.consultarUsuarios();
             System.out.println("Usuario: " + misUsuarios.get(indice).getUsuario());//ve el indice y luego get cedula
             System.out.println("Cedula: " + misUsuarios.get(indice).getCedula());
+            System.out.println("---------------------------------------");
             ObjUsuarios usuario = new ObjUsuarios();
             usuario = misUsuarios.get(indice);
             
             int opcion;
-            do {                
+            do {   
+                System.out.println("");
                 System.out.println("Deseas modificar el estado? ");
                 System.out.println("1. Si");
                 System.out.println("2. NO");
+                System.out.print("Opcion: ");
                 opcion = leer.nextInt();
+                
+                if((opcion !=1)&&(opcion!=2)){
+                    System.out.println("");
+                    System.out.println("[!] Vuelva a digitar una opcion valida");
+                }
                 
             } while ((opcion !=1) && (opcion != 2));
             
             int estado = 0;
-            if(opcion == 1){
+            if (opcion == 1) {
+                do {                
+               
+                System.out.println("");
                 System.out.println("Digite el estado: ");
                 System.out.println("1. Activo");
                 System.out.println("2. Inactivo");
+                System.out.print("Opcion: ");
                 estado = leer.nextInt();
+            
+                if((estado !=1)&&(estado!=2)){
+                    System.out.println("");
+                    System.out.println("[!] Vuelva a digitar una opcion valida");
+                }
+            } while ((estado !=1)&&(estado!=2));
+             String estadoStr = devolverEstado(estado);
+             usuario.setEstado(estadoStr);
             }
             
-            String estadoStr = devolverEstado(estado);
-            usuario.setEstado(estadoStr);
+            
+           
             
             opcion = 0;
-            do {                
+            do {      
+                System.out.println("");
                 System.out.println("Deseas modificar el rol? ");
                 System.out.println("1. Si");
                 System.out.println("2. NO");
+                System.out.print("Opcion: ");
                 opcion = leer.nextInt();
                 
+                if((opcion !=1)&&(opcion!=2)){
+                    System.out.println("");
+                    System.out.println("[!] Vuelva a digitar una opcion valida");
+                }
             } while ((opcion !=1) && (opcion != 2));
             
             estado = 0;
-            if(opcion == 1){
+            if (opcion == 1) {
+            do {                
+                System.out.println("");
                 System.out.println("Digite el Rol: ");
                 System.out.println("1. Operador");
                 System.out.println("2. Admin");
                 estado = leer.nextInt();
-            }
             
-
+                if((estado!=1)&&(estado!=2)){
+                    System.out.println("[!] Digite una opcion valida");
+                }
+            } while ((estado!=1)&&(estado!=2));
+            
+                String rol = devolverRol(estado);
+                usuario.setRol(rol);
+            }
 
            
-             
+            
             Almacen.modificarUsuario(indice, usuario);
+            Almacen.escribeArchivoUsuarios();
         }
     }
     

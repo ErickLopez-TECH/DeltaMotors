@@ -1,0 +1,3 @@
+1;1;Toyota;Hilux;1;Activo;20000;Electrico;KWH;
+2;ytr2026;Chevrolet;Onix;2026;Activo;0;Hibrido;Gasolina + KWH;
+
