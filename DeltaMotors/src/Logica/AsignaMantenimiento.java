@@ -222,7 +222,12 @@ public class AsignaMantenimiento {
         return -1;
     }
     
-    
+    public static void consultar(){
+         System.out.println("===================================");
+        System.out.println("|    Asignacion de Mantenimiento  |");
+        System.out.println("===================================");
+        System.out.println("");
+    }
     
     public static void addAsignacion(){
         
@@ -305,6 +310,7 @@ public class AsignaMantenimiento {
             nuevaAsigna.setKmUltimo(kmActual);
                 System.out.println(kmActual);
             
+                //falta fecha modular
             Almacen.agregrarAsignacionMante(nuevaAsigna);
         }
         
