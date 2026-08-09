@@ -6,8 +6,6 @@ package Logica;
 
 import Datos.Estructuras;
 import Datos.ObjUsuarios;
-import  Logica.LogUsuario;
-import java.util.ArrayList;
 
 public class LogLoggin {
 
@@ -16,7 +14,7 @@ public class LogLoggin {
     
 
    
-    static {
+    /*static {
         ObjUsuarios adminPorDefecto = new ObjUsuarios();
         adminPorDefecto.setUsuario("admin");
         adminPorDefecto.setContrasena("1234");
@@ -24,8 +22,8 @@ public class LogLoggin {
         adminPorDefecto.setEstado("Activo");
         
         // Llamada explícita a la clase y su método de almacenamiento
-        LogUsuario.Almacen.agregarUsuarios(adminPorDefecto);
-    }
+        Usuarios.Almacen.agregarUsuarios(adminPorDefecto);
+    }*/
     
     
 
@@ -34,7 +32,7 @@ public class LogLoggin {
     if (usuario != null) {
         Estructuras.contadorUserId++;
         usuario.setId(Estructuras.contadorUserId);
-        LogUsuario.Almacen.agregarUsuarios(usuario);
+        Usuarios.Almacen.agregarUsuarios(usuario);
     }
 }
 

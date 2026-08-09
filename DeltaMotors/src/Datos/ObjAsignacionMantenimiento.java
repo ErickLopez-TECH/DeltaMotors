@@ -9,36 +9,47 @@ package Datos;
  * @author triamus
  */
 public class ObjAsignacionMantenimiento {
-    private int idVehiculo; //referencia al obj vehiculo
-    private int idMantenimiento; //referencia al obj mantenimiento
+    private int id;
+    private String PlacaVehiculo; //referencia al obj vehiculo
+    private String nombreMantenimiento; //referencia al obj mantenimiento
     private String tipoPeriodo; //km/dias
-    private String frecuencia;
+    private double numPeriodicidad;
+    private float kmUltimo;
     
     public ObjAsignacionMantenimiento(){
-        this.idVehiculo = 0;
-        this.idMantenimiento = 0;
+        this.id = 0;
+        this.PlacaVehiculo = "";
+        this.nombreMantenimiento = "";
         this.tipoPeriodo = "";
-        this.frecuencia = "";
+        this.numPeriodicidad = 0;
+        this.kmUltimo =0;
        
     }
     
     //---4.Metodos acciones
-   
-    
-    public int getIdVehiculo() {
-        return idVehiculo;
-    }
-    
-    public void setIdVehiculo(int idVehiculo) {
-        this.idVehiculo = idVehiculo;
+
+    public int getId() {
+        return id;
     }
 
-    public int getIdMantenimiento() {
-        return idMantenimiento;
+    public void setId(int id) {
+        this.id = id;
     }
     
-    public void setIdMantenimiento(int idMantenimiento) {
-        this.idMantenimiento = idMantenimiento;
+    public String getPlacaVehiculo() {
+        return PlacaVehiculo;
+    }
+    
+    public void setPlacaVehiculo(String placaVehiculo) {
+        this.PlacaVehiculo = placaVehiculo;
+    }
+
+    public String getNombreMantenimiento() {
+        return nombreMantenimiento;
+    }
+    
+    public void setNombreMantenimiento(String nombreMantenimiento) {
+        this.nombreMantenimiento= nombreMantenimiento;
     }
 
     public String getTipoPeriodo() {
@@ -49,12 +60,20 @@ public class ObjAsignacionMantenimiento {
         this.tipoPeriodo = tipoPeriodo;
     }
 
-    public String getFrecuencia() {
-        return frecuencia;
+    public double getNumPeriodicidad() {
+        return numPeriodicidad;
     }
 
-    public void setFrecuencia(String frecuencia) {
-        this.frecuencia = frecuencia;
+    public void setNumPeriodicidad(double frecuencia) {
+        this.numPeriodicidad = frecuencia;
+    }
+
+    public float getKmUltimo() {
+        return kmUltimo;
+    }
+
+    public void setKmUltimo(float kmUltimo) {
+        this.kmUltimo = kmUltimo;
     }
     
 
