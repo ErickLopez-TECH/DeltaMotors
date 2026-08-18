@@ -15,7 +15,7 @@ public class ObjVehiculo {
     private String modelo;
     private int anio;
     private String estado;
-    private int kilometroActual;//concexion con reportes por km
+    private double kilometroActual;//concexion con reportes por km
     private String tipoVehiculo;
     private String combustible;
     
@@ -47,7 +47,7 @@ public class ObjVehiculo {
         return id;
     }
 
-    public int getKilometroActual() {
+    public double getKilometroActual() {
         return kilometroActual;
     }
 
@@ -91,7 +91,7 @@ public class ObjVehiculo {
         this.id = id;
     }
 
-    public void setKilometroActual(int kilometroActual) {
+    public void setKilometroActual(double kilometroActual) {
         this.kilometroActual = kilometroActual;
     }
 

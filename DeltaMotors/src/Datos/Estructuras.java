@@ -12,6 +12,9 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /*
@@ -29,11 +32,12 @@ public class Estructuras {
     static ArrayList<ObjMantenimiento> listaMantenimiento = new ArrayList<>();
     static ArrayList<ObjBoletaTaller> listaBoletasTaller = new ArrayList<>();
     static ArrayList<ObjBoletaCombustible> listaBoletaCombustible = new ArrayList<>();
-    static ArrayList<ObjAsignacionMantenimiento> listaAsignaciones = new ArrayList<>();
+    public static ArrayList<ObjAsignacionMantenimiento> listaAsignaciones = new ArrayList<>();
    public static int contadorUserId = 0;
     private static int contadorVehiculoId = 0;
     private static int contadorMantenimientos =0;
     private static int contadorAsignaciones = 0;
+    
     
     public Estructuras() {
 
@@ -271,7 +275,7 @@ public static void actualizarContadorAsignaciones() {
                     miVehiculo.setModelo(segmento[3]);
                     miVehiculo.setAnio(Integer.parseInt(segmento[4]));
                     miVehiculo.setEstado(segmento[5]);
-                    miVehiculo.setKilometroActual(Integer.parseInt(segmento[6]));
+                    miVehiculo.setKilometroActual(Double.parseDouble(segmento[6]));
                     miVehiculo.setTipoVehiculo(segmento[7]);
                     miVehiculo.setCombustible(segmento[8]);
 
@@ -367,6 +371,324 @@ public static void actualizarContadorAsignaciones() {
         }
     }
   
+    
+     /*---------------------------------------------------
+    |--------------Metodos Asignacion mante leer y escribir---|
+    ----------------------------------------------------*/
+/*---------------------------------------------------
+    |--------------Metodos Asignacion mante leer y escribir---|
+    ----------------------------------------------------*/
+    public void escribeArchivoAsignacion(){
+        //--Antes de escribir limpiamos el archivo
+        System.out.println("Limpiando el archivo AsignacionMante");
+        limpiarArchivo("AsignacionMante");
+        
+        try {
+            System.out.println("Entrando en el Try");
+            FileWriter escritor = new FileWriter("AsignacionMante.txt", true);
+            String linea = null;
+            
+            // Creamos el formato para convertir la fecha a texto plano (dd/MM/yyyy)
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+               
+            int i = 0;
+            for (i = 0; i < listaAsignaciones.size(); i++) {
+                ObjAsignacionMantenimiento miAsignacion = listaAsignaciones.get(i);
+                
+                // Convertimos la fecha de ingreso a String 
+                String fechaAsignada = "";
+                if (miAsignacion.getIngreso() != null) {
+                    fechaAsignada = formatoFecha.format(miAsignacion.getIngreso());
+                }
+                
+                // Convertimos la fecha de vencimiento a String 
+                String fechaPosterior = "";
+                if (miAsignacion.getVencimiento() != null) {
+                    fechaPosterior = formatoFecha.format(miAsignacion.getVencimiento());
+                }
+    
+                
+                linea = String.valueOf(miAsignacion.getId())    + ";" +
+                        miAsignacion.getPlacaVehiculo()         + ";" +
+                        miAsignacion.getNombreMantenimiento()   + ";" +
+                        miAsignacion.getTipoPeriodo()           + ";" +
+                        miAsignacion.getNumPeriodicidad()       + ";" +
+                        miAsignacion.getKmUltimo()              + ";" +
+                        fechaAsignada                           + ";" +
+                        fechaPosterior                          + ";\n"; 
+                        
+                escritor.write(linea);
+            }
+            System.out.println("Escribiendo la linea: "+ i);
+            
+            escritor.write(10);
+            escritor.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al escribir el archivo",
+                    "Atencion", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.toString());
+        }
+        System.out.println("--------------------------------------------");
+    }
+    
+    //--Estructura para leer los datos en el archivo
+    public void leerArchivoAsignacion(){
+        try {
+            FileReader miArchivo = new FileReader("AsignacionMante.txt");
+            BufferedReader lector = new BufferedReader(miArchivo);
+            String linea = lector.readLine();
+            String segmento[];
+            
+            while (linea != null) {                
+                segmento = linea.split(";");
+                if(!segmento[0].equals("")){
+                    ObjAsignacionMantenimiento miAsignacion = new ObjAsignacionMantenimiento();
+                    miAsignacion.setId(Integer.parseInt(segmento[0].trim()));
+                    miAsignacion.setPlacaVehiculo(segmento[1].trim());
+                    miAsignacion.setNombreMantenimiento(segmento[2].trim());
+                    miAsignacion.setTipoPeriodo(segmento[3].trim());
+                    
+                    float valorPeriodo = Float.parseFloat(segmento[4].trim());
+                    miAsignacion.setNumPeriodicidad((int) valorPeriodo);
+                    
+                    float valorKm = Float.parseFloat(segmento[5].trim());
+                    miAsignacion.setKmUltimo((int) valorKm);
+                    
+                    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                    formato.setLenient(false);
+
+                    try {
+                        //  Lee la fecha de ingreso solo si no está vacía
+                        if(segmento.length > 6 && !segmento[6].trim().isEmpty()) {
+                            Date fechaParsed = formato.parse(segmento[6].trim());
+                            miAsignacion.setIngreso(fechaParsed);
+                        }
+                        
+                        //  Lee la fecha de vencimiento solo si no está vacía
+                        if(segmento.length > 7 && !segmento[7].trim().isEmpty()) {
+                            Date fechaPosterior = formato.parse(segmento[7].trim());
+                            miAsignacion.setVencimiento(fechaPosterior);
+                        }
+                    } catch (ParseException e) {
+                        System.out.println("[!] Error al convertir la fecha desde el archivo: " + e.getMessage());
+                    }
+                    
+                    listaAsignaciones.add(miAsignacion);
+                    System.out.println("leido");
+                }
+                linea = lector.readLine();
+            }
+            lector.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo", "Atencion", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.toString());
+        } catch (NumberFormatException e) {
+            System.out.println("[!] Error de formato numérico: " + e.getMessage());
+        }
+    }
+    /*---------------------------------------------------
+    |--------------Metodos BoletaCombustible leer y escribir---|
+    ----------------------------------------------------*/
+   public void escribeArchivoBoletaCombus(){
+        //--Antes de escribir limpiamos el archivo
+        System.out.println("Limpiando el archivo Combustible");
+        limpiarArchivo("BoletaCombustible");
+        
+        try {
+            System.out.println("Entrando en el Try");
+            FileWriter escritor = new FileWriter("BoletaCombustible.txt", true);
+            String linea = null;
+            
+            // Creamos el formato para convertir la fecha a texto plano (dd/MM/yyyy)
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+            
+            int i = 0;
+            for (i = 0; i < listaBoletaCombustible.size(); i++) {
+                ObjBoletaCombustible miCombustible = listaBoletaCombustible.get(i);
+                
+                
+                // Convertimos la fecha a String formateado de manera segura
+                String fechaTexto = "";
+                if (miCombustible.getFecha() != null) {
+                    fechaTexto = formatoFecha.format(miCombustible.getFecha());
+                }
+    
+                linea = String.valueOf(miCombustible.getId())    + ";" +
+                        miCombustible.getPlacaVehiculo()         + ";" +
+                        miCombustible.getKmActual()              + ";" +
+                        miCombustible.getCantidadCombustible()   + ";" +
+                        miCombustible.getCantidadKWH()           + ";" +
+                        miCombustible.getTipoCombustible()       + ";" +
+                        fechaTexto                               + ";\n"; 
+                        
+                escritor.write(linea);
+            }
+            System.out.println("Escribiendo la linea: "+ i);
+            
+            escritor.write(10);
+            escritor.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al escribir el archivo",
+                    "Atencion", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.toString());
+        }
+        System.out.println("--------------------------------------------");
+    }
+    //--Estructura para leer los datos en el archivo(llenar lista clientes)
+   public void leerArchivoBoletaCombustible(){
+        try {
+            FileReader miArchivo = new FileReader("BoletaCombustible.txt");
+            BufferedReader lector = new BufferedReader(miArchivo);
+            String linea = lector.readLine();
+            String segmento[];
+            
+            while (linea != null) {                
+                segmento = linea.split(";");
+                if(!segmento[0].equals("")){
+                    ObjBoletaCombustible miBoleta= new ObjBoletaCombustible();
+                    miBoleta.setId(Integer.parseInt(segmento[0].trim()));
+                    miBoleta.setPlacaVehiculo(segmento[1].trim());
+                    
+                    // ✅ CORRECCIÓN AQUÍ: Leer como double para evitar el fallo con decimales (".0")
+                    double valorKm = Double.parseDouble(segmento[2].trim());
+                    miBoleta.setKmActual(valorKm); // Si tu setKmActual recibe double, o usa (int)valorKm si es entero
+                    
+                    double valorCantidaCombus = Double.parseDouble(segmento[3].trim());
+                    miBoleta.setCantidadCombustible(valorCantidaCombus);
+
+                    double valorCantidaKwH = Double.parseDouble(segmento[4].trim());
+                    miBoleta.setCantidadKWH(valorCantidaKwH);
+                    
+                    miBoleta.setTipoCombustible(segmento[5].trim());
+                    
+                    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                    formato.setLenient(false);
+
+                    try {
+                        Date fechaParsed = formato.parse(segmento[6].trim());
+                        miBoleta.setFecha(fechaParsed);
+                    } catch (ParseException e) {
+                        System.out.println("[!] Error al convertir la fecha desde el archivo.");
+                    }
+                    
+                    listaBoletaCombustible.add(miBoleta);
+                    System.out.println("leido");
+                }
+                linea = lector.readLine();
+            }
+            lector.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo", "Atencion", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.toString());
+        } catch (NumberFormatException e) {
+            System.out.println("[!] Error de formato numérico: " + e.getMessage());
+        }
+    }
+   
+   /*-----------------------------------------------------
+   ----------------LEER Y ESCRIBIR DE BOLETA TALLER
+   
+   -----------------------------------------------------*/
+   public void escribeArchivoBoletaTaller(){
+    System.out.println("Limpiando el archivo BoletaTaller");
+    limpiarArchivo("BoletaTaller");
+    
+    try {
+        System.out.println("Entrando en el Try");
+        FileWriter escritor = new FileWriter("BoletaTaller.txt", true);
+        String linea = null;
+        
+        // Formato estándar de fecha para que se guarde como texto plano (dd/MM/yyyy)
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        
+        int i = 0;
+        for (i = 0; i < listaBoletasTaller.size(); i++) {
+            ObjBoletaTaller miBoleta = listaBoletasTaller.get(i);
+            
+            // Conversión 
+            String fechaTexto = "";
+            if (miBoleta.getFecha() != null) {
+                fechaTexto = formatoFecha.format(miBoleta.getFecha());
+            }
+
+            
+            linea = String.valueOf(miBoleta.getId())               + ";" +
+                    miBoleta.getIdMantenimiento()                  + ";" +
+                    miBoleta.getNombreMantenimeinto()              + ";" +
+                    miBoleta.getPlacaVehiculo()                    + ";" +
+                    miBoleta.getModeloVehiculo()                   + ";" +
+                    miBoleta.getMarcaVehiculo()                    + ";" +
+                    miBoleta.getKilometrajeIngreso()               + ";" +
+                    fechaTexto                                     + ";" +
+                    miBoleta.getNombreMecanico()                   + ";\n"; 
+                    
+            escritor.write(linea);
+        }
+        System.out.println("Escribiendo la linea: "+ i);
+        
+        escritor.write(10);
+        escritor.close();
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error al escribir el archivo",
+                "Atencion", JOptionPane.ERROR_MESSAGE);
+        System.out.println(e.toString());
+    }
+    System.out.println("--------------------------------------------");
+}
+   
+   public void leerArchivoBoletaTaller(){
+    try {
+        FileReader miArchivo = new FileReader("BoletaTaller.txt");
+        BufferedReader lector = new BufferedReader(miArchivo);
+        String linea = lector.readLine();
+        String segmento[];
+        
+        while (linea != null) {                
+            segmento = linea.split(";");
+            if(!segmento[0].equals("")){
+                ObjBoletaTaller miBoleta = new ObjBoletaTaller();
+                
+                
+                miBoleta.setId(Integer.parseInt(segmento[0].trim()));
+                miBoleta.setIdMantenimiento(Integer.parseInt(segmento[1].trim()));
+                miBoleta.setNombreMantenimeinto(segmento[2].trim());
+                miBoleta.setPlacaVehiculo(segmento[3].trim());
+                miBoleta.setModeloVehiculo(segmento[4].trim());
+                miBoleta.setMarcaVehiculo(segmento[5].trim());
+                
+                // Uso de double por si el kilometraje trae decimales tipo ".0" desde el archivo
+                double valorKm = Double.parseDouble(segmento[6].trim());
+                miBoleta.setKilometrajeIngreso(valorKm);
+                
+                // Conversión  de la fecha
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                formato.setLenient(false);
+
+                try {
+                    if(segmento.length > 7 && !segmento[7].trim().isEmpty()) {
+                        Date fechaParsed = formato.parse(segmento[7].trim());
+                        miBoleta.setFecha(fechaParsed);
+                    }
+                } catch (ParseException e) {
+                    System.out.println("[!] Error al convertir la fecha desde el archivo: " + e.getMessage());
+                }
+                
+                miBoleta.setNombreMecanico(segmento[8].trim());
+                
+                listaBoletasTaller.add(miBoleta);
+                System.out.println("leido");
+            }
+            linea = lector.readLine();
+        }
+        lector.close();
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error al leer el archivo", "Atencion", JOptionPane.ERROR_MESSAGE);
+        System.out.println(e.toString());
+    } catch (NumberFormatException e) {
+        System.out.println("[!] Error de formato numérico: " + e.getMessage());
+    }
+}
+   
     /*---------------------------------------------------
     |--------------Metodos usuarios----------------------|
     ----------------------------------------------------*/
@@ -447,12 +769,59 @@ public static void actualizarContadorAsignaciones() {
     ----------------------------------------------------*/
      public void agregrarAsignacionMante(ObjAsignacionMantenimiento Asignacion){
          this.contadorAsignaciones++;
-         Asignacion.setId(contadorUserId);
+         Asignacion.setId(contadorAsignaciones);
          listaAsignaciones.add(Asignacion);
+     }
+     
+     public void modificarAsigancion(int indice, ObjAsignacionMantenimiento Asigancion){
+         listaAsignaciones.set(indice, Asigancion);
+     }
+     
+     public void eliminarAsignacion(int indice){
+         listaAsignaciones.remove(indice);
      }
      
      public ArrayList<ObjAsignacionMantenimiento> listarAsignacion(){
          return new ArrayList<>(listaAsignaciones);
      }
     
+      /*---------------------------------------------------
+    |--------------Metodos Boleta combustible--------|
+    ----------------------------------------------------*/
+     public void agregrarBoletaCombus(ObjBoletaCombustible boletaCombustible){
+         listaBoletaCombustible.add(boletaCombustible);
+     }
+     
+     public void eliminarBoletaCombus(int indice){
+         listaBoletaCombustible.remove(indice);
+     }
+     
+     public void modificarBoletaCombus(int indice, ObjBoletaCombustible miBoleta){
+         listaBoletaCombustible.set(indice, miBoleta);
+     }
+     
+     public ArrayList<ObjBoletaCombustible> listarBoletaCombus(){
+         return new ArrayList<>(listaBoletaCombustible);
+     }
+     
+      /*---------------------------------------------------
+    |--------------Metodos Boleta Taller--------|
+    ----------------------------------------------------*/
+     public void agregrarBoletaTaller(ObjBoletaTaller boletaTaller){
+         listaBoletasTaller.add(boletaTaller);
+     }
+     
+     public void eliminarBoletaTaller(int indice){
+         listaBoletasTaller.remove(indice);
+     }
+     
+     public void modificarBoletaTaller(int indice, ObjBoletaTaller miBoleta){
+         listaBoletasTaller.set(indice, miBoleta);
+     }
+     
+     public ArrayList<ObjBoletaTaller> listarBoletaller(){
+         return new ArrayList<>(listaBoletasTaller);
+     }
+     
+     
 }

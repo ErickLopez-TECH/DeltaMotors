@@ -4,30 +4,43 @@
  */
 package Datos;
 
+import java.util.Date;
+
 /**
  *
  * @author triamus
  */
 public class ObjBoletaCombustible {
     
-    private String id;
+    private int id;
     private String placaVehiculo; //conexion con vehiculos
-    private int kmActual;
+    private double kmActual;
     private double cantidadCombustible;
+    private double cantidadKWH;
     private String tipoCombustible;
-    private String fecha;
+    private Date fecha;
 
     public ObjBoletaCombustible(){
         
     }
     
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
+
+    public void setCantidadKWH(double cantidadKWH) {
+        this.cantidadKWH = cantidadKWH;
+    }
+
+    public double getCantidadKWH() {
+        return cantidadKWH;
+    }
+    
+    
 
     public String getPlacaVehiculo() {
         return placaVehiculo;
@@ -45,19 +58,19 @@ public class ObjBoletaCombustible {
         this.cantidadCombustible = cantidadCombustible;
     }
 
-    public int getKmActual() {
+    public double getKmActual() {
         return kmActual;
     }
 
-    public void setKmActual(int kmActual) {
+    public void setKmActual(double kmActual) {
         this.kmActual = kmActual;
     }
 
-     public String getFecha() {
+     public Date getFecha() {
         return fecha;
     }
      
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

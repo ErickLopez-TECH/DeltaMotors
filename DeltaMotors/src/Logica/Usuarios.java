@@ -4,7 +4,6 @@
  */
 package Logica;
 import Datos.Estructuras;
-import Datos.ObjUsuarios;
 
 import Datos.ObjUsuarios;
 import java.util.ArrayList;
@@ -18,11 +17,10 @@ import javax.swing.JOptionPane;
 public class Usuarios {
     
     static Scanner leer = new Scanner(System.in);
-    static Usuarios misUsuarios = new Usuarios();
     public static Estructuras Almacen = new Estructuras();
     
     
-     public static void gestionUsuarios(){
+     public void gestionUsuarios(){
         
         int opcion;
         do {            
@@ -47,7 +45,7 @@ public class Usuarios {
             case 1: addUsuario();
                 
                 break;
-            case 2:misUsuarios.modificarUsuario();
+            case 2:modificarUsuario();
                 break;
             case 3:borrarUsuario() ;
                 
@@ -136,7 +134,7 @@ public class Usuarios {
         }
          return indice;
     }
-  public static void borrarUsuario(){
+  public void borrarUsuario(){
         int indice = buscarUsuario();
         if (indice == -1) {
             System.out.println("No se encontro el Usuario");
@@ -152,7 +150,7 @@ public class Usuarios {
         }
     }
   
-  public static void addUsuario(){
+  public void addUsuario(){
         System.out.println("=======================================");
         System.out.println("|           REGISTRAR USUARIOS        |");
         System.out.println("=======================================");
@@ -213,7 +211,7 @@ public class Usuarios {
 
     }
     
-  public static void consultarUsuario(){
+  public void consultarUsuario(){
       
         System.out.println("===================================");
         System.out.println("|           LISTA USUARIOS        |");
