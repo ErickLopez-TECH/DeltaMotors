@@ -1,0 +1,4 @@
+1;1;12.0;0.0;12.0;Electricidad;12/12/0012;
+2;ytr2026;12654.0;31.0;432.0;Gasolina Super & Electricidad;12/12/0012;
+3;3;158.0;1764.0;0.0;Gasolina Regular;12/12/2026;
+

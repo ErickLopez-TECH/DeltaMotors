@@ -23,7 +23,7 @@ public class GestionMantenimiento {
     
    
     
-    public static void gestionMantenimientos(){
+    public void gestionMantenimientos(){
         
         int opcion;
         do {            
@@ -103,7 +103,7 @@ public class GestionMantenimiento {
          return indice;
     }
     
-    public static void addMantenimiento(){
+    public void addMantenimiento(){
         System.out.println("===================================");
         System.out.println("|      INGRESAR MANTENIMIENTO     |");
         System.out.println("===================================");
@@ -132,7 +132,7 @@ public class GestionMantenimiento {
         
     }
     
-    public static void modificarMantenimiento(){
+    public void modificarMantenimiento(){
         int indice = buscarID();
         
         if(indice == -1){
@@ -206,7 +206,7 @@ public class GestionMantenimiento {
         
     }
     
-    public static void eliminarMantenimiento(){
+    public void eliminarMantenimiento(){
         int indice = buscarID();
         
         if (indice == -1) {
@@ -222,7 +222,7 @@ public class GestionMantenimiento {
         }
     }
     
-    public static void consultarMantenimiento(){
+    public void consultarMantenimiento(){
       
         System.out.println("===================================");
         System.out.println("|      LISTA MANTENIMIENTOS       |");

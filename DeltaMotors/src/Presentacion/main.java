@@ -6,18 +6,31 @@ package Presentacion;
 
 import java.util.Scanner;
 import Logica.Usuarios;
-import static Logica.Usuarios.gestionUsuarios;
-import static Logica.Vehiculos.gestionVaehiculos;
-import static Logica.GestionMantenimiento.gestionMantenimientos;
+
+
+
 import static Logica.Usuarios.Almacen;
-import static Logica.AsignaMantenimiento.gestionAsignacion;
+import Logica.GestionMantenimiento;
+import Logica.AsignaMantenimiento;
+import Logica.BoletaCombustible;
+import Logica.BoletaTaller;
+import Logica.Usuarios;
+import Logica.Vehiculos;
+
 import static Datos.Estructuras.actualizarTodosLosContadores;
+import static Logica.Login.loggin;
+
+import static Logica.MenuReportes.Reportes;
+import static Datos.Estructuras.listaVehiculos;
+import static Datos.Estructuras.listaAsignaciones;
+
 /**
  *
  * @author triamus
  */
 public class main {
      static Scanner leer = new Scanner(System.in);
+     
     /**
      * @param args the command line arguments
      */
@@ -26,6 +39,9 @@ public class main {
         Almacen.crearArchivo("Usuarios");
         Almacen.crearArchivo("Vehiculos");
         Almacen.crearArchivo("Mantenimientos");
+        Almacen.crearArchivo("AsignacionMante");
+        Almacen.crearArchivo("BoletaCombustible");
+        Almacen.crearArchivo("BoletaTaller");
        // Almacen.crearArchivo("Reservas");
     }
     
@@ -34,9 +50,18 @@ public class main {
         Almacen.leerArchivoUsuarios();
         Almacen.leerArchivoVehiculos();
         Almacen.leerArchivoMantenimientos();
+        Almacen.leerArchivoAsignacion();
+        Almacen.leerArchivoBoletaCombustible();
+        Almacen.leerArchivoBoletaTaller();
     }
      
     public static void menuAdmin(){
+        AsignaMantenimiento LAsignacion = new AsignaMantenimiento();
+        BoletaCombustible LCombus = new BoletaCombustible();
+        BoletaTaller LTaller = new BoletaTaller();
+        GestionMantenimiento LMante = new GestionMantenimiento();
+        Usuarios LUser = new Usuarios();
+        Vehiculos LVehi = new Vehiculos();
         
         int opcion;
         do {            
@@ -60,16 +85,21 @@ public class main {
             opcion = leer.nextInt();
             
             switch(opcion){
-            case 1: gestionUsuarios(); ;
+            case 1: LUser.gestionUsuarios(); ;
                 
                 break;
-            case 2: gestionVaehiculos();
+            case 2: LVehi.gestionVaehiculos();
                 break;
-            case 3: gestionMantenimientos();
+            case 3: LMante.gestionMantenimientos();
                 break;
-            case 4: gestionAsignacion();
+            case 4: LAsignacion.gestionAsignacion();
                 break;
-            case 9: Loggin.loggin();
+            case 5: LTaller.boletaTaller();
+                break;
+            case 6: LCombus.BoletaCombus();
+                
+                break;
+            case 7: Reportes();
                 
                 break;
             
@@ -94,7 +124,7 @@ public class main {
             
             switch (confirmar) {
                 case 1:System.out.println("\n[✅]¡Acceso Concedido! Te esperamos la proxima.");
-                     System.exit(0);
+                     loggin();
                     break;
                 case 2: System.out.println("\n[✅]¡Restableciendo area de trabajo! ");
                       menuAdmin();
@@ -127,7 +157,7 @@ public class main {
             opcion = leer.nextInt();
             
             switch(opcion){
-            case 1: gestionVaehiculos();
+            case 1: ;
                 
                 break;
             case 2: ;
@@ -135,7 +165,7 @@ public class main {
             case 3: Usuarios.ingresarUsuarios();
                 
                 break;*/
-            case 9: Loggin.loggin();
+            case 9: ;
                 
                 break;
             
@@ -160,7 +190,7 @@ public class main {
             
             switch (confirmar) {
                 case 1:System.out.println("\n[✅]¡Acceso Concedido! Te esperamos la proxima.");
-                     System.exit(0);
+                     loggin();
                     break;
                 case 2: System.out.println("\n[✅]¡Restableciendo area de trabajo! ");
                       menuOperador();
@@ -178,8 +208,9 @@ public class main {
         nuevosArchivos();
         cargarListas();
         actualizarTodosLosContadores();
-        //Loggin.loggin();
+        /*Logica.Vehiculos.actualizarKilometrajesAutomaticamente();*/
+        Logica.Login.loggin();
         
-        menuAdmin();
+        //menuAdmin();
     }
 }

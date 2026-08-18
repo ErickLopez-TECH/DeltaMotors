@@ -9,7 +9,12 @@ import Datos.ObjVehiculo;
 import Datos.ObjAsignacionMantenimiento;
 import Datos.ObjMantenimiento;
 import static Logica.Usuarios.Almacen;
+import static Logica.Usuarios.leer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 /**
  *
  * @author triamus
@@ -17,7 +22,7 @@ import java.util.ArrayList;
 public class AsignaMantenimiento {
  
     
-    public static void gestionAsignacion(){
+    public  void gestionAsignacion(){
         
         int opcion;
         do {            
@@ -42,12 +47,12 @@ public class AsignaMantenimiento {
             case 1: addAsignacion();
                 
                 break;
-            case 2:;
+            case 2: modificarAsignacion();
                 break;
-            case 3:;
+            case 3:eliminarAsigancion();
                 
                 break;
-            case 4: ;
+            case 4: consultarAsignaciones();
                 
                 break;
             case 5: return;
@@ -93,20 +98,18 @@ public class AsignaMantenimiento {
         return -1;//false
    }
     
-    public static int kmActual(String placa){
-        ArrayList<ObjVehiculo> miVehi = new ArrayList<>();
-        miVehi = Almacen.listarVehiculos();
-        
-        int kmActual = 0;
-        for (int i = 0; i < miVehi.size(); i++) {
-            ObjVehiculo v = new ObjVehiculo();
-            v = miVehi.get(i);
-            if(v.getPlaca().equals(placa))
-              kmActual = v.getKilometroActual();
-            return kmActual;
+    public static double kmActual(String placa){
+    ArrayList<ObjVehiculo> miVehi = Almacen.listarVehiculos();
+    
+    for (int i = 0; i < miVehi.size(); i++) {
+        ObjVehiculo v = miVehi.get(i);
+        // Usamos trim() en ambos lados para evitar errores por espacios en blanco accidentales
+        if(v.getPlaca() != null && v.getPlaca().trim().equalsIgnoreCase(placa.trim())) {
+            return v.getKilometroActual();
         }
-        return -1;
     }
+    return 0.0; // Si no encuentra la placa, retorna 0 en lugar de -1 para que no rompa el cálculo
+}
     
     //metodos para mantenimeintos gestion
     public static String obtenerMantenimiento(int id){
@@ -222,27 +225,253 @@ public class AsignaMantenimiento {
         return -1;
     }
     
-    public static void consultar(){
-         System.out.println("===================================");
-        System.out.println("|    Asignacion de Mantenimiento  |");
-        System.out.println("===================================");
-        System.out.println("");
-    }
-    
-    public static void addAsignacion(){
+    /*public static int tipoFrecuencia(String ){
+        ArrayList<ObjAsignacionMantenimiento> miMante = new ArrayList<>();
+        miMante = Almacen.listarAsignacion();
         
+        for (int i = 0; i < miMante.size(); i++) {
+            ObjAsignacionMantenimiento a = new ObjAsignacionMantenimiento();
+            a = miMante.get(i);
+            
+            if()
+        }
+    }*/
+    
+     public static int buscarAsignacion(){
         System.out.println("===================================");
-        System.out.println("|    Asignacion de Mantenimiento  |");
+        System.out.println("|          BUSCAR ASIGNACION      |");
         System.out.println("===================================");
         System.out.println("");
+        leer.nextLine();
+        System.out.print("Digite id mantenimiento: ");
+        int idMante = leer.nextInt();
+        int indice = -1;
+        
+        //--Una nueva lista para trabajar localmente(cliente)
+         ArrayList<ObjAsignacionMantenimiento> miAsignacion= new ArrayList<>();
+         //llenamo sla lista con una copia d ela original
+         miAsignacion = Almacen.listarAsignacion();
+         //--Recorrer con for
+         for (int i = 0; i< miAsignacion.size();i++) {
+             ObjAsignacionMantenimiento A = new ObjAsignacionMantenimiento();
+             A = miAsignacion.get(i);
+             if (A.getId() == idMante) {
+                 indice = i;
+                 break;
+             }
+             
+        }
+         return indice;
+    }
+     
+      //usar probto
+   
+    
+    public static int siguienteAsignacionID(){
+        
+        int resultado = 1;
+        //nueva lista para trabajar localmente(reservaciones)
+        ArrayList<ObjAsignacionMantenimiento>  misAsig = Almacen.listarAsignacion();
+        for (int i = 0; i <misAsig.size(); i++) {
+            if (resultado < misAsig.get(i).getId()) {
+                resultado = misAsig.get(i).getId() +1;
+            }
+        }
+        
+        return resultado;
+        
+    } 
+    
+   public static  void eliminarAsigancion(){
+       int indice = buscarAsignacion();
+       
+       if(indice == -1){
+           System.out.println("[!]No se encontro la asignacion");
+       }else{
+           ArrayList<ObjAsignacionMantenimiento> miAsigna = new ArrayList<>();
+           miAsigna = Almacen.listarAsignacion();
+           
+            System.out.println("La asignacion para el vehiculo placa: "+ miAsigna.get(indice).getPlacaVehiculo());
+            System.out.println("El mantenimiento: "+ miAsigna.get(indice).getNombreMantenimiento());
+            System.out.println("");
+            
+            ObjAsignacionMantenimiento asigna = new ObjAsignacionMantenimiento();
+            asigna = miAsigna.get(indice);
+            
+            Almacen.eliminarAsignacion(indice);
+            Almacen.escribeArchivoAsignacion();
+            System.out.println("[✅] Borrado exitoso");
+       }
+   }
+    
+     
+   public  void modificarAsignacion() {
+    int indice = buscarAsignacion();
+
+    if (indice == -1) {
+        System.out.println("[!] No se encontró la asignación");
+    } else {
+        ArrayList<ObjAsignacionMantenimiento> miAsigna = Almacen.listarAsignacion();
+        ObjAsignacionMantenimiento a = miAsigna.get(indice);
+
+        System.out.println("La asignación para el vehículo placa: " + a.getPlacaVehiculo());
+        System.out.println("El mantenimiento: " + a.getNombreMantenimiento());
+
+        int opcion = 0;
+        do {
+            System.out.println("\n¿Deseas modificar el tipo de mantenimiento (km o tiempo)?");
+            System.out.println("1. Sí");
+            System.out.println("2. No");
+            System.out.print("Opcion: ");
+            opcion = leer.nextInt();
+        } while (opcion != 1 && opcion != 2);
+
+        if (opcion == 1) {
+            do {
+                System.out.println("\nDigite el periodo de mantenimiento:");
+                System.out.println("1. Por Kilómetros");
+                System.out.println("2. Por días");
+                System.out.print("Opcion: ");
+                opcion = leer.nextInt();
+            } while (opcion != 1 && opcion != 2);
+
+            String periodicidad = periodicidad(opcion);
+            a.setTipoPeriodo(periodicidad);
+
+            if (opcion == 1) {
+                System.out.print("Digite la cantidad de KM: ");
+                double km = leer.nextDouble();
+                a.setNumPeriodicidad(km);
+                // Si cambia a KM, es recomendable limpiar fechas
+                a.setIngreso(null);
+                a.setVencimiento(null);
+            } else {
+                // Lógica de fechas igual a la de addAsignacion
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                formato.setLenient(false);
+                leer.nextLine(); // Limpiar buffer después del nextInt()
+
+                Date ingreso = null;
+                int dias = 0;
+                int fechaValida = 0;
+
+                do {
+                    try {
+                        System.out.print("Digite la fecha de asignación (dd/mm/aaaa): ");
+                        String fechaIn = leer.nextLine();
+                        ingreso = formato.parse(fechaIn);
+
+                        System.out.print("Digite el valor límite en días: ");
+                        dias = leer.nextInt();
+                        leer.nextLine(); // Limpiar buffer
+
+                        Calendar miCalendario = Calendar.getInstance();
+                        miCalendario.setTime(ingreso);
+                        miCalendario.add(Calendar.DAY_OF_YEAR, dias);
+
+                        a.setIngreso(ingreso);
+                        a.setVencimiento(miCalendario.getTime());
+                        a.setNumPeriodicidad(dias);
+                        
+                        System.out.println("Nueva fecha de vencimiento: " + formato.format(a.getVencimiento()));
+                        fechaValida = 1;
+                    } catch (ParseException e) {
+                        System.out.println("[!] Fecha inválida, intente de nuevo.");
+                        fechaValida =0;
+                    }
+                } while (fechaValida ==0);
+            }
+
+            Almacen.modificarAsigancion(indice, a);
+            Almacen.escribeArchivoAsignacion();
+            System.out.println("[✅] Modificación exitosa");
+        }
+    }
+}
+    
+   public  void consultarAsignaciones() {
+    ArrayList<ObjAsignacionMantenimiento> lista = new ArrayList<>();
+    lista = Almacen.listarAsignacion();
+
+    System.out.println("=================================================");
+    System.out.println("|         Asignacion de Mantenimiento           |");
+    System.out.println("=================================================");
+    System.out.println("");
+
+    if (lista.size() == 0) {
+        System.out.println("[!] No hay asignaciones registradas actualmente.");
+    } else {
+        // 1. Valores mínimos iniciales (deben ser al menos del tamaño de la palabra del encabezado)
+        int maxId = 2;       // Tamaño de "ID"
+        int maxPlaca = 5;    // Tamaño de "Placa"
+        int maxMante = 13;   // Tamaño de "Mantenimiento"
+        int maxPeriodo = 7;  // Tamaño de "Periodo"
+        int maxValor = 5;    // Tamaño de "Valor"
+
+        // 2. Recorremos la lista para encontrar los textos más largos
+        for (int i = 0; i < lista.size(); i++) {
+            ObjAsignacionMantenimiento a = lista.get(i);
+            
+            // Convertimos el ID y el valor a String para medir sus caracteres
+            if (String.valueOf(a.getId()).length() > maxId) {
+                maxId = String.valueOf(a.getId()).length();
+            }
+            if (a.getPlacaVehiculo().length() > maxPlaca) {
+                maxPlaca = a.getPlacaVehiculo().length();
+            }
+            if (a.getNombreMantenimiento().length() > maxMante) {
+                maxMante = a.getNombreMantenimiento().length();
+            }
+            if (a.getTipoPeriodo().length() > maxPeriodo) {
+                maxPeriodo = a.getTipoPeriodo().length();
+            }
+        }
+
+        // 3. Creamos un formato dinámico que sirve tanto para el encabezado como para las filas
+        // Ejemplo: "%-4s | %-8s | %-15s | %-10s | %-8s\n"
+        String formato = "%%-%ds | %%-%ds | %%-%ds | %%-%ds | %%-%ds | %%-%ds\n";
+        formato = String.format(formato, maxId, maxPlaca, maxMante, maxPeriodo, maxValor,maxValor);
+
+        
+        System.out.printf(formato, "ID", "Placa", "Mantenimiento", "Periodo", "Valor","KM");
+        
+        
+        System.out.println("-------------------------------------------------------------------");
+
+        
+        for (int i = 0; i < lista.size(); i++) {
+            ObjAsignacionMantenimiento a = lista.get(i);
+            
+            System.out.printf(formato,
+                a.getId(),
+                a.getPlacaVehiculo(),
+                a.getNombreMantenimiento(),
+                a.getTipoPeriodo(),
+                String.format("%.2f", a.getNumPeriodicidad()),
+                a.getKmUltimo()
+            );
+        }
+    }
+    System.out.println("-------------------------------------------------");
+}
+   
+    public void addAsignacion(){
+        
+        
         ObjAsignacionMantenimiento nuevaAsigna = new ObjAsignacionMantenimiento();
+        
+        
+        
+        int idAsignacion = siguienteAsignacionID();
+        System.out.println("El id asignado es: "+ idAsignacion);
+        nuevaAsigna.setId(idAsignacion);
         
         leer.nextLine();
         System.out.println("Digite la placa del vehiculo que desea asignar el mantenimiento");
         System.out.print("Placa: ");
         String placa = leer.nextLine();
         
-        int idVehiculo = buscarPlaca(placa);
+       
         if (buscarPlaca(placa)==-1) {
             System.out.println("No existe");
             return;
@@ -283,7 +512,7 @@ public class AsignaMantenimiento {
                 nuevaAsigna.setNombreMantenimiento(nombreMante);
                 
                 
-                int opcion;
+             int opcion;
             do {                
             System.out.println("Digite el periodo de mantenimiento");
             System.out.println("1.Por Kilometros");
@@ -301,17 +530,75 @@ public class AsignaMantenimiento {
             String periodicidad = periodicidad(opcion);
             nuevaAsigna.setTipoPeriodo(periodicidad);
             
-            System.out.println("Digite el valor limite del periodo "+ periodicidad);
-            System.out.print("Valor: ");
-            double numPeriodicidad = leer.nextDouble();
+            double numPeriodicidad = 0;
+           
+            
+            if(opcion == 1){
+                System.out.println("Digite el valor limite del periodo "+ periodicidad);
+                System.out.print("Valor: ");
+                numPeriodicidad = leer.nextDouble();
+                
+                
+                
+                
+                
+                
+                
+                
+            }else{
+                
+                leer.nextLine();
+                        //Definir el formato de fecha(15/08/2026)
+                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                formato.setLenient(false);//portillo, que rechaza fechas invalidas
+
+                Date ingreso = null;
+                Date salida = null;
+                int dias = 0;
+                int fechaValida = 0;
+                do {                    
+                    try {
+                         System.out.println("");
+                         System.out.println("Digite la fecha de asigancion del mantenimiento (dd/mm/aaaa): ");
+                         String fechaIn = leer.nextLine();
+                         ingreso = formato.parse(fechaIn);
+
+                         System.out.println("Digite el valor limite del periodo "+ periodicidad);
+                         System.out.print("Valor: ");
+                         dias = leer.nextInt();
+
+
+
+                         //--variable calendario para manejra calculo de fechas
+                         Calendar miCalendario = Calendar.getInstance();
+                         miCalendario.setTime(ingreso);
+                         //sumamos dis a  la fecha inicial
+                         miCalendario.add(Calendar.DAY_OF_YEAR, dias);
+
+                         //asignar fecha salida
+                         salida = miCalendario.getTime();
+                         System.out.println("Fecha de salida" + formato.format(salida));
+                         fechaValida = 1;
+
+                     } catch (ParseException e) {
+                         System.out.println(e.toString());
+                         fechaValida =0;
+                     }
+               } while (fechaValida ==0);
+                nuevaAsigna.setIngreso(ingreso);
+                nuevaAsigna.setVencimiento(salida);
+            }
+            
             nuevaAsigna.setNumPeriodicidad(numPeriodicidad);
             
-            int kmActual = kmActual(placa);
+            double kmActual = kmActual(placa);
             nuevaAsigna.setKmUltimo(kmActual);
-                System.out.println(kmActual);
             
-                //falta fecha modular
+            
+                
             Almacen.agregrarAsignacionMante(nuevaAsigna);
+            Almacen.escribeArchivoAsignacion();
+            
         }
         
             }

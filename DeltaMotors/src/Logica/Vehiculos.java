@@ -5,12 +5,9 @@
 package Logica;
 
 import Datos.ObjVehiculo;
-import static Logica.Usuarios.Almacen;
 import static Logica.Usuarios.leer;
-import  Datos.Estructuras;
-import static Datos.Estructuras.listaVehiculos;
 import static Logica.Usuarios.Almacen;
-import Datos.ObjUsuarios;
+
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -23,19 +20,23 @@ public class Vehiculos {
     "Mazda","Ford","Chevrolet"};
     
     
+    
+    
     static String[][] datosModelos = new String[100][2];
     static int contadorModelos =0;
     
     public static void Arraymarcas(){
        // marcas[0]= "Toyota";
     }
+
+
     
     public void modelo(){
         //modelo toyota
       //  modelos[0]= "Hilux";
     }
     
-    public static void gestionVaehiculos(){
+    public void gestionVaehiculos(){
         
         int opcion;
         do {            
@@ -236,8 +237,43 @@ public class Vehiculos {
         return estadoStr;
     }
     
-    public static void ingresarVehiculo(){
+   
+
+    
+
+    
+ 
+
+
+/*
+    public static void actualizarKilometrajes() {
+        // Recorremos la lista de vehículos
+        ArrayList<ObjVehiculo> listaVehi = new ArrayList<>();
+        listaVehi = Almacen.listarVehiculos();
+        ArrayList<ObjAsignacionMantenimiento> listaasigna = new ArrayList<>();
+        listaasigna = Almacen.listarAsignacion();
+        
+        for (int i = 0; i < listaVehi.size(); i++) {
+            ObjVehiculo v = new ObjVehiculo();
+            v = listaVehi.get(i);
+            // Buscamos la asignación correspondiente en la otra lista
+            for (int j = 0; j < listaasigna.size(); j++) {
+                ObjAsignacionMantenimiento a = new ObjAsignacionMantenimiento();
+                a = listaasigna.get(j);
+                
+                // Si la placa es igual, actualizamos el kilometraje en la asignación
+                if (a.getPlacaVehiculo().equals(v.getPlaca())) {
+                    a.setKmUltimo(v.getKilometroActual());
+                }
+            }
+        }
+    }*/
+
+
+    
+    public void ingresarVehiculo(){
         ObjVehiculo nuevoVehiculo = new ObjVehiculo();
+        
         System.out.println("---------------------------------------");
         System.out.println("|           REGISTRAR VEHICULO        |");
         System.out.println("---------------------------------------");
@@ -441,7 +477,7 @@ public class Vehiculos {
    
     }
     
-    public static void modificarVehiculo(){
+    public void modificarVehiculo(){
         int indice = buscarPlaca();
         if (indice == -1) {
             System.out.println("No se encontro el vehiculo");
@@ -508,7 +544,7 @@ public class Vehiculos {
     }
     }
     
-     public static void borrarVehiculo(){
+     public void borrarVehiculo(){
         int indice = buscarPlaca();
         if (indice == -1) {
             System.out.println("No se encontro el Vehiculo");
@@ -524,7 +560,7 @@ public class Vehiculos {
         }
     }
     
-     public static void consultarVehiculo(){
+     public void consultarVehiculo(){
       
         System.out.println("===================================");
         System.out.println("|           LISTA VEHICULO        |");

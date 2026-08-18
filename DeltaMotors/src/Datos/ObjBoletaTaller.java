@@ -4,19 +4,23 @@
  */
 package Datos;
 
+import java.util.Date;
+
 /**
  *
  * @author triamus
  */
 public class ObjBoletaTaller {
     
-    private int id;
-    private int idMantenimiento;//dependencia asignacion mante
-    private String nombreMantenimeinto;
-    private String placaVehiculo;//conexion con obj vehiculo
-    private int kilometrajeIngreso;
-    private String fecha;
-    private String nombreMecanico; //depende de usaurios con rol operador 10
+    private int id;//listo
+    private int idMantenimiento;//dependencia asignacion mante listo
+    private String nombreMantenimeinto;//listo
+    private String placaVehiculo;//conexion con obj vehiculo listo
+    private String modeloVehiculo;//listo
+    private String marcaVehiculo;//listo
+    private double kilometrajeIngreso;//listo
+    private Date fecha;
+    private String nombreMecanico; //listo
     
     public ObjBoletaTaller(){
         
@@ -33,11 +37,11 @@ public class ObjBoletaTaller {
         return idMantenimiento;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public int getKilometrajeIngreso() {
+    public double getKilometrajeIngreso() {
         return kilometrajeIngreso;
     }
 
@@ -53,11 +57,22 @@ public class ObjBoletaTaller {
         return placaVehiculo;
     }
 
+    public String getModeloVehiculo() {
+        return modeloVehiculo;
+    }
+
+    public String getMarcaVehiculo() {
+        return marcaVehiculo;
+    }
+    
+    
+    
+
     //-------------------------------------------------
     //------------------setters------------------------
     //-------------------------------------------------
     
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -69,7 +84,7 @@ public class ObjBoletaTaller {
         this.idMantenimiento = idMantenimiento;
     }
 
-    public void setKilometrajeIngreso(int kilometrajeIngreso) {
+    public void setKilometrajeIngreso(double kilometrajeIngreso) {
         this.kilometrajeIngreso = kilometrajeIngreso;
     }
 
@@ -83,6 +98,14 @@ public class ObjBoletaTaller {
 
     public void setPlacaVehiculo(String placaVehiculo) {
         this.placaVehiculo = placaVehiculo;
+    }
+
+    public void setModeloVehiculo(String modeloVehiculo) {
+        this.modeloVehiculo = modeloVehiculo;
+    }
+
+    public void setMarcaVehiculo(String marcaVehiculo) {
+        this.marcaVehiculo = marcaVehiculo;
     }
     
    

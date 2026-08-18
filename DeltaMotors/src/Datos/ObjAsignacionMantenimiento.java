@@ -4,6 +4,8 @@
  */
 package Datos;
 
+import java.util.Date;
+
 /**
  *
  * @author triamus
@@ -12,9 +14,11 @@ public class ObjAsignacionMantenimiento {
     private int id;
     private String PlacaVehiculo; //referencia al obj vehiculo
     private String nombreMantenimiento; //referencia al obj mantenimiento
-    private String tipoPeriodo; //km/dias
-    private double numPeriodicidad;
-    private float kmUltimo;
+    private String tipoPeriodo; //km/dias---> modificar
+    private double numPeriodicidad;//---> modificar
+    private double kmUltimo;//----> modificar
+    private Date ingreso;//agregar escribir
+    private Date vencimiento;
     
     public ObjAsignacionMantenimiento(){
         this.id = 0;
@@ -23,6 +27,7 @@ public class ObjAsignacionMantenimiento {
         this.tipoPeriodo = "";
         this.numPeriodicidad = 0;
         this.kmUltimo =0;
+        
        
     }
     
@@ -68,13 +73,30 @@ public class ObjAsignacionMantenimiento {
         this.numPeriodicidad = frecuencia;
     }
 
-    public float getKmUltimo() {
+    public double getKmUltimo() {
         return kmUltimo;
     }
 
-    public void setKmUltimo(float kmUltimo) {
+    public void setKmUltimo(double kmUltimo) {
         this.kmUltimo = kmUltimo;
     }
+
+    public Date getIngreso() {
+        return ingreso;
+    }
+
+    public void setIngreso(Date ingreso) {
+        this.ingreso = ingreso;
+    }
+
+    public Date getVencimiento() {
+        return vencimiento;
+    }
+
+    public void setVencimiento(Date vencimiento) {
+        this.vencimiento = vencimiento;
+    }
+    
     
 
     
