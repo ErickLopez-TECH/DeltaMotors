@@ -14,6 +14,14 @@ public class ObjMantenimiento {
     private String nombre;
     private String estado;
     
+    
+    public ObjMantenimiento(){
+    
+        this.id = 0;
+        this.nombre = "";
+        this.estado ="";
+}
+    
     //-------------------------------------------------
     //------------------getters------------------------
     //-------------------------------------------------

@@ -51,6 +51,7 @@ public class Login {
         return "Sin estado";
     }
     
+     //login con validaciones consistentes
     public static void loggin(){
         int intentosFallidos = 0;
         

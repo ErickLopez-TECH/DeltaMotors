@@ -4,14 +4,11 @@
  */
 package Logica;
 import static Logica.Usuarios.leer;
-import static Logica.Usuarios.Almacen;
 import Datos.ObjAsignacionMantenimiento;
-import Datos.ObjBoletaTaller;
 import static Logica.Usuarios.Almacen;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -59,6 +56,7 @@ public class MenuReportes {
         
     }
     
+    //muestra solo km
    public static ArrayList<ObjAsignacionMantenimiento> muestraKM(){
         ArrayList<ObjAsignacionMantenimiento> listaCompleta = Almacen.listarAsignacion();
         ArrayList<ObjAsignacionMantenimiento> listaKm = new ArrayList<>();
@@ -77,6 +75,7 @@ public class MenuReportes {
         return listaKm;
     }
    
+   //funcion para mostarr fechas en loo de reportes 
    public static ArrayList<ObjAsignacionMantenimiento> muestraFecha() {
     ArrayList<ObjAsignacionMantenimiento> listaCompleta = Almacen.listarAsignacion();
     ArrayList<ObjAsignacionMantenimiento> listaFecha = new ArrayList<>();

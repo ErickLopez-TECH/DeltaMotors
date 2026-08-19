@@ -18,16 +18,11 @@ public class ObjUsuarios {
     private String estado;
     
     
-    public ObjUsuarios(int id, String nombre, String rol, String contrasena, String estado) {
-        this.id = 0;
-        
-        this.rol = rol;
-        this.contrasena = contrasena;
-        this.estado = estado;
-    }
+    
 
     public ObjUsuarios() {
         this.id = 0;
+        this.usuario ="";
         this.cedula = "";
         this.rol ="";
         this.contrasena = "";
