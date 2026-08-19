@@ -96,23 +96,23 @@ public static void actualizarContadorAsignaciones() {
     //--Metodos para gestionar con archivos
                             //Nombre del archivo, sin extension
     public void crearArchivo(String nombre){
-        File miArchivo = new File(nombre + ".txt");//devuelve nombre + su extension
-        try {//intento de hacer una operacion
-            if (miArchivo.createNewFile()) {
-                System.out.println("-----------------------------------");
-                System.out.println("|    ARCHIVO "+nombre+ " CREADO   |");
-                System.out.println("-----------------------------------");
-            }else{
-                System.out.println("----------------------------------");
-                System.out.println("|  ARCHIVO "+nombre+" YA EXISTE  |");
-                System.out.println("----------------------------------");
-            }
-        } catch (IOException e) {//captura el error si falla el intento
-            JOptionPane.showMessageDialog(null, "Error al gaurdar el archivo",
-                    "Atencion", JOptionPane.ERROR_MESSAGE);
-            System.out.println(e.toString());
+    File miArchivo = new File(nombre + ".txt");
+    String verde = "\u001B[92m";
+    String reset = "\u001B[0m";
+    
+    try {
+        if (miArchivo.createNewFile()) {
+            // Solo imprime si el archivo NO existía y se acaba de crear
+            System.out.println("-----------------------------------");
+            System.out.println("|   ARCHIVO " + nombre + " CREADO |");
+            System.out.println("-----------------------------------");
         }
+        // Si ya existe, no hace nada en la consola y pasa desapercibido cleanly
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error al guardar el archivo", "Atencion", JOptionPane.ERROR_MESSAGE);
+        System.out.println(e.toString());
     }
+}
     
     //metodo para limiar archivo
     public void limpiarArchivo(String nombre){
@@ -129,12 +129,12 @@ public static void actualizarContadorAsignaciones() {
     //--Metodo para excribir el archivo clientes
     public void escribeArchivoUsuarios(){
         //--Antes de escribir limpiamos el archivo
-        System.out.println("Limpiando el archivo Usuarios");
+        //System.out.println("Limpiando el archivo Usuarios");
         limpiarArchivo("Usuarios");
         
         try {
             
-            System.out.println("Entrando en el Try");
+           // System.out.println("Entrando en el Try");
             FileWriter escritor = new FileWriter("Usuarios.txt", true);//true == modo lectura
             //---variable para armar una linea de escritura
             String linea = null;
@@ -152,7 +152,7 @@ public static void actualizarContadorAsignaciones() {
                         
                         escritor.write(linea);
             }
-                System.out.println("Escribiendo la linea: "+ i);
+              //  System.out.println("Escribiendo la linea: "+ i);
             
             
             escritor.write(10);//toma ese 10 y lo tranforma en comandos de cierre de linea
@@ -190,7 +190,7 @@ public static void actualizarContadorAsignaciones() {
                     miUsuarios.setRol(segmento[4]);
                     miUsuarios.setEstado(segmento[5]);
                     listaUsuarios.add(miUsuarios);
-                    System.out.println("leeido");
+                   // System.out.println("leeido");
                 }
                 linea = lector.readLine();//pasar a la siguiente linea
                 
@@ -211,12 +211,12 @@ public static void actualizarContadorAsignaciones() {
     
     public void escribeArchivoVehiculos(){
         //--Antes de escribir limpiamos el archivo
-        System.out.println("Limpiando el archivo Vehiculos");
+        //System.out.println("Limpiando el archivo Vehiculos");
         limpiarArchivo("Vehiculos");
         
         try {
             
-            System.out.println("Entrando en el Try");
+            //System.out.println("Entrando en el Try");
             FileWriter escritor = new FileWriter("Vehiculos.txt", true);//true == modo lectura
             //---variable para armar una linea de escritura
             String linea = null;
@@ -238,7 +238,7 @@ public static void actualizarContadorAsignaciones() {
                         
                         escritor.write(linea);
             }
-                System.out.println("Escribiendo la linea: "+ i);
+               // System.out.println("Escribiendo la linea: "+ i);
             
             
             escritor.write(10);//toma ese 10 y lo tranforma en comandos de cierre de linea
@@ -281,7 +281,7 @@ public static void actualizarContadorAsignaciones() {
 
                     
                     listaVehiculos.add(miVehiculo);
-                    System.out.println("leeido");
+                    //System.out.println("leeido");
                 }
                 linea = lector.readLine();//pasar a la siguiente linea
                 
@@ -300,12 +300,12 @@ public static void actualizarContadorAsignaciones() {
     ----------------------------------------------------*/
     public void escribeArchivoMantenimientos(){
         //--Antes de escribir limpiamos el archivo
-        System.out.println("Limpiando el archivo Vehiculos");
+       // System.out.println("Limpiando el archivo Vehiculos");
         limpiarArchivo("Mantenimientos");
         
         try {
             
-            System.out.println("Entrando en el Try");
+          //  System.out.println("Entrando en el Try");
             FileWriter escritor = new FileWriter("Mantenimientos.txt", true);//true == modo lectura
             //---variable para armar una linea de escritura
             String linea = null;
@@ -321,7 +321,7 @@ public static void actualizarContadorAsignaciones() {
                         
                         escritor.write(linea);
             }
-                System.out.println("Escribiendo la linea: "+ i);
+               // System.out.println("Escribiendo la linea: "+ i);
             
             
             escritor.write(10);//toma ese 10 y lo tranforma en comandos de cierre de linea
@@ -357,7 +357,7 @@ public static void actualizarContadorAsignaciones() {
                     miMantenimiento.setEstado(segmento[2]);
                     
                     listaMantenimiento.add(miMantenimiento);
-                    System.out.println("leeido");
+                   // System.out.println("leeido");
                 }
                 linea = lector.readLine();//pasar a la siguiente linea
                 
@@ -380,7 +380,7 @@ public static void actualizarContadorAsignaciones() {
     ----------------------------------------------------*/
     public void escribeArchivoAsignacion(){
         //--Antes de escribir limpiamos el archivo
-        System.out.println("Limpiando el archivo AsignacionMante");
+       // System.out.println("Limpiando el archivo AsignacionMante");
         limpiarArchivo("AsignacionMante");
         
         try {
@@ -419,7 +419,7 @@ public static void actualizarContadorAsignaciones() {
                         
                 escritor.write(linea);
             }
-            System.out.println("Escribiendo la linea: "+ i);
+            //System.out.println("Escribiendo la linea: "+ i);
             
             escritor.write(10);
             escritor.close();
@@ -474,7 +474,7 @@ public static void actualizarContadorAsignaciones() {
                     }
                     
                     listaAsignaciones.add(miAsignacion);
-                    System.out.println("leido");
+                   // System.out.println("leido");
                 }
                 linea = lector.readLine();
             }
@@ -491,11 +491,11 @@ public static void actualizarContadorAsignaciones() {
     ----------------------------------------------------*/
    public void escribeArchivoBoletaCombus(){
         //--Antes de escribir limpiamos el archivo
-        System.out.println("Limpiando el archivo Combustible");
+       // System.out.println("Limpiando el archivo Combustible");
         limpiarArchivo("BoletaCombustible");
         
         try {
-            System.out.println("Entrando en el Try");
+           // System.out.println("Entrando en el Try");
             FileWriter escritor = new FileWriter("BoletaCombustible.txt", true);
             String linea = null;
             
@@ -523,7 +523,7 @@ public static void actualizarContadorAsignaciones() {
                         
                 escritor.write(linea);
             }
-            System.out.println("Escribiendo la linea: "+ i);
+           // System.out.println("Escribiendo la linea: "+ i);
             
             escritor.write(10);
             escritor.close();
@@ -549,7 +549,7 @@ public static void actualizarContadorAsignaciones() {
                     miBoleta.setId(Integer.parseInt(segmento[0].trim()));
                     miBoleta.setPlacaVehiculo(segmento[1].trim());
                     
-                    // ✅ CORRECCIÓN AQUÍ: Leer como double para evitar el fallo con decimales (".0")
+                    //  CORRECCIÓN: Leer como double para evitar el fallo con decimales (".0")
                     double valorKm = Double.parseDouble(segmento[2].trim());
                     miBoleta.setKmActual(valorKm); // Si tu setKmActual recibe double, o usa (int)valorKm si es entero
                     
@@ -572,7 +572,7 @@ public static void actualizarContadorAsignaciones() {
                     }
                     
                     listaBoletaCombustible.add(miBoleta);
-                    System.out.println("leido");
+                   // System.out.println("leido");
                 }
                 linea = lector.readLine();
             }
@@ -590,11 +590,11 @@ public static void actualizarContadorAsignaciones() {
    
    -----------------------------------------------------*/
    public void escribeArchivoBoletaTaller(){
-    System.out.println("Limpiando el archivo BoletaTaller");
+    //System.out.println("Limpiando el archivo BoletaTaller");
     limpiarArchivo("BoletaTaller");
     
     try {
-        System.out.println("Entrando en el Try");
+        //System.out.println("Entrando en el Try");
         FileWriter escritor = new FileWriter("BoletaTaller.txt", true);
         String linea = null;
         
@@ -624,7 +624,7 @@ public static void actualizarContadorAsignaciones() {
                     
             escritor.write(linea);
         }
-        System.out.println("Escribiendo la linea: "+ i);
+        //System.out.println("Escribiendo la linea: "+ i);
         
         escritor.write(10);
         escritor.close();
@@ -676,7 +676,7 @@ public static void actualizarContadorAsignaciones() {
                 miBoleta.setNombreMecanico(segmento[8].trim());
                 
                 listaBoletasTaller.add(miBoleta);
-                System.out.println("leido");
+               // System.out.println("leido");
             }
             linea = lector.readLine();
         }

@@ -87,7 +87,7 @@ public class BoletaTaller {
 }
     
     
-    
+    //siguiente id
    public static int siguienteBoletaID() {
     int resultado = 1;
     ArrayList<ObjBoletaTaller> misBoletas = Almacen.listarBoletaller();
@@ -141,6 +141,7 @@ public class BoletaTaller {
         return "No encontrado";
    }
    
+   //modelo vehiculo basado a su placa
    public static String devolverModeloVehiculo(String placa){
        ArrayList<ObjVehiculo> miVehi = Almacen.listarVehiculos();
        for (int i = 0; i < miVehi.size(); i++) {
@@ -256,7 +257,7 @@ public class BoletaTaller {
             ObjVehiculo modificarVehiculo = new ObjVehiculo();
            
             
-           
+           //extraccion de datos del vehiculo
            int idBoleta = siguienteBoletaID();
            miBoleta.setId(idBoleta);
            miBoleta.setIdMantenimiento(idMante);

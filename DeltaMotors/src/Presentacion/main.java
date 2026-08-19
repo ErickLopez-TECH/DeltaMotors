@@ -21,8 +21,6 @@ import static Datos.Estructuras.actualizarTodosLosContadores;
 import static Logica.Login.loggin;
 
 import static Logica.MenuReportes.Reportes;
-import static Datos.Estructuras.listaVehiculos;
-import static Datos.Estructuras.listaAsignaciones;
 
 /**
  *
@@ -124,7 +122,7 @@ public class main {
             
             switch (confirmar) {
                 case 1:System.out.println("\n[✅]¡Acceso Concedido! Te esperamos la proxima.");
-                     loggin();
+                     System.exit(0);
                     break;
                 case 2: System.out.println("\n[✅]¡Restableciendo area de trabajo! ");
                       menuAdmin();
@@ -136,6 +134,13 @@ public class main {
     }
     
     public static void menuOperador(){
+        
+        AsignaMantenimiento LAsignacion = new AsignaMantenimiento();
+        BoletaCombustible LCombus = new BoletaCombustible();
+        BoletaTaller LTaller = new BoletaTaller();
+        GestionMantenimiento LMante = new GestionMantenimiento();
+        Usuarios LUser = new Usuarios();
+        Vehiculos LVehi = new Vehiculos();
         
         int opcion;
         do {            
@@ -157,16 +162,16 @@ public class main {
             opcion = leer.nextInt();
             
             switch(opcion){
-            case 1: ;
+            case 1:LVehi.gestionVaehiculos(); ;
                 
                 break;
-            case 2: ;
-                break;/*
-            case 3: Usuarios.ingresarUsuarios();
-                
-                break;*/
-            case 9: ;
-                
+            case 2: LAsignacion.gestionAsignacion();
+                break;
+            case 3: LTaller.boletaTaller();
+                break;
+            case 4: LCombus.BoletaCombus();
+                break;
+            case 5: Reportes();
                 break;
             
         }
@@ -190,7 +195,7 @@ public class main {
             
             switch (confirmar) {
                 case 1:System.out.println("\n[✅]¡Acceso Concedido! Te esperamos la proxima.");
-                     loggin();
+                     System.exit(0);
                     break;
                 case 2: System.out.println("\n[✅]¡Restableciendo area de trabajo! ");
                       menuOperador();
@@ -204,6 +209,7 @@ public class main {
     
     
     public static void main(String[] args) {
+        
         // TODO code application logic here
         nuevosArchivos();
         cargarListas();

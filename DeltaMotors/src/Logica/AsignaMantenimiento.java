@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Logica;
-import static Logica.Usuarios.leer;
-import Datos.Estructuras;
 import Datos.ObjVehiculo;
 import Datos.ObjAsignacionMantenimiento;
 import Datos.ObjMantenimiento;
@@ -83,6 +81,7 @@ public class AsignaMantenimiento {
         return -1;
     }
     
+    //el vehiculo no debe de poder asignar un mantenimeinto si esta inactivo
     public static int obtenerEstadoVehi(String placa){
         
         ArrayList<ObjVehiculo> misVehiculos = new ArrayList<>();
@@ -127,6 +126,7 @@ public class AsignaMantenimiento {
         return "No se encontro";
     }
     
+    //muestra los mantenimeintos disponibles o activos
     public static void mostrarMantenimientos() {
     System.out.println("=======================================");
     System.out.println("|      MANTENIMIENTOS DISPONIBLES     |");
@@ -145,6 +145,7 @@ public class AsignaMantenimiento {
     
     }
     
+    //ocupamos realmente que el usuario digite una opcion valida de los mantenimeintos
     public static int obtenerExistenciaId(int id){
         ArrayList<ObjMantenimiento> misMante = new ArrayList<>();
         misMante = Almacen.listarMantenimiento();
@@ -162,6 +163,7 @@ public class AsignaMantenimiento {
         return -1;
     }
     
+    //necesitamos el nombre del mantenimiento
     public static String devolverNombre(int id){
         ArrayList<ObjMantenimiento> misMante = new ArrayList<>();
         misMante = Almacen.listarMantenimiento();
@@ -181,6 +183,7 @@ public class AsignaMantenimiento {
     return "Error";
 }
     
+    //decirle al usuaio si esta o no activo para que sepa la causa del problema
     public static int estadoInactivoMante(int id){
         
         ArrayList<ObjMantenimiento> misMante = new ArrayList<>();
@@ -210,6 +213,7 @@ public class AsignaMantenimiento {
         return tipoPerido;
     }
     
+    //no se permite un mantenieminto repedito, evitando duplicados
     public static int mantenimientoRepetido(String placa, String nombreMante){
         ArrayList<ObjAsignacionMantenimiento> miAsignacion = new ArrayList<>();
         miAsignacion = Almacen.listarAsignacion();

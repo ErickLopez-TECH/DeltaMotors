@@ -23,7 +23,14 @@ public class ObjBoletaTaller {
     private String nombreMecanico; //listo
     
     public ObjBoletaTaller(){
-        
+        this.id = 0;//listo
+        this.idMantenimiento = 0;//dependencia asignacion mante listo
+        this.nombreMantenimeinto = "";//listo
+        this.placaVehiculo = "";//conexion con obj vehiculo listo
+        this.modeloVehiculo = "";//listo
+        this.marcaVehiculo = "";//listo
+        this.kilometrajeIngreso = 0;//listo
+        this.nombreMecanico = "";//listo
     }
 
     //-------------------------------------------------

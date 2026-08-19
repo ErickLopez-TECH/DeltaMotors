@@ -64,6 +64,8 @@ public class GestionMantenimiento {
         
         
     }
+    
+    //mantenimeinto repetidos no aceptados
     public static int mantenimientoRepetido(String nombre){
         ArrayList<ObjMantenimiento> miMante = new ArrayList<>();
         miMante = Almacen.listarMantenimiento();
@@ -76,6 +78,8 @@ public class GestionMantenimiento {
         }
         return -1;
     }
+    
+    //para modificar o eliminar que necesita,mos el indice array
     public static int buscarID(){
         System.out.println("===================================");
         System.out.println("|            BUSCAR ID             |");

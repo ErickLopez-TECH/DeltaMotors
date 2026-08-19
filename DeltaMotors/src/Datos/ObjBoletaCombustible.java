@@ -21,6 +21,12 @@ public class ObjBoletaCombustible {
     private Date fecha;
 
     public ObjBoletaCombustible(){
+        this.id = 0;
+        this.placaVehiculo = "";
+        this.kmActual = 0;
+        this.cantidadCombustible = 0;
+        this.cantidadKWH =0;
+        this.tipoCombustible ="";
         
     }
     
