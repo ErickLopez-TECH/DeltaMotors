@@ -19,7 +19,7 @@ public class Usuarios {
     static Scanner leer = new Scanner(System.in);
     public static Estructuras Almacen = new Estructuras();
     
-    
+
      public void gestionUsuarios(){
         
         int opcion;
@@ -33,7 +33,7 @@ public class Usuarios {
             System.out.println("1. Ingresar ");
             System.out.println("2. Modificar");
             System.out.println("3. ELiminar"); //TAREA -- id Identificación
-            System.out.println("4. Buscar");
+            System.out.println("4. Consultar");
             System.out.println("5. Regresar");
             
             System.out.println("----------------------------------------");
@@ -70,6 +70,15 @@ public class Usuarios {
          }
          return -1;
     }
+  public static int CedulaRepetido(String nuevaCedula){
+         for (ObjUsuarios repeticion : Estructuras.listaUsuarios) {
+             if (repeticion.getCedula().equals(nuevaCedula)) {
+                 return 1;
+             }
+         }
+         return -1;
+    }
+  
   
   
   public static String devolverRol(int rol){
@@ -94,19 +103,7 @@ public class Usuarios {
       return estadoStr;
   }
   
-   public static int placaRepetida(String cedula){
-        
-     ArrayList<ObjUsuarios> misUsuarios= new ArrayList<>();
-     misUsuarios = Almacen.consultarUsuarios();
-     
-        for (int i = 0; i <misUsuarios.size(); i++) {
-            if(misUsuarios.get(i).getCedula().equals(cedula)){
-                return 1;
-            }
-        }
-    return -1;
-    
-}
+
   
   public static int buscarUsuario(){
         System.out.println("===================================");
@@ -174,7 +171,10 @@ public class Usuarios {
         String cedula = leer.nextLine();
         nuevoUsuario.setCedula(cedula);
         
-        
+        if (CedulaRepetido(cedula) == 1) {
+            System.out.println("[!] Error: La cedula ya está registrada. Intente con otra.");
+            return;
+        }
 
         // Si pasa la validación, continúa pidiendo el resto con normalidad
         System.out.print("Digite la contrasena: ");
@@ -226,7 +226,7 @@ public class Usuarios {
          for (int i = 0; i< misUsuarios.size();i++) {
              ObjUsuarios usuario = new ObjUsuarios();
              usuario = misUsuarios.get(i);
-             System.out.println("Id Cliente: " + usuario.getId() );
+             System.out.println("Id Usuario: " + usuario.getId() );
              System.out.println("Usuario: " + usuario.getUsuario());
              System.out.println("Cedula: "+ usuario.getCedula());
              System.out.println("Rol: " +  usuario.getRol());

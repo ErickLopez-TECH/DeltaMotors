@@ -49,7 +49,7 @@ public class Vehiculos {
             System.out.println("1. Ingresar ");
             System.out.println("2. Modificar");
             System.out.println("3. ELiminar"); //TAREA -- id Identificación
-            System.out.println("4. Buscar");
+            System.out.println("4. Consultar");
             System.out.println("5. Regresar");
             
             System.out.println("----------------------------------------");
@@ -304,16 +304,27 @@ public class Vehiculos {
                 System.out.println("8. Mazda");
                 System.out.println("9. Ford");
                 System.out.println("10. Chevrolet");
-                System.out.print("Digite una opción (1-10): ");
+                System.out.println("11. Otra (Digite una nueva)");
+                System.out.print("Digite una opción (1-11): ");
                 opcionMarca = leer.nextInt();
 
-                if (opcionMarca < 1 || opcionMarca > 10) {
-                    System.out.println("[!] Opción inválida. Digite un número entre 1 y 10.");
+                if (opcionMarca < 1 || opcionMarca > 11) {
+                    System.out.println("[!] Opción inválida. Digite un número entre 1 y 11.");
                 }
-            } while (opcionMarca < 1 || opcionMarca > 10);
+            } while (opcionMarca < 1 || opcionMarca > 11);
     
-            String marca= marcas[opcionMarca -1];
-            nuevoVehiculo.setMarca(marca);
+             String marca = "";
+             leer.nextLine();
+             if (opcionMarca == 11) {
+                 System.out.println("Digite la marca: ");
+                 System.out.print("Marca: ");
+                 String nuevaMarca = leer.nextLine();
+                 marca = nuevaMarca;
+                 nuevoVehiculo.setMarca(marca);
+            }else{
+                marca= marcas[opcionMarca -1];
+                nuevoVehiculo.setMarca(marca);
+             }
              
             int opcionCombus = 0;
             do {        
@@ -331,75 +342,43 @@ public class Vehiculos {
             String tipoMotor = obtenerTipoVehiculo(opcionCombus);
             nuevoVehiculo.setTipoVehiculo(tipoMotor);
             
-            /*
-            int opcionModelo =0;
-            if (opcionCombus ==1) {
+            String modelo = "";
+
+            if (opcionMarca == 11) {
+                leer.nextLine();
+                System.out.println("Digite el modelo para la nueva marca " + marca + ": ");
+                System.out.print("Modelo: ");
+                modelo = leer.nextLine();
                 
-             do {            
-                 
-                 System.out.println("Los modelos para "+ marca);
-                 System.out.println("son las siguientes: ");
-                 mostrarModelosPorMarca(opcionMarca);
-                 opcionModelo = leer.nextInt();
-                 
-                if (opcionModelo < 1 || opcionModelo > 5) {
-                    System.out.println("[!] Opción inválida. Digite un número entre 1 y 5.");
+                if (contadorModelos < datosModelos.length) {
+                    datosModelos[contadorModelos][0] = "99";
+                    datosModelos[contadorModelos][1] = modelo;
+                    contadorModelos++;
                 }
-            } while ((opcionModelo<1) || (opcionModelo > 5));
-            }
-             
-            opcionModelo =0;
-            if (opcionCombus ==2) {
+                nuevoVehiculo.setModelo(modelo);
+            } else {
+                int opcionModelo = 0;
+                do {            
+                    System.out.println("Los modelos para "+ marca);
+                    System.out.println("son las siguientes: ");
+                    mostrarModelosPorMarca(opcionMarca);
+                    opcionModelo = leer.nextInt();
+                    
+                    if (opcionModelo < 1 || opcionModelo > 5) {
+                        System.out.println("[!] Opción inválida. Digite un número entre 1 y 5.");
+                    }
+                } while ((opcionModelo<1) || (opcionModelo > 5));
                 
-             do {            
-                 System.out.println("Los modelos para "+ marca);
-                 System.out.println("son las siguientes: ");
-                 mostrarModelosPorMarca(opcionMarca);
-                 opcionModelo = leer.nextInt();
-                 
-                if (opcionModelo < 1 || opcionModelo > 5) {
-                    System.out.println("[!] Opción inválida. Digite un número entre 1 y 5.");
+                modelo = obtenerNombreModelo(opcionMarca, opcionModelo);
+                String codigoMarca = String.valueOf(opcionMarca-1);
+                
+                if (contadorModelos < datosModelos.length) {
+                    datosModelos[contadorModelos][0] = codigoMarca;
+                    datosModelos[contadorModelos][1] = modelo;
+                    contadorModelos++;
                 }
-            } while ((opcionModelo<1) || (opcionModelo > 5));
+                nuevoVehiculo.setModelo(modelo);
             }
-            
-            opcionModelo =0;
-            if (opcionCombus ==3) {
-               
-             do {            
-                 
-                 System.out.println("Los modelos para "+ marca);
-                 System.out.println("son las siguientes: ");
-                 mostrarModelosPorMarca(opcionMarca);
-                 opcionModelo = leer.nextInt();
-                 
-                if (opcionModelo < 1 || opcionModelo > 5) {
-                    System.out.println("[!] Opción inválida. Digite un número entre 1 y 5.");
-                }
-            } while ((opcionModelo<1) || (opcionModelo > 5));
-            }*/
-            int opcionModelo =0;
-           
-               
-             do {            
-                 
-                 System.out.println("Los modelos para "+ marca);
-                 System.out.println("son las siguientes: ");
-                 mostrarModelosPorMarca(opcionMarca);
-                 opcionModelo = leer.nextInt();
-                 
-                if (opcionModelo < 1 || opcionModelo > 5) {
-                    System.out.println("[!] Opción inválida. Digite un número entre 1 y 5.");
-                }
-            } while ((opcionModelo<1) || (opcionModelo > 5));
-            
-            String modelo = obtenerNombreModelo(opcionMarca, opcionModelo);
-             //posicion de la array de cuya marca
-            String codigoMarca = String.valueOf(opcionMarca-1);
-            
-            datosModelos[contadorModelos][0]=codigoMarca;
-            datosModelos[contadorModelos][1]= modelo;
-            nuevoVehiculo.setModelo(modelo);
             
            String unionCombus = "";
     
