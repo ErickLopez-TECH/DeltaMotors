@@ -36,7 +36,7 @@ public class GestionMantenimiento {
             System.out.println("1. Ingresar ");
             System.out.println("2. Modificar");
             System.out.println("3. ELiminar"); //TAREA -- id Identificación
-            System.out.println("4. Buscar");
+            System.out.println("4. Consultar");
             System.out.println("5. Regresar");
             
             System.out.println("----------------------------------------");
