@@ -1,0 +1,340 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Logica;
+import Datos.Estructuras;
+
+import Datos.ObjUsuarios;
+import java.util.ArrayList;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author triamus
+ */
+public class Usuarios {
+    
+    static Scanner leer = new Scanner(System.in);
+    public static Estructuras Almacen = new Estructuras();
+    
+
+     public void gestionUsuarios(){
+        
+        int opcion;
+        do {            
+            System.out.println("----------------------------------------");
+            System.out.println("|             GESTION USUARIOS         |");
+            System.out.println("----------------------------------------");
+            System.out.println("Ingrese una opcion (1-4) luego presione ");
+            System.out.println("la tecla enter.");
+            System.out.println("");
+            System.out.println("1. Ingresar ");
+            System.out.println("2. Modificar");
+            System.out.println("3. ELiminar"); //TAREA -- id Identificación
+            System.out.println("4. Consultar");
+            System.out.println("5. Regresar");
+            
+            System.out.println("----------------------------------------");
+            System.out.println("");
+            System.out.print("Opcion: ");
+            opcion = leer.nextInt();
+            
+            switch(opcion){
+            case 1: addUsuario();
+                
+                break;
+            case 2:modificarUsuario();
+                break;
+            case 3:borrarUsuario() ;
+                
+                break;
+            case 4: consultarUsuario();
+                
+                break;
+            case 5: return;
+            
+        }
+            
+        } while (opcion !=5);
+        
+        
+    }
+    
+  public static int usuarioRepetido(String nuevoUsuario){
+         for (ObjUsuarios repeticion : Estructuras.listaUsuarios) {
+             if (repeticion.getUsuario() != null && repeticion.getUsuario().equals(nuevoUsuario)) {
+                 return 1;
+             }
+         }
+         return -1;
+    }
+  public static int CedulaRepetido(String nuevaCedula){
+         for (ObjUsuarios repeticion : Estructuras.listaUsuarios) {
+             if (repeticion.getCedula().equals(nuevaCedula)) {
+                 return 1;
+             }
+         }
+         return -1;
+    }
+  
+  
+  
+  public static String devolverRol(int rol){
+      String rolStr ="";
+      if(rol == 1){
+          rolStr = "Operador";
+      }
+      if(rol == 2){
+          rolStr= "Admin";
+      }
+        return rolStr; 
+  }
+  
+  public static String devolverEstado(int estado){
+      String estadoStr = "";
+      if(estado == 1){
+          estadoStr = "Activo";
+      }
+      if (estado == 2) {
+          estadoStr = "Inactivo";
+      }
+      return estadoStr;
+  }
+  
+
+  
+  public static int buscarUsuario(){
+        System.out.println("===================================");
+        System.out.println("|           BUSCAR USUARIO       |");
+        System.out.println("===================================");
+        System.out.println("");
+        leer.nextLine();
+        System.out.print("Digite la cedula: ");
+        String cedula = leer.nextLine();
+        int indice = -1;
+        
+        //--Una nueva lista para trabajar localmente(cliente)
+         ArrayList<ObjUsuarios> misUsuarios= new ArrayList<>();
+         //llenamo sla lista con una copia d ela original
+         misUsuarios = Almacen.consultarUsuarios();
+         //--Recorrer con for
+         for (int i = 0; i< misUsuarios.size();i++) {
+             ObjUsuarios usuario = new ObjUsuarios();
+             usuario = misUsuarios.get(i);
+             if (usuario.getCedula().equals(cedula)) {
+                 indice = i;
+                 break;
+             }
+             
+        }
+         return indice;
+    }
+  public void borrarUsuario(){
+        int indice = buscarUsuario();
+        if (indice == -1) {
+            System.out.println("No se encontro el Usuario");
+            
+        }else{
+            ArrayList<ObjUsuarios> misUsuarios= new ArrayList<>();
+            misUsuarios = Almacen.consultarUsuarios();
+            System.out.println("Usuario: " + misUsuarios.get(indice).getUsuario());//ve el indice y luego get cedula
+            System.out.println("Cedula: " + misUsuarios.get(indice).getCedula());
+            Almacen.eliminarCliente(indice);
+            Almacen.escribeArchivoUsuarios();
+            JOptionPane.showMessageDialog(null,"USUARIO BORRADO","ATENCION",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+  
+  public void addUsuario(){
+        System.out.println("=======================================");
+        System.out.println("|           REGISTRAR USUARIOS        |");
+        System.out.println("=======================================");
+        System.out.println("");
+        ObjUsuarios nuevoUsuario = new ObjUsuarios();
+        
+        
+        leer.nextLine();
+        System.out.print("Digite el Usuario: ");
+        String usuario = leer.nextLine();
+        nuevoUsuario.setUsuario(usuario);
+        
+         //Validacion de repetidos
+        if (usuarioRepetido(usuario) == 1) {
+            System.out.println("[!] Error: El usuario ya está registrado. Intente con otro.");
+            return;
+        }
+        
+        
+        System.out.print("Digite la cedula: ");
+        String cedula = leer.nextLine();
+        nuevoUsuario.setCedula(cedula);
+        
+        if (CedulaRepetido(cedula) == 1) {
+            System.out.println("[!] Error: La cedula ya está registrada. Intente con otra.");
+            return;
+        }
+
+        // Si pasa la validación, continúa pidiendo el resto con normalidad
+        System.out.print("Digite la contrasena: ");
+        String password = leer.nextLine();
+        nuevoUsuario.setContrasena(password);
+        
+        
+
+        int opcionRol = 0;
+        do {
+            System.out.println("");
+            System.out.println("Digite la opcion del rol: ");
+            System.out.println("1. Operador");
+            System.out.println("2. Administrador");
+            System.out.print("Opcion: ");
+            opcionRol = leer.nextInt();
+
+            if ((opcionRol != 1) && (opcionRol != 2)) {
+                System.out.println("[!] Estimado Usuario digite una opcion correcta");
+            }
+        } while ((opcionRol != 1) && (opcionRol != 2));
+        String rol = devolverRol(opcionRol);
+        nuevoUsuario.setRol(rol);
+        
+        leer.nextLine(); // Limpiar buffer
+    
+        String estado = "Activo";//inactivo/activo
+        nuevoUsuario.setEstado(estado);
+
+    // Guardado final
+    Almacen.agregarUsuarios(nuevoUsuario);
+    Almacen.escribeArchivoUsuarios();
+    System.out.println("[✔] ¡Usuario registrado con éxito!");
+
+    }
+    
+  public void consultarUsuario(){
+      
+        System.out.println("===================================");
+        System.out.println("|           LISTA USUARIOS        |");
+        System.out.println("===================================");
+        System.out.println("");
+        
+        //--Una nueva lista para trabajar localmente(cliente)
+         ArrayList<ObjUsuarios> misUsuarios= new ArrayList<>();
+         //llenamo sla lista con una copia d ela original
+         misUsuarios = Almacen.consultarUsuarios();
+         //--Recorrer con for
+         for (int i = 0; i< misUsuarios.size();i++) {
+             ObjUsuarios usuario = new ObjUsuarios();
+             usuario = misUsuarios.get(i);
+             System.out.println("Id Usuario: " + usuario.getId() );
+             System.out.println("Usuario: " + usuario.getUsuario());
+             System.out.println("Cedula: "+ usuario.getCedula());
+             System.out.println("Rol: " +  usuario.getRol());
+             System.out.println("Estado: " + usuario.getEstado());
+            // System.out.println("Contra: " + usuario.getContrasena());
+             System.out.println("");
+             System.out.println("-------------------------------------");
+             System.out.println("");
+        }
+    }
+   
+   
+   public void modificarUsuario(){
+        int indice = buscarUsuario();
+        if (indice == -1) {
+            System.out.println("No se encontro el usuario");
+            
+        }else{
+            ArrayList<ObjUsuarios> misUsuarios= new ArrayList<>();
+            misUsuarios = Almacen.consultarUsuarios();
+            System.out.println("Usuario: " + misUsuarios.get(indice).getUsuario());//ve el indice y luego get cedula
+            System.out.println("Cedula: " + misUsuarios.get(indice).getCedula());
+            System.out.println("---------------------------------------");
+            ObjUsuarios usuario = new ObjUsuarios();
+            usuario = misUsuarios.get(indice);
+            
+            int opcion;
+            do {   
+                System.out.println("");
+                System.out.println("Deseas modificar el estado? ");
+                System.out.println("1. Si");
+                System.out.println("2. NO");
+                System.out.print("Opcion: ");
+                opcion = leer.nextInt();
+                
+                if((opcion !=1)&&(opcion!=2)){
+                    System.out.println("");
+                    System.out.println("[!] Vuelva a digitar una opcion valida");
+                }
+                
+            } while ((opcion !=1) && (opcion != 2));
+            
+            int estado = 0;
+            if (opcion == 1) {
+                do {                
+               
+                System.out.println("");
+                System.out.println("Digite el estado: ");
+                System.out.println("1. Activo");
+                System.out.println("2. Inactivo");
+                System.out.print("Opcion: ");
+                estado = leer.nextInt();
+            
+                if((estado !=1)&&(estado!=2)){
+                    System.out.println("");
+                    System.out.println("[!] Vuelva a digitar una opcion valida");
+                }
+            } while ((estado !=1)&&(estado!=2));
+             String estadoStr = devolverEstado(estado);
+             usuario.setEstado(estadoStr);
+            }
+            
+            
+           
+            
+            opcion = 0;
+            do {      
+                System.out.println("");
+                System.out.println("Deseas modificar el rol? ");
+                System.out.println("1. Si");
+                System.out.println("2. NO");
+                System.out.print("Opcion: ");
+                opcion = leer.nextInt();
+                
+                if((opcion !=1)&&(opcion!=2)){
+                    System.out.println("");
+                    System.out.println("[!] Vuelva a digitar una opcion valida");
+                }
+            } while ((opcion !=1) && (opcion != 2));
+            
+            estado = 0;
+            if (opcion == 1) {
+            do {                
+                System.out.println("");
+                System.out.println("Digite el Rol: ");
+                System.out.println("1. Operador");
+                System.out.println("2. Admin");
+                estado = leer.nextInt();
+            
+                if((estado!=1)&&(estado!=2)){
+                    System.out.println("[!] Digite una opcion valida");
+                }
+            } while ((estado!=1)&&(estado!=2));
+            
+                String rol = devolverRol(estado);
+                usuario.setRol(rol);
+            }
+
+           
+            
+            Almacen.modificarUsuario(indice, usuario);
+            Almacen.escribeArchivoUsuarios();
+        }
+    }
+    
+  
+  
+  }
+   
+
+
