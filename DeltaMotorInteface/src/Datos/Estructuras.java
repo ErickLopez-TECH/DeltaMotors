@@ -20,10 +20,12 @@ import javax.swing.JOptionPane;
 public class Estructuras {
     
    private ArrayList<objUsuarios> listaUsuarios;
+   private ArrayList<objVehiculo> listaVehiculo;
    
    //inicializamos la lista
    public Estructuras(){
        this.listaUsuarios = new ArrayList<>();
+       this.listaVehiculo = new ArrayList<>();
    }
    
    //devuelve la lista
@@ -31,6 +33,9 @@ public class Estructuras {
        return listaUsuarios;
    }
    
+   public ArrayList<objVehiculo> getListaVehiculo(){
+       return listaVehiculo;
+   }
    
    public void crearArchivo(String nombre){
        File miArchivo = new File(nombre + ".txt");
@@ -52,7 +57,70 @@ public class Estructuras {
             JOptionPane.showMessageDialog(null, "Error al limpiar el archivo", "Atencion", JOptionPane.ERROR_MESSAGE);
         }
     }
+   public void escribeArchivoVehiculo() {
+    try {
+        // Al abrir el FileWriter sin el 'true', sobrescribe el archivo completo 
+        // con la lista actualizada que tiene todos los usuarios (los viejos + el nuevo).
+        FileWriter escritor = new FileWriter("Vehiculo.txt");
+        PrintWriter pw = new PrintWriter(escritor);
+        
+        for (int i = 0; i < listaVehiculo.size(); i++) {
+            objVehiculo v = listaVehiculo.get(i);
+            String linea = v.getId() + ";" +
+                           v.getPlaca()+ ";" +
+                           v.getMarca()+ ";" +
+                           v.getModelo()+ ";" +
+                           v.getTipoMotor()+ ";" +
+                           v.getCombustible()+ ";" +
+                           v.getKilometraje()+ ";" +
+                           v.getAnio()+ ";" +
+                           v.getEstado()+ ";" ;
+                           
+            pw.println(linea); // Usar println es más limpio para los saltos de línea
+        }
+        pw.close();
+        escritor.close();
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error al escribir el archivo", "Atencion", JOptionPane.ERROR_MESSAGE);
+    }
+}
    
+   
+    public void leerArchivoVehiculo() {
+        listaUsuarios.clear();
+        try {
+            File archivo = new File("Vehiculo.txt");
+            if (!archivo.exists()) {
+                return; 
+            }
+            FileReader miArchivo = new FileReader(archivo);
+            BufferedReader lector = new BufferedReader(miArchivo);
+            String linea = lector.readLine();
+            
+            while (linea != null) {
+                String[] segmento = linea.split(";");
+                // Como guardamos 5 datos, validamos que al menos tenga 5 segmentos
+                if (segmento.length >= 5 && !segmento[0].equals("")) {
+                    objVehiculo v= new objVehiculo();
+                    v.setId(Integer.parseInt(segmento[0].trim()));
+                    v.setPlaca(segmento[1].trim());
+                    v.setMarca(segmento[2].trim());
+                    v.setModelo(segmento[3].trim()); 
+                    v.setTipoMotor(segmento[4].trim()); 
+                    v.setCombustible(segmento[5].trim()); 
+                    v.setKilometraje(Double.parseDouble(segmento[6].trim()));
+                    v.setAnio(Integer.parseInt(segmento[7].trim()));    
+                    v.setEstado(segmento[8].trim());    
+                    
+                    listaVehiculo.add(v);
+                }
+                linea = lector.readLine();
+            }
+            lector.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo", "Atencion", JOptionPane.ERROR_MESSAGE);
+        }
+    }
    // Escribe la lista actual en el archivo de texto plano
 public void escribeArchivoUsuarios() {
     try {
@@ -136,5 +204,30 @@ public void escribeArchivoUsuarios() {
         
         listaUsuarios.add(usuario);
         escribeArchivoUsuarios(); 
+    }
+    
+     public int generarIdVehiculoAutomatico() {
+        leerArchivoVehiculo();
+        if (listaVehiculo.isEmpty()) {
+            return 1; // Si no hay registros, empieza en 1
+        }
+        
+        int mayorId = 0;
+        for (int i = 0; i < listaVehiculo.size(); i++) {
+            objVehiculo v = listaVehiculo.get(i);
+            if (v.getId()> mayorId) {
+                mayorId = v.getId();
+            }
+        }
+        return mayorId + 1; // Devuelve el siguiente número consecutivo
+    }
+
+    // Agrega el usuario asignándole el ID automático y guardándolo en el TXT
+    public void agregarVehiculo(objVehiculo vehiculo) {
+        int idCalculado = generarIdVehiculoAutomatico();
+        vehiculo.setId(idCalculado);
+        
+        listaVehiculo.add(vehiculo);
+        escribeArchivoVehiculo(); 
     }
 }

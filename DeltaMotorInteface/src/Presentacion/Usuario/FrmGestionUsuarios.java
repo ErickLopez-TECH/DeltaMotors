@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Presentacion;
+package Presentacion.Usuario;
 import Datos.Estructuras;
 import Datos.objUsuarios;
 import Logica.logicaUsuarios;
@@ -25,7 +25,7 @@ public class FrmGestionUsuarios extends javax.swing.JFrame {
         initComponents();
         metodosCarga();
         
-        txtBuscador.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+    txtBuscador.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
     @Override
     public void insertUpdate(javax.swing.event.DocumentEvent e) {
         filtrarUsuarios();
@@ -201,6 +201,7 @@ public class FrmGestionUsuarios extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel4)
+                                        .addGap(0, 0, 0)
                                         .addComponent(jLabel2))
                                     .addComponent(jLabel3))
                                 .addGap(12, 12, 12)

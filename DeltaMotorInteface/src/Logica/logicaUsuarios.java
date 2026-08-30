@@ -16,7 +16,7 @@ public class logicaUsuarios {
     public boolean registrarUsuario(String nombre,String cedula,  String contrasena, String rol, String estado) {
         // 1. Validación de campos obligatorios
         if (nombre.isEmpty() || contrasena.isEmpty() || cedula.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor complete todos los campos obligatorios, Erick.", "Atención", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Por favor complete todos los campos obligatorios,", "Atención", JOptionPane.WARNING_MESSAGE);
             return false;
         }
 

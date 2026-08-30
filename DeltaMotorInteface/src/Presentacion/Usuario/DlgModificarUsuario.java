@@ -1,4 +1,4 @@
-package Presentacion;
+package Presentacion.Usuario;
 
 import Datos.Estructuras;
 import Datos.objUsuarios;
@@ -82,7 +82,7 @@ public class DlgModificarUsuario extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtUsuarioMod)
                             .addComponent(cmbRolMod, 0, 160, Short.MAX_VALUE)
-                            .addComponent(cmbEstadoMod, 0, 160, Short.MAX_VALUE))))
+                            .addComponent(cmbEstadoMod, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
