@@ -18,6 +18,14 @@ Sistema de gestión y control de procesos acerca de su funcionamiento adecuada d
 | **Entorno de Desarrollo** | Apache NetBeans |
 | **Control de Versiones** | Git / GitHub |
 
+## 🛠 Uso de cada carpeta
+
+| Carpeta | Tecnología |
+| :--- | :--- |
+| **Lenguaje Base** | Java |
+| **Entorno de Desarrollo** | Apache NetBeans |
+| **Control de Versiones** | Git / GitHub |
+
 ## 🚀 Funcionalidades Clave
 
 * **Validación de Datos:** Implementación de algoritmos para asegurar la entrada correcta de información y prevenir errores operativos.
