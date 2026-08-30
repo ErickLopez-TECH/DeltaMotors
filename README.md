@@ -20,11 +20,12 @@ Sistema de gestión y control de procesos acerca de su funcionamiento adecuada d
 
 ## 🛠 Uso de cada carpeta
 
-| Carpeta | Tecnología |
+| Carpeta | Tipo de interfaz |
 | :--- | :--- |
-| **Lenguaje Base** | Java |
-| **Entorno de Desarrollo** | Apache NetBeans |
-| **Control de Versiones** | Git / GitHub |
+| **DeltaMotorInteface** | GUI |
+| **DeltaMotors** | Consola |
+| **DeltaMotorsGUI** | Pruebas |
+
 
 ## 🚀 Funcionalidades Clave
 
