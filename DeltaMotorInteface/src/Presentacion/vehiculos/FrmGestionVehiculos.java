@@ -19,6 +19,7 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
         inicializarFunciones();
         
         
+    
    
         // 1. Forzar que el panel personalizado inicie oculto
     panelPersonalizado.setVisible(false);
@@ -111,7 +112,9 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
         
         cmbCombustible.removeAllItems();
         cmbCombustible.addItem("Seleccion el motor...");
-        //escuchador de cambios
+        
+        
+        //escuchador de cambios para cambiar el modelo
         cmbTipoVehiculo.addItemListener(new java.awt.event.ItemListener() {
     public void itemStateChanged(java.awt.event.ItemEvent evt) {
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
@@ -120,6 +123,23 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
     }
 });
         
+        //buscador 
+        txtBuscador.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+    @Override
+    public void insertUpdate(javax.swing.event.DocumentEvent e) {
+        filtrarVehiculo();
+    }
+
+    @Override
+    public void removeUpdate(javax.swing.event.DocumentEvent e) {
+        filtrarVehiculo();
+    }
+
+    @Override
+    public void changedUpdate(javax.swing.event.DocumentEvent e) {
+        filtrarVehiculo();
+    }
+    });
         
     }
 
@@ -467,8 +487,18 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblVehiculos);
 
         btnModificar.setText("Modificar Seleccionado");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Buscador: ");
 
@@ -554,6 +584,12 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(this, "Vehiculo registrado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
             inicializarTabla();
+            
+            txtPlaca.setText("");
+            cmbMarca.setSelectedIndex(0);
+            cmbTipoVehiculo.setSelectedIndex(0);
+            txtKilometraje.setText("");
+            txtAnio.setText("");
             
         }else{
             JOptionPane.showMessageDialog(this, "Sucedio algo inesperado al guardar el vehiculo", "Error", JOptionPane.WARNING_MESSAGE);
@@ -657,10 +693,81 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
 }
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         
+        int filaSeleccionada = tblVehiculos.getSelectedRow();
+        
+        if(filaSeleccionada == -1){
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un Vehiculo de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+        }
+        
+        //modificado sin importar si es filtrado o no
+        int id = Integer.parseInt(tblVehiculos.getValueAt(filaSeleccionada, 0).toString());
+        String estado = tblVehiculos.getValueAt(filaSeleccionada, 8).toString();
+        double kilometraje = Double.parseDouble(tblVehiculos.getValueAt(filaSeleccionada, 6).toString());
+        
+        DlgModificarVehiculo ventanaModificar = new DlgModificarVehiculo(this, true, id, kilometraje, estado);
+        ventanaModificar.setVisible(true);
+        
+        inicializarTabla();
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+
+        //saber realmente donde esta posicionado;
+        int filaSeleccionada = tblVehiculos.getSelectedRow();
         
+        //si no ha seleccionado nada
+        if(filaSeleccionada == -1){
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un usuario de la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        //obtener el id del usuario por si esta usando filtrado que no afecte el index de fila
+        //el 0 despues de fila, es la columna donde esta el id
+        int idVehiculo = Integer.parseInt(tblVehiculos.getValueAt(filaSeleccionada, 0).toString());
+        
+        //obtener placa para decirle al usuario si esta seguro
+        String placa = tblVehiculos.getValueAt(filaSeleccionada, 1).toString();
+        
+        int respuesta = JOptionPane.showConfirmDialog(this, 
+            "¿Está seguro de que desea eliminar al Vehiculo: " + placa + "?", 
+            "Confirmar eliminación", 
+            JOptionPane.YES_NO_OPTION, 
+            JOptionPane.QUESTION_MESSAGE);
+        
+        if(respuesta == JOptionPane.YES_OPTION){
+            Estructuras est = new Estructuras();
+            est.leerArchivoVehiculo();
+            
+            logicaVehiculo logica = new logicaVehiculo();
+            
+            //obtener lista atravez de un puentre entre logica y datos
+            ArrayList<objVehiculo> lista = logica.obtenerListaVehiculos();
+            boolean eliminado = false;
+            
+            for (int i = 0; i <lista.size(); i++) {
+                
+                if (lista.get(i).getId() == idVehiculo) {
+                    lista.remove(i);
+                    eliminado = true;
+                    break; 
+                }
+            }
+            
+            if (eliminado) {
+                // 5. Sobrescribimos el archivo de texto con la lista actualizada sin ese usuario
+                est.setListaVehiculo(lista);
+                est.escribeArchivoVehiculo();
+               
+
+                JOptionPane.showMessageDialog(this, "¡Vehiculo eliminado con éxito!", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+                //actualiza tabla
+                inicializarTabla();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo encontrar el vehiculo en los registros.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void txtOtraMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOtraMarcaActionPerformed

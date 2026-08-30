@@ -1,5 +1,5 @@
-1;12345;Hyundai;Elantra;Hibrido;Gasolina & KWH;1290.43;2025;Activo;
-2;12;Tesla;xtreme;Electrico;KWH;1200.0;2026;Activo;
-3;zm123;Chevrolet;Colorado;Combustion Interna;Gasolina;10000.0;2023;Activo;
-4;xxx-255;Suzuki;Swift;Hibrido;Diesel & KWH;0.0;2027;Activo;
-5;hml-285;Chevrolet;Colorado;Combustion Interna;Diesel;0.0;2025;Activo;
+1;1234;Nissan;Frontier;Electrico;KWH;1200.0;2026;Activo;
+2;12;Suzuki;Vitara;Hibrido;Gasolina & KWH;0.0;2026;Activo;
+3;147;Chevrolet;Tracker;Hibrido;Diesel & KWH;0.0;2025;Activo;
+4;2025;Mitsubishi;Montero;Combustion Interna;Gasolina;1234.0;2026;Activo;
+5;89;Ford;Explorer;Combustion Interna;Diesel;1400.2;2024;Inactivo;

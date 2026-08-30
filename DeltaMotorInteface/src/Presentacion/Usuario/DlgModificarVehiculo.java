@@ -4,12 +4,12 @@ import Datos.Estructuras;
 import Datos.objUsuarios;
 import javax.swing.JOptionPane;
 
-public class DlgModificarUsuario extends javax.swing.JDialog {
+public class DlgModificarVehiculo extends javax.swing.JDialog {
 
     private int idUsuarioEditable;
 
     // Constructor que recibe los datos desde la tabla principal (sin contraseña)
-    public DlgModificarUsuario(java.awt.Frame parent, boolean modal, int id, String nombre, String rol, String estado) {
+    public DlgModificarVehiculo(java.awt.Frame parent, boolean modal, int id, String nombre, String rol, String estado) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent); // Centra la ventana flotante

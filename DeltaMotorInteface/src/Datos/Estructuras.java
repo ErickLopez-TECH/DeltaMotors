@@ -21,11 +21,13 @@ public class Estructuras {
     
    private ArrayList<objUsuarios> listaUsuarios;
    private ArrayList<objVehiculo> listaVehiculo;
+   private ArrayList<objGestionMante> listaMante;
    
    //inicializamos la lista
    public Estructuras(){
        this.listaUsuarios = new ArrayList<>();
        this.listaVehiculo = new ArrayList<>();
+       this.listaMante = new ArrayList<>();
    }
    
    //devuelve la lista
@@ -36,6 +38,16 @@ public class Estructuras {
    public ArrayList<objVehiculo> getListaVehiculo(){
        return listaVehiculo;
    }
+   
+   public ArrayList<objGestionMante> getListaMantes(){
+       return listaMante;
+   }
+   
+   //setter de la lista
+
+    public void setListaVehiculo(ArrayList<objVehiculo> listaVehiculo) {
+        this.listaVehiculo = listaVehiculo;
+    }
    
    public void crearArchivo(String nombre){
        File miArchivo = new File(nombre + ".txt");
@@ -229,5 +241,88 @@ public void escribeArchivoUsuarios() {
         
         listaVehiculo.add(vehiculo);
         escribeArchivoVehiculo(); 
+    }
+    
+    
+  
+    
+    public void escribeArchivoMante() {
+    try {
+        // Al abrir el FileWriter sin el 'true', sobrescribe el archivo completo 
+        // con la lista actualizada que tiene todos los usuarios (los viejos + el nuevo).
+        FileWriter escritor = new FileWriter("GestionMante.txt");
+        PrintWriter pw = new PrintWriter(escritor);
+        
+        for (int i = 0; i < listaMante.size(); i++) {
+            objGestionMante m = listaMante.get(i);
+            String linea = m.getId() + ";" +
+                           m.getNombre()+ ";" +
+                           m.getEstado()+ ";" ;
+                           
+            pw.println(linea); // Usar println es más limpio para los saltos de línea
+        }
+        pw.close();
+        escritor.close();
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error al escribir el archivo", "Atencion", JOptionPane.ERROR_MESSAGE);
+    }
+}
+   
+   
+    public void leerArchivoMante() {
+        listaUsuarios.clear();
+        try {
+            File archivo = new File("GestionMante.txt");
+            if (!archivo.exists()) {
+                return; 
+            }
+            FileReader miArchivo = new FileReader(archivo);
+            BufferedReader lector = new BufferedReader(miArchivo);
+            String linea = lector.readLine();
+            
+            while (linea != null) {
+                String[] segmento = linea.split(";");
+                // Como guardamos 5 datos, validamos que al menos tenga 5 segmentos
+                if (segmento.length >= 5 && !segmento[0].equals("")) {
+                    objGestionMante m= new objGestionMante();
+                    m.setId(Integer.parseInt(segmento[0].trim()));
+                    m.setNombre(segmento[1].trim());
+                    m.setEstado(segmento[2].trim());
+                       
+                    
+                    listaMante.add(m);
+                }
+                linea = lector.readLine();
+            }
+            lector.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo", "Atencion", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    // Método inteligente: Calcula el siguiente ID evaluando como entero el mayor ID existente
+    public int generarIdManteAutomatico() {
+        leerArchivoMante();
+        if (listaMante.isEmpty()) {
+            return 1; // Si no hay registros, empieza en 1
+        }
+        
+        int mayorId = 0;
+        for (int i = 0; i < listaMante.size(); i++) {
+            objGestionMante m = listaMante.get(i);
+            if (m.getId()> mayorId) {
+                mayorId = m.getId();
+            }
+        }
+        return mayorId + 1; // Devuelve el siguiente número consecutivo
+    }
+
+    // Agrega el usuario asignándole el ID automático y guardándolo en el TXT
+    public void agregarMante(objGestionMante mante) {
+        int idCalculado = generarIdManteAutomatico();
+        mante.setId(idCalculado);
+        
+        listaMante.add(mante);
+        escribeArchivoMante(); 
     }
 }

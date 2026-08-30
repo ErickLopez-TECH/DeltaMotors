@@ -477,7 +477,7 @@ public class FrmGestionUsuarios extends javax.swing.JFrame {
         String estado = tblUser.getValueAt(filaSeleccionada, 4).toString();
 
         // Instancias exactamente con los 4 datos que recibe el constructor de la ventana flotante:
-        DlgModificarUsuario ventanaFlotante = new DlgModificarUsuario(this, true, id, nombre,  rol,estado);
+        DlgModificarVehiculo ventanaFlotante = new DlgModificarVehiculo(this, true, id, nombre,  rol,estado);
         ventanaFlotante.setVisible(true);
 
     
