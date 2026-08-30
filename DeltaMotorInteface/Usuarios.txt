@@ -1,0 +1,4 @@
+1;admin;1234;1234;Administrador;Activo;
+2;Operador;123;1234;Operador;Activo;
+3;Luis;155852559332;1234;Administrador;Inactivo;
+4;Taylor;7854;1234;Operador;Activo;

@@ -1,0 +1,4 @@
+1;Erick;1234;155852559332;Administrador;Activo;
+2;Daniel;1234;1;Operador;Activo;
+3;Josue;1234;155852;Operador;Activo;
+

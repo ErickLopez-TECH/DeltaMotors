@@ -1,0 +1,5 @@
+1;12345;Hyundai;Elantra;Hibrido;Gasolina & KWH;1290.43;2025;Activo;
+2;12;Tesla;xtreme;Electrico;KWH;1200.0;2026;Activo;
+3;zm123;Chevrolet;Colorado;Combustion Interna;Gasolina;10000.0;2023;Activo;
+4;xxx-255;Suzuki;Swift;Hibrido;Diesel & KWH;0.0;2027;Activo;
+5;hml-285;Chevrolet;Colorado;Combustion Interna;Diesel;0.0;2025;Activo;
