@@ -18,13 +18,15 @@ Sistema de gestión y control de procesos acerca de su funcionamiento adecuada d
 | **Entorno de Desarrollo** | Apache NetBeans |
 | **Control de Versiones** | Git / GitHub |
 
-## 🛠 Uso de cada carpeta
+## 🛠 Estructura y Evolución del Proyecto
 
-| Carpeta | Tipo de interfaz |
-| :--- | :--- |
-| **DeltaMotorInteface** | GUI |
-| **DeltaMotors** | Consola |
-| **DeltaMotorsGUI** | Pruebas |
+El repositorio se encuentra organizado en fases para evidenciar la transición desde la lógica inicial en consola hasta la implementación de la interfaz gráfica (GUI):
+
+| Carpeta | Fase / Propósito | Tipo de Interfaz |
+| :--- | :--- | :--- |
+| **DeltaMotors** | Versión inicial del sistema | Consola |
+| **DeltaMotorInterface** | Versión avanzada / Evolución principal | Gráfica (GUI) |
+| **DeltaMotorsGUI** | Entorno de pruebas y experimentación | Gráfica (GUI / Pruebas) |
 
 
 ## 🚀 Funcionalidades Clave
