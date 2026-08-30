@@ -539,7 +539,7 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        jTabbedPane1.addTab("tab2", jPanelModificar);
+        jTabbedPane1.addTab("Tablas", jPanelModificar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -832,6 +832,8 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
         }
     });
 }
+    
+    
     public static void main(String args[]) {
         
         java.awt.EventQueue.invokeLater(() -> new FrmGestionVehiculos().setVisible(true));

@@ -48,6 +48,43 @@ public class Estructuras {
     public void setListaVehiculo(ArrayList<objVehiculo> listaVehiculo) {
         this.listaVehiculo = listaVehiculo;
     }
+
+    public void setListaUsuarios(ArrayList<objUsuarios> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
+    }
+
+    public void setListaMante(ArrayList<objGestionMante> listaMante) {
+        this.listaMante = listaMante;
+    }
+    
+    
+    
+    //funciones de eliminar de todos
+    public boolean eliminarManteArchivo(int idMante) {
+    // 1. Leemos los datos actuales del archivo
+    leerArchivoMante(); 
+    
+    ArrayList<objGestionMante> lista = getListaMantes();
+    boolean encontrado = false;
+    
+    // 2. Buscamos y removemos de la lista en memoria
+    for (int i = 0; i < lista.size(); i++) {
+        if (lista.get(i).getId() == idMante) {
+            lista.remove(i);
+            encontrado = true;
+            break;
+        }
+    }
+    
+    // 3. Si se encontró y eliminó, sobrescribimos el archivo con la nueva lista
+    if (encontrado) {
+        setListaMante(lista);
+        escribeArchivoMante(); // Método que sobrescribe el archivo de texto
+        return true;
+    }
+    
+    return false;
+}
    
    public void crearArchivo(String nombre){
        File miArchivo = new File(nombre + ".txt");
@@ -270,7 +307,7 @@ public void escribeArchivoUsuarios() {
    
    
     public void leerArchivoMante() {
-        listaUsuarios.clear();
+        listaMante.clear();
         try {
             File archivo = new File("GestionMante.txt");
             if (!archivo.exists()) {
@@ -282,8 +319,8 @@ public void escribeArchivoUsuarios() {
             
             while (linea != null) {
                 String[] segmento = linea.split(";");
-                // Como guardamos 5 datos, validamos que al menos tenga 5 segmentos
-                if (segmento.length >= 5 && !segmento[0].equals("")) {
+                // Como guardamos 3 datos, validamos que al menos tenga 3 segmentos
+                if (segmento.length >= 3 && !segmento[0].equals("")) {
                     objGestionMante m= new objGestionMante();
                     m.setId(Integer.parseInt(segmento[0].trim()));
                     m.setNombre(segmento[1].trim());
@@ -319,6 +356,7 @@ public void escribeArchivoUsuarios() {
 
     // Agrega el usuario asignándole el ID automático y guardándolo en el TXT
     public void agregarMante(objGestionMante mante) {
+        leerArchivoMante();
         int idCalculado = generarIdManteAutomatico();
         mante.setId(idCalculado);
         
