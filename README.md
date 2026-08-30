@@ -8,6 +8,7 @@ Sistema de gestión y control de procesos acerca de su funcionamiento adecuada d
 * **Gestión Eficiente:** Centralizar el control de datos críticos para reducir tiempos de procesamiento.
 * **Consistencia Lógica:** Aplicar estructuras de datos robustas para asegurar la integridad de la información en todo momento.
 * **Escalabilidad Funcional:** Diseñar una arquitectura modular que permita la expansión hacia nuevas funcionalidades sin afectar la estabilidad del núcleo.
+* **Sistema Funcional en consola y interfaz:** Diseñar una arquitectura modular que pase por la teoría de consola y luego SE extienda a lot visual con interfaz.
 
 ## 🛠 Stack Tecnológico
 
