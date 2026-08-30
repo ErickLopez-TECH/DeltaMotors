@@ -32,7 +32,7 @@ El sistema se basa en una arquitectura de programación estructurada que prioriz
 
 ## 📅 Estado del Proyecto
 * **Fase:** Desarrollo y validación técnica.
-* **Fecha de entrega:** 22 agosto 2026.
+* **Fecha de finalizacion:** 11 septiembre 2026.
 
 
 
