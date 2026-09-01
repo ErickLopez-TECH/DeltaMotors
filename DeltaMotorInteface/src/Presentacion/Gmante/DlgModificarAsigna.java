@@ -4,12 +4,12 @@ import Datos.Estructuras;
 import Logica.logicaGestionMante;
 import javax.swing.JOptionPane;
 
-public class DlgModificarMante extends javax.swing.JDialog {
+public class DlgModificarAsigna extends javax.swing.JDialog {
 
     private int idManteEditable;
 
     // Constructor que recibe los datos desde la tabla principal (sin contraseña)
-    public DlgModificarMante(java.awt.Frame parent, boolean modal, int id, String nombre, String estado) {
+    public DlgModificarAsigna(java.awt.Frame parent, boolean modal, int id, String nombre, String estado) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent); // Centra la ventana flotante

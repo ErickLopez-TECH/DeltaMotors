@@ -1,4 +1,4 @@
-package Presentacion.vehiculos; // Ajusta el paquete según tu estructura (ej: Presentacion)
+package Presentacion.vehiculos; 
 
 import Datos.Estructuras;
 import Datos.objVehiculo;
@@ -9,86 +9,198 @@ import java.util.ArrayList;
 
 public class FrmGestionVehiculos extends javax.swing.JFrame {
 
-    // Modelo para la tabla de la segunda pestaña
     private DefaultTableModel modeloTabla;
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmGestionVehiculos.class.getName());
 
     public FrmGestionVehiculos() {
         initComponents();
-        this.setLocationRelativeTo(null); // Centrar la ventana en la pantalla
+        
+        // Pantalla completa idéntica al diseño moderno de usuarios
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         
         inicializarFunciones();
+        aplicarDisenoModerno();
         
-        
-    
-   
-        // 1. Forzar que el panel personalizado inicie oculto
-    panelPersonalizado.setVisible(false);
+        panelPersonalizado.setVisible(false);
 
-    // 2. Llenar el ComboBox de marcas con las opciones predefinidas y "Otra..."
-    cmbMarca.removeAllItems();
-    cmbMarca.addItem("Seleccione...");
-    cmbMarca.addItem("Toyota");
-    cmbMarca.addItem("Hyundai");
-    cmbMarca.addItem("Nissan");
-    cmbMarca.addItem("Mitsubishi");
-    cmbMarca.addItem("Suzuki");
-    cmbMarca.addItem("Chevrolet");
-    cmbMarca.addItem("Ford");
-    cmbMarca.addItem("Isusu");
-    cmbMarca.addItem("Honda");
-    cmbMarca.addItem("Freightliner");
-    cmbMarca.addItem("Otra...");
+        cmbMarca.removeAllItems();
+        cmbMarca.addItem("Seleccione...");
+        cmbMarca.addItem("Toyota");
+        cmbMarca.addItem("Hyundai");
+        cmbMarca.addItem("Nissan");
+        cmbMarca.addItem("Mitsubishi");
+        cmbMarca.addItem("Suzuki");
+        cmbMarca.addItem("Chevrolet");
+        cmbMarca.addItem("Ford");
+        cmbMarca.addItem("Isusu");
+        cmbMarca.addItem("Honda");
+        cmbMarca.addItem("Freightliner");
+        cmbMarca.addItem("Otra...");
 
-    // 3. Evento inteligente para el ComboBox de marcas
-    cmbMarca.addItemListener(new java.awt.event.ItemListener() {
-        public void itemStateChanged(java.awt.event.ItemEvent evt) {
-            if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-                String marcaSeleccionada = cmbMarca.getSelectedItem().toString();
-                
-                if (marcaSeleccionada.equals("Otra...")) {
-                    // Si elige "Otra...", mostramos el panel personalizado y apagamos el combo de modelos
-                    panelPersonalizado.setVisible(true);
-                    cmbModelo.setEnabled(false);
-                } else {
-                    // Si elige una marca normal, ocultamos el panel personalizado, encendemos el combo y cargamos modelos
-                    panelPersonalizado.setVisible(false);
-                    cmbModelo.setEnabled(true);
-                    cargarModeloPorMarca(marcaSeleccionada);
+        cmbMarca.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                    String marcaSeleccionada = cmbMarca.getSelectedItem().toString();
+                    
+                    if (marcaSeleccionada.equals("Otra...")) {
+                        panelPersonalizado.setVisible(true);
+                        cmbModelo.setEnabled(false);
+                    } else {
+                        panelPersonalizado.setVisible(false);
+                        cmbModelo.setEnabled(true);
+                        cargarModeloPorMarca(marcaSeleccionada);
+                    }
                 }
             }
+        });
+    }
+    
+    private void aplicarDisenoModerno() {
+        // Paleta de colores corporativa / minimalista elegante (Slate & Deep Indigo)
+        java.awt.Color colorFondoPrincipal = new java.awt.Color(248, 250, 252);
+        java.awt.Color colorBlanco = new java.awt.Color(255, 255, 255);
+        java.awt.Color colorPrimario = new java.awt.Color(79, 70, 229); // Indigo elegante
+        java.awt.Color colorPrimarioHover = new java.awt.Color(67, 56, 202);
+        java.awt.Color colorPeligro = new java.awt.Color(225, 29, 72); // Rojo elegante para eliminar
+        java.awt.Color colorTexto = new java.awt.Color(15, 23, 42); // Slate muy oscuro
+        java.awt.Color colorBorde = new java.awt.Color(226, 232, 240);
+        java.awt.Color colorBordeFocus = new java.awt.Color(99, 102, 241);
+        
+        java.awt.Font fuenteGeneral = new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14);
+        java.awt.Font fuenteNegrita = new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14);
+        
+        // Contenedores y Paneles
+        jPanelIngresar.setBackground(colorBlanco);
+        jPanelModificar.setBackground(colorBlanco);
+        if (panelPersonalizado != null) panelPersonalizado.setBackground(colorBlanco);
+        jTabbedPane1.setBackground(colorFondoPrincipal);
+        jTabbedPane1.setFont(fuenteNegrita);
+        
+        // Estilizar campos de texto y comboboxes de forma unificada
+        javax.swing.JComponent[] campos = {txtPlaca, cmbMarca, cmbModelo, cmbTipoVehiculo, txtKilometraje, txtAnio, cmbCombustible, txtOtraMarca, txtOtroModelo, txtBuscador};
+        for (javax.swing.JComponent c : campos) {
+            if (c != null) {
+                c.setFont(fuenteGeneral);
+                c.setBackground(colorBlanco);
+                c.setForeground(colorTexto);
+                c.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                    javax.swing.BorderFactory.createLineBorder(colorBorde, 1),
+                    javax.swing.BorderFactory.createEmptyBorder(6, 12, 6, 12)
+                ));
+                
+                c.addFocusListener(new java.awt.event.FocusAdapter() {
+                    @Override
+                    public void focusGained(java.awt.event.FocusEvent evt) {
+                        c.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                            javax.swing.BorderFactory.createLineBorder(colorBordeFocus, 2),
+                            javax.swing.BorderFactory.createEmptyBorder(5, 11, 5, 11)
+                        ));
+                    }
+                    @Override
+                    public void focusLost(java.awt.event.FocusEvent evt) {
+                        c.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                            javax.swing.BorderFactory.createLineBorder(colorBorde, 1),
+                            javax.swing.BorderFactory.createEmptyBorder(6, 12, 6, 12)
+                        ));
+                    }
+                });
+            }
         }
-    });
+        
+        // Estilizar etiquetas de texto
+        javax.swing.JLabel[] etiquetas = {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8, jLabel9, jLabel10};
+        for (javax.swing.JLabel l : etiquetas) {
+            if (l != null) {
+                l.setFont(fuenteNegrita);
+                l.setForeground(colorTexto);
+            }
+        }
+        
+        // Botones principales (Guardar y Modificar con estilo Indigo)
+        javax.swing.JButton[] botonesPrimarios = {btnGuardarVehiculo, btnGuardarOtraMarca, btnModificar};
+        for (javax.swing.JButton b : botonesPrimarios) {
+            if (b != null) {
+                b.setFont(fuenteNegrita);
+                b.setBackground(colorPrimario);
+                b.setForeground(colorBlanco);
+                b.setFocusPainted(false);
+                b.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 10, 20));
+                b.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                
+                b.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseEntered(java.awt.event.MouseEvent evt) {
+                        b.setBackground(colorPrimarioHover);
+                    }
+                    @Override
+                    public void mouseExited(java.awt.event.MouseEvent evt) {
+                        b.setBackground(colorPrimario);
+                    }
+                });
+            }
+        }
+        
+        // Botón de Eliminar (Estilo de alerta sutil pero profesional)
+        if (btnEliminar != null) {
+            btnEliminar.setFont(fuenteNegrita);
+            btnEliminar.setBackground(colorBlanco);
+            btnEliminar.setForeground(colorPeligro);
+            btnEliminar.setFocusPainted(false);
+            btnEliminar.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                javax.swing.BorderFactory.createLineBorder(colorPeligro, 1),
+                javax.swing.BorderFactory.createEmptyBorder(9, 19, 9, 19)
+            ));
+            btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+            
+            btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    btnEliminar.setBackground(new java.awt.Color(254, 242, 242));
+                }
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    btnEliminar.setBackground(colorBlanco);
+                }
+            });
+        }
+        
+        // Estilizar Tabla de manera moderna y limpia
+        tblVehiculos.setFont(fuenteGeneral);
+        tblVehiculos.setRowHeight(36); 
+        tblVehiculos.getTableHeader().setFont(fuenteNegrita);
+        tblVehiculos.getTableHeader().setBackground(new java.awt.Color(241, 245, 249));
+        tblVehiculos.getTableHeader().setForeground(colorTexto);
+        tblVehiculos.setSelectionBackground(new java.awt.Color(224, 231, 255));
+        tblVehiculos.setSelectionForeground(colorTexto);
+        tblVehiculos.setGridColor(new java.awt.Color(241, 245, 249));
+        tblVehiculos.setShowVerticalLines(false);
+        
+        jPanelIngresar.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        jPanelModificar.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
     }
     
     public void filtrarVehiculo(){
         String filtro = txtBuscador.getText().toLowerCase().trim();
         
-        //leer los datos actuales
         logicaVehiculo logica = new logicaVehiculo();
         ArrayList<objVehiculo> lista = logica.obtenerListaVehiculos();
-        
         ArrayList<objVehiculo> listaFiltrada = new ArrayList<>();
         
         for (objVehiculo vehiculo : lista) {
-            
             String id = String.valueOf(vehiculo.getId());
-            String placa = vehiculo.getPlaca();
-            String marca = vehiculo.getMarca();
+            String placa = vehiculo.getPlaca().toLowerCase();
+            String marca = vehiculo.getMarca().toLowerCase();
             
-            if((id.contains(filtro))|| (placa.contains(filtro))||(marca.contains(filtro))){
+            if((id.contains(filtro)) || (placa.contains(filtro)) || (marca.contains(filtro))){
                 listaFiltrada.add(vehiculo);
             }
-            
         }
          
-        //rellenar datos
         String[] columnas = {"ID", "Placa", "Marca", "Modelo", "Motor", "Combustible", "Kilometraje", "Año", "Estado"};
-    
-    Object[][] Datos = new Object[listaFiltrada.size()][9];
+        Object[][] Datos = new Object[listaFiltrada.size()][9];
     
         for (int i = 0; i < listaFiltrada.size(); i++) {
             objVehiculo v = listaFiltrada.get(i);
-            
             Datos[i][0] = v.getId();
             Datos[i][1] = v.getPlaca();
             Datos[i][2] = v.getMarca();
@@ -99,170 +211,135 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
             Datos[i][7] = v.getAnio();
             Datos[i][8] = v.getEstado();
         }
-    // Creamos el modelo de la tabla sin filas iniciales pero con las columnas definidas
-    DefaultTableModel modeloTabla = new DefaultTableModel(Datos, columnas);
-    tblVehiculos.setModel(modeloTabla);
         
+        DefaultTableModel modeloTablaFiltrada = new DefaultTableModel(Datos, columnas);
+        tblVehiculos.setModel(modeloTablaFiltrada);
     }
     
     public void inicializarFunciones(){
         cargarTipoMotor();
         inicializarTabla();
-        alternarColoresTabla();
+        
+        txtBuscador.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { filtrarVehiculo(); }
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { filtrarVehiculo(); }
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { filtrarVehiculo(); }
+        });
         
         cmbCombustible.removeAllItems();
-        cmbCombustible.addItem("Seleccion el motor...");
+        cmbCombustible.addItem("Seleccione el motor...");
         
-        
-        //escuchador de cambios para cambiar el modelo
         cmbTipoVehiculo.addItemListener(new java.awt.event.ItemListener() {
-    public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
-            cargarCombustibles();
-        }
-    }
-});
-        
-        //buscador 
-        txtBuscador.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
-    @Override
-    public void insertUpdate(javax.swing.event.DocumentEvent e) {
-        filtrarVehiculo();
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                    cargarCombustibles();
+                }
+            }
+        });
     }
 
-    @Override
-    public void removeUpdate(javax.swing.event.DocumentEvent e) {
-        filtrarVehiculo();
-    }
-
-    @Override
-    public void changedUpdate(javax.swing.event.DocumentEvent e) {
-        filtrarVehiculo();
-    }
-    });
-        
-    }
-
-    //cargar los tipos disponibles
     public void cargarTipoMotor(){
         cmbTipoVehiculo.removeAllItems();
         cmbTipoVehiculo.addItem("Seleccione...");
         cmbTipoVehiculo.addItem("Electrico");
         cmbTipoVehiculo.addItem("Hibrido");
         cmbTipoVehiculo.addItem("Combustion Interna");
-        
-        
-        
     }
     
     public void cargarCombustibles(){
         int indiceMotor = cmbTipoVehiculo.getSelectedIndex();
-        
         cmbCombustible.removeAllItems();
         cmbCombustible.addItem("Seleccione...");
         
-        
         switch (indiceMotor) {
-            
             case 1:
-                
                 cmbCombustible.addItem("KWH");
-              break;
-              
+                break;
             case 2:
                 cmbCombustible.addItem("Gasolina & KWH");
                 cmbCombustible.addItem("Diesel & KWH");
-              break;
-              
+                break;
             case 3:
                 cmbCombustible.addItem("Gasolina");
                 cmbCombustible.addItem("Diesel");
-              break;
+                break;
         }
-        
     }
     
-    
-    public  void cargarModeloPorMarca(String marca){
-        
+    public void cargarModeloPorMarca(String marca){
         cmbModelo.removeAllItems();
         cmbModelo.addItem("Seleccione...");
         
-        
         switch (marca) {
-        case "Toyota":
-            cmbModelo.addItem("Hilux");
-            cmbModelo.addItem("Hiace");
-            cmbModelo.addItem("Corolla");
-            cmbModelo.addItem("Yaris");
-            cmbModelo.addItem("RAV4");
-            break;
-        case "Hyundai":
-            cmbModelo.addItem("H-100");
-            cmbModelo.addItem("Elantra");
-            cmbModelo.addItem("Tucson");
-            cmbModelo.addItem("Santa Fe");
-            break;
-        case "Nissan":
-            cmbModelo.addItem("Frontier");
-            cmbModelo.addItem("Navara");
-            cmbModelo.addItem("Sentra");
-            cmbModelo.addItem("Urvan");
-            break;
-        case "Mitsubishi":
-            cmbModelo.addItem("L200");
-            cmbModelo.addItem("Montero");
-            cmbModelo.addItem("ASX");
-            break;
-        case "Suzuki":
-            cmbModelo.addItem("Vitara");
-            cmbModelo.addItem("Jimny");
-            cmbModelo.addItem("Swift");
-            break;
-        case "Chevrolet":
-            cmbModelo.addItem("D-Max");
-            cmbModelo.addItem("Tracker");
-            cmbModelo.addItem("Colorado");
-            break;
-        case "Ford":
-            cmbModelo.addItem("Ranger");
-            cmbModelo.addItem("Explorer");
-            break;
-        case "Isusu":
-            cmbModelo.addItem("NPR");
-            cmbModelo.addItem("D-Max");
-            break;
-        case "Honda":
-            cmbModelo.addItem("CR-V");
-            cmbModelo.addItem("Civic");
-            break;
-        case "Freightliner":
-            cmbModelo.addItem("M2");
-            cmbModelo.addItem("Cascadia");
-            break;
-        default:
-            cmbModelo.addItem("General");
-            break;
+            case "Toyota":
+                cmbModelo.addItem("Hilux");
+                cmbModelo.addItem("Hiace");
+                cmbModelo.addItem("Corolla");
+                cmbModelo.addItem("Yaris");
+                cmbModelo.addItem("RAV4");
+                break;
+            case "Hyundai":
+                cmbModelo.addItem("H-100");
+                cmbModelo.addItem("Elantra");
+                cmbModelo.addItem("Tucson");
+                cmbModelo.addItem("Santa Fe");
+                break;
+            case "Nissan":
+                cmbModelo.addItem("Frontier");
+                cmbModelo.addItem("Navara");
+                cmbModelo.addItem("Sentra");
+                cmbModelo.addItem("Urvan");
+                break;
+            case "Mitsubishi":
+                cmbModelo.addItem("L200");
+                cmbModelo.addItem("Montero");
+                cmbModelo.addItem("ASX");
+                break;
+            case "Suzuki":
+                cmbModelo.addItem("Vitara");
+                cmbModelo.addItem("Jimny");
+                cmbModelo.addItem("Swift");
+                break;
+            case "Chevrolet":
+                cmbModelo.addItem("D-Max");
+                cmbModelo.addItem("Tracker");
+                cmbModelo.addItem("Colorado");
+                break;
+            case "Ford":
+                cmbModelo.addItem("Ranger");
+                cmbModelo.addItem("Explorer");
+                break;
+            case "Isusu":
+                cmbModelo.addItem("NPR");
+                cmbModelo.addItem("D-Max");
+                break;
+            case "Honda":
+                cmbModelo.addItem("CR-V");
+                cmbModelo.addItem("Civic");
+                break;
+            case "Freightliner":
+                cmbModelo.addItem("M2");
+                cmbModelo.addItem("Cascadia");
+                break;
+            default:
+                cmbModelo.addItem("General");
+                break;
+        }
     }
-        
-     
-    }
+    
     private void inicializarTabla() {
-        // Configuramos las columnas por si quieres cargar datos de prueba o desde la lógica
-        // Definimos los nombres de las columnas que van a aparecer en la tabla
         Estructuras est = new Estructuras();
         est.leerArchivoVehiculo();
         
         ArrayList<Datos.objVehiculo> lista = est.getListaVehiculo();
-        
-        
-    String[] columnas = {"ID", "Placa", "Marca", "Modelo", "Motor", "Combustible", "Kilometraje", "Año", "Estado"};
-    
-    Object[][] Datos = new Object[lista.size()][9];
+        String[] columnas = {"ID", "Placa", "Marca", "Modelo", "Motor", "Combustible", "Kilometraje", "Año", "Estado"};
+        Object[][] Datos = new Object[lista.size()][9];
     
         for (int i = 0; i < lista.size(); i++) {
             objVehiculo v = lista.get(i);
-            
             Datos[i][0] = v.getId();
             Datos[i][1] = v.getPlaca();
             Datos[i][2] = v.getMarca();
@@ -273,16 +350,13 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
             Datos[i][7] = v.getAnio();
             Datos[i][8] = v.getEstado();
         }
-    // Creamos el modelo de la tabla sin filas iniciales pero con las columnas definidas
-    DefaultTableModel modeloTabla = new DefaultTableModel(Datos, columnas);
-    tblVehiculos.setModel(modeloTabla);
+        
+        modeloTabla = new DefaultTableModel(Datos, columnas);
+        tblVehiculos.setModel(modeloTabla);
     }
-    
-    
-    
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -320,15 +394,10 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
         setTitle("Gestión de Vehículos");
 
         jLabel1.setText("Placa:");
-
         jLabel2.setText("Marca:");
-
         jLabel3.setText("Modelo:");
-
         jLabel4.setText("Año:");
-
         jLabel5.setText("Kilometraje:");
-
         jLabel6.setText("Motor");
 
         cmbTipoVehiculo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "Motocicleta", "Automóvil", "Camión / Carga" }));
@@ -340,18 +409,13 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
             }
         });
 
-        jLabel7.setText("Combustible: ");
+        cmbMarca.setModel(new javax.swing.DefaultComboBoxModel<>());
+        cmbModelo.setModel(new javax.swing.DefaultComboBoxModel<>());
 
+        jLabel7.setText("Combustible: ");
         cmbCombustible.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel8.setText("Otra Marca: ");
-
-        txtOtraMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtOtraMarcaActionPerformed(evt);
-            }
-        });
-
         jLabel9.setText("Otro Modelo:");
 
         btnGuardarOtraMarca.setText("Guardar");
@@ -366,20 +430,19 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
         panelPersonalizadoLayout.setHorizontalGroup(
             panelPersonalizadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPersonalizadoLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(panelPersonalizadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelPersonalizadoLayout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(panelPersonalizadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelPersonalizadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtOtraMarca)
-                            .addComponent(txtOtroModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)))
-                    .addGroup(panelPersonalizadoLayout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addComponent(btnGuardarOtraMarca)))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
+                .addGap(18, 18, 18)
+                .addGroup(panelPersonalizadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtOtraMarca)
+                    .addComponent(txtOtroModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
                 .addContainerGap(8, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPersonalizadoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGuardarOtraMarca)
+                .addGap(61, 61, 61))
         );
         panelPersonalizadoLayout.setVerticalGroup(
             panelPersonalizadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -394,7 +457,7 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
                     .addComponent(txtOtroModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnGuardarOtraMarca)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelIngresarLayout = new javax.swing.GroupLayout(jPanelIngresar);
@@ -404,9 +467,6 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
             .addGroup(jPanelIngresarLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelIngresarLayout.createSequentialGroup()
-                        .addGap(200, 200, 200)
-                        .addComponent(panelPersonalizado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelIngresarLayout.createSequentialGroup()
                         .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelIngresarLayout.createSequentialGroup()
@@ -435,7 +495,8 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
                                     .addComponent(txtAnio, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                                     .addComponent(txtKilometraje, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                                     .addComponent(cmbCombustible, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(btnGuardarVehiculo))))
+                            .addComponent(btnGuardarVehiculo)))
+                    .addComponent(panelPersonalizado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanelIngresarLayout.setVerticalGroup(
@@ -444,45 +505,36 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(cmbCombustible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbCombustible, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(cmbMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtKilometraje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtKilometraje, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(cmbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelIngresarLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cmbTipoVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelPersonalizado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(20, Short.MAX_VALUE))
-                    .addGroup(jPanelIngresarLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(btnGuardarVehiculo)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbTipoVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(btnGuardarVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(panelPersonalizado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ingresar Vehiculo", jPanelIngresar);
 
         tblVehiculos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
+            new Object [][] {},
+            new String [] {}
         ));
         jScrollPane1.setViewportView(tblVehiculos);
 
@@ -518,9 +570,9 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
                         .addGap(20, 20, 20))
                     .addGroup(jPanelModificarLayout.createSequentialGroup()
-                        .addComponent(btnModificar)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEliminar)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanelModificarLayout.setVerticalGroup(
@@ -529,17 +581,17 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(jPanelModificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(txtBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelModificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnModificar)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
-        jTabbedPane1.addTab("Tablas", jPanelModificar);
+        jTabbedPane1.addTab("Gestión y Búsqueda", jPanelModificar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -553,18 +605,16 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
     public boolean esNumero(String texto) {
-    // Valida números enteros o decimales (ej: 10000 o 10000.78)
-    return texto != null && texto.matches("^\\d+(\\.\\d+)?$");
-}
+        return texto != null && texto.matches("^\\d+(\\.\\d+)?$");
+    }
     
-    private void btnGuardarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarVehiculoActionPerformed
-            if (!validarCampos()) {
+    private void btnGuardarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {
+        if (!validarCampos()) {
              return; 
-         }
+        }
             
         logicaVehiculo vehi = new logicaVehiculo();
         
@@ -577,285 +627,203 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
         int anio = Integer.parseInt(txtAnio.getText().trim());
         String estado = "Activo";
         
-        
-        boolean exito = vehi.registrarVehiculo(placa,marca,modelo,motor,combustible,kilometraje,anio,estado);
+        boolean exito = vehi.registrarVehiculo(placa, marca, modelo, motor, combustible, kilometraje, anio, estado);
         
         if(exito){
-            
-            JOptionPane.showMessageDialog(this, "Vehiculo registrado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "¡Vehículo registrado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             inicializarTabla();
-            
             txtPlaca.setText("");
-            cmbMarca.setSelectedIndex(0);
-            cmbTipoVehiculo.setSelectedIndex(0);
             txtKilometraje.setText("");
             txtAnio.setText("");
-            
+            cmbMarca.setSelectedIndex(0);
+            cmbTipoVehiculo.setSelectedIndex(0);
+            cmbCombustible.setSelectedIndex(0);
         }else{
-            JOptionPane.showMessageDialog(this, "Sucedio algo inesperado al guardar el vehiculo", "Error", JOptionPane.WARNING_MESSAGE);
-            
+            JOptionPane.showMessageDialog(this, "Sucedió algo inesperado al guardar el vehículo", "Error", JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_btnGuardarVehiculoActionPerformed
-
-    
+    }
     
     public boolean validarCampos() {
-    
-    if (txtPlaca.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Debe digitar la placa del vehículo.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        txtPlaca.requestFocus(); // Ubica el cursor exactamente aquí
-        return false;
-    }
-    
-    logicaVehiculo logica = new logicaVehiculo(); // O usa la instancia de lógica que ya tengas creada
-    if (logica.existenciaVehiculo(txtPlaca.getText().trim())) {
-        JOptionPane.showMessageDialog(this, "Esta placa ya se encuentra registrada.", "Error", JOptionPane.ERROR_MESSAGE);
-        txtPlaca.requestFocus();
-        return false; 
-    }
-    
-    // 2. Validar marca (si seleccionó "Seleccione..." que es el índice 0)
-    if (cmbMarca.getSelectedIndex() == 0) {
-        JOptionPane.showMessageDialog(this, "Debe seleccionar una marca válida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        cmbMarca.requestFocus();
-        return false;
-    }
-    
-    // 3. Validar si escogió "Otra..." y dejó los campos de texto vacíos
-    if (cmbMarca.getSelectedItem() != null && cmbMarca.getSelectedItem().toString().equals("Otra...")) {
-        if (txtOtraMarca.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe digitar la nueva marca.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            txtOtraMarca.requestFocus();
+        if (txtPlaca.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe digitar la placa del vehículo.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            txtPlaca.requestFocus();
             return false;
         }
-        if (txtOtroModelo.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe digitar el nuevo modelo.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            txtOtroModelo.requestFocus();
-            return false;
-        }
-    } else {
-        // Validar modelo normal
-        if (cmbModelo.getSelectedIndex() <= 0) {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un modelo válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            cmbModelo.requestFocus();
-            return false;
-        }
-    }
-    
-    // 4. Validar tipo de vehículo/motor
-    if (cmbTipoVehiculo.getSelectedIndex() == 0) {
-        JOptionPane.showMessageDialog(this, "Debe seleccionar el tipo de motor.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        cmbTipoVehiculo.requestFocus();
-        return false;
-    }
-    
-    // 5. Validar combustible
-    if (cmbCombustible.getSelectedIndex() == 0) {
-        JOptionPane.showMessageDialog(this, "Debe seleccionar el tipo de combustible.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        cmbCombustible.requestFocus();
-        return false;
-    }
-    
-    
         
-    
-    // 6. Validar kilometraje
-    if (txtKilometraje.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Debe digitar el kilometraje.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        txtKilometraje.requestFocus();
-        return false;
-    }
-    
-        // Validar kilometraje 
-    String kmTexto = txtKilometraje.getText().trim();
-    if (!esNumero(kmTexto)) {
-        JOptionPane.showMessageDialog(this, "El kilometraje debe contener únicamente números. Ejemplo: 10.4 o 10", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        txtKilometraje.requestFocus();
-        return false;
-    }
-    
-    // 7. Validar año
-    if (txtAnio.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Debe digitar el año del vehículo.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        txtAnio.requestFocus();
-        return false;
-    }
-    
-    String anio = txtAnio.getText().trim();
-    if (!esNumero(anio)) {
-            JOptionPane.showMessageDialog(this, "El anio debe contener únicamente números. Ejemplo: 2026", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        logicaVehiculo logica = new logicaVehiculo();
+        if (logica.existenciaVehiculo(txtPlaca.getText().trim())) {
+            JOptionPane.showMessageDialog(this, "Esta placa ya se encuentra registrada.", "Error", JOptionPane.ERROR_MESSAGE);
+            txtPlaca.requestFocus();
+            return false; 
+        }
+        
+        if (cmbMarca.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una marca válida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            cmbMarca.requestFocus();
+            return false;
+        }
+        
+        if (cmbMarca.getSelectedItem() != null && cmbMarca.getSelectedItem().toString().equals("Otra...")) {
+            if (txtOtraMarca.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe digitar la nueva marca.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                txtOtraMarca.requestFocus();
+                return false;
+            }
+            if (txtOtroModelo.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe digitar el nuevo modelo.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                txtOtroModelo.requestFocus();
+                return false;
+            }
+        } else {
+            if (cmbModelo.getSelectedIndex() <= 0) {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un modelo válido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                cmbModelo.requestFocus();
+                return false;
+            }
+        }
+        
+        if (cmbTipoVehiculo.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el tipo de motor.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            cmbTipoVehiculo.requestFocus();
+            return false;
+        }
+        
+        if (cmbCombustible.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el tipo de combustible.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            cmbCombustible.requestFocus();
+            return false;
+        }
+        
+        if (txtKilometraje.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe digitar el kilometraje.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            txtKilometraje.requestFocus();
+            return false;
+        }
+        
+        String kmTexto = txtKilometraje.getText().trim();
+        if (!esNumero(kmTexto)) {
+            JOptionPane.showMessageDialog(this, "El kilometraje debe contener únicamente números.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            txtKilometraje.requestFocus();
+            return false;
+        }
+        
+        if (txtAnio.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe digitar el año del vehículo.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             txtAnio.requestFocus();
             return false;
         }
-    
-    // Si todo está correcto, retorna true
-    return true;
-}
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         
-        int filaSeleccionada = tblVehiculos.getSelectedRow();
-        
-        if(filaSeleccionada == -1){
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un Vehiculo de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
+        String anio = txtAnio.getText().trim();
+        if (!esNumero(anio)) {
+            JOptionPane.showMessageDialog(this, "El año debe contener únicamente números.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            txtAnio.requestFocus();
+            return false;
         }
         
-        //modificado sin importar si es filtrado o no
-        int id = Integer.parseInt(tblVehiculos.getValueAt(filaSeleccionada, 0).toString());
-        String estado = tblVehiculos.getValueAt(filaSeleccionada, 8).toString();
-        double kilometraje = Double.parseDouble(tblVehiculos.getValueAt(filaSeleccionada, 6).toString());
-        
-        DlgModificarVehiculo ventanaModificar = new DlgModificarVehiculo(this, true, id, kilometraje, estado);
-        ventanaModificar.setVisible(true);
-        
-        inicializarTabla();
-    }//GEN-LAST:event_btnModificarActionPerformed
+        return true;
+    }
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-
-        //saber realmente donde esta posicionado;
+   private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {                                             
         int filaSeleccionada = tblVehiculos.getSelectedRow();
         
-        //si no ha seleccionado nada
         if(filaSeleccionada == -1){
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un usuario de la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un vehículo de la tabla.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
         
-        //obtener el id del usuario por si esta usando filtrado que no afecte el index de fila
-        //el 0 despues de fila, es la columna donde esta el id
-        int idVehiculo = Integer.parseInt(tblVehiculos.getValueAt(filaSeleccionada, 0).toString());
+        int id = Integer.parseInt(tblVehiculos.getValueAt(filaSeleccionada, 0).toString());
+        double kilometraje = Double.parseDouble(tblVehiculos.getValueAt(filaSeleccionada, 6).toString());
+        String estado = tblVehiculos.getValueAt(filaSeleccionada, 8).toString();
+
+        // Instancia y muestra el diálogo pasando los parámetros requeridos
+        DlgModificarVehiculo dialogMod = new DlgModificarVehiculo(this, true, id, kilometraje, estado);
+        dialogMod.setVisible(true);
         
-        //obtener placa para decirle al usuario si esta seguro
-        String placa = tblVehiculos.getValueAt(filaSeleccionada, 1).toString();
+        // Refresca la tabla automáticamente al cerrar la ventana de modificación
+        inicializarTabla();
+    }
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        int filaSeleccionada = tblVehiculos.getSelectedRow();
+        
+        if(filaSeleccionada == -1){
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un vehículo de la tabla para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        int idVehiculo = Integer.parseInt(tblVehiculos.getValueAt(filaSeleccionada, 0).toString());
+        String placaVehiculo = tblVehiculos.getValueAt(filaSeleccionada, 1).toString();
         
         int respuesta = JOptionPane.showConfirmDialog(this, 
-            "¿Está seguro de que desea eliminar al Vehiculo: " + placa + "?", 
+            "¿Está seguro de que desea eliminar el vehículo con placa: " + placaVehiculo + "?", 
             "Confirmar eliminación", 
             JOptionPane.YES_NO_OPTION, 
             JOptionPane.QUESTION_MESSAGE);
         
-        if(respuesta == JOptionPane.YES_OPTION){
+        if (respuesta == JOptionPane.YES_OPTION) {
             Estructuras est = new Estructuras();
             est.leerArchivoVehiculo();
-            
-            logicaVehiculo logica = new logicaVehiculo();
-            
-            //obtener lista atravez de un puentre entre logica y datos
-            ArrayList<objVehiculo> lista = logica.obtenerListaVehiculos();
             boolean eliminado = false;
+            ArrayList<objVehiculo> lista = est.getListaVehiculo();
             
-            for (int i = 0; i <lista.size(); i++) {
-                
+            for (int i = 0; i < lista.size(); i++) {
                 if (lista.get(i).getId() == idVehiculo) {
                     lista.remove(i);
                     eliminado = true;
-                    break; 
+                    break;
                 }
             }
             
             if (eliminado) {
-                // 5. Sobrescribimos el archivo de texto con la lista actualizada sin ese usuario
-                est.setListaVehiculo(lista);
                 est.escribeArchivoVehiculo();
-               
-
-                JOptionPane.showMessageDialog(this, "¡Vehiculo eliminado con éxito!", "Información", JOptionPane.INFORMATION_MESSAGE);
-
-                //actualiza tabla
-                inicializarTabla();
+                JOptionPane.showMessageDialog(this, "¡Vehículo eliminado con éxito!", "Información", JOptionPane.INFORMATION_MESSAGE);
+                inicializarTabla(); 
             } else {
-                JOptionPane.showMessageDialog(this, "No se pudo encontrar el vehiculo en los registros.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No se pudo encontrar el vehículo en los registros.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_btnEliminarActionPerformed
+    }                                           
 
-    private void txtOtraMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOtraMarcaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtOtraMarcaActionPerformed
-
-    private void btnGuardarOtraMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarOtraMarcaActionPerformed
-        // TODO add your handling code here:
+    private void btnGuardarOtraMarcaActionPerformed(java.awt.event.ActionEvent evt) {
+        String nuevaMarca = txtOtraMarca.getText().trim();
+        String nuevoModelo = txtOtroModelo.getText().trim();
         
-        // Capturamos lo que el usuario digitó a mano en el panel personalizado
-    String nuevaMarca = txtOtraMarca.getText().trim();
-    String nuevoModelo = txtOtroModelo.getText().trim();
-    
-    // Validamos que no estén vacíos
-    if (nuevaMarca.isEmpty() || nuevoModelo.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Debe digitar tanto la marca como el modelo nuevos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        return;
+        if (nuevaMarca.isEmpty() || nuevoModelo.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe digitar tanto la marca como el modelo nuevos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        cmbMarca.insertItemAt(nuevaMarca, cmbMarca.getItemCount() - 1);
+        cmbMarca.setSelectedItem(nuevaMarca);
+        
+        cmbModelo.setEnabled(true);
+        cmbModelo.removeAllItems();
+        cmbModelo.addItem("Seleccione...");
+        cmbModelo.addItem(nuevoModelo);
+        cmbModelo.setSelectedItem(nuevoModelo);
+        
+        txtOtraMarca.setText("");
+        txtOtroModelo.setText("");
+        panelPersonalizado.setVisible(false);
+        
+        JOptionPane.showMessageDialog(this, "¡Marca y modelo agregados con éxito al sistema!");
     }
-    
-    // Inyectamos la nueva marca en el ComboBox de marcas antes de la opcion de otra
-    cmbMarca.insertItemAt(nuevaMarca, cmbMarca.getItemCount() - 1);
-    
-    // Seleccionamos automáticamente esa nueva marca en el ComboBox para que se visualice
-    cmbMarca.setSelectedItem(nuevaMarca);
-    
-    // agregarmodelo
-    cmbModelo.setEnabled(true);
-    cmbModelo.removeAllItems();
-    cmbModelo.addItem("Seleccione...");
-    cmbModelo.addItem(nuevoModelo); // Añade el modelo escrito al combo de modelos
-    cmbModelo.setSelectedItem(nuevoModelo); // Lo selecciona automáticamente
-    
-    // 5. Limpiamos los campos del panel y lo ocultamos de nuevo
-    txtOtraMarca.setText("");
-    txtOtroModelo.setText("");
-    panelPersonalizado.setVisible(false);
-    
-    JOptionPane.showMessageDialog(this, "¡Marca y modelo agregados con éxito al sistema!");
-    }//GEN-LAST:event_btnGuardarOtraMarcaActionPerformed
 
-    
-    public void alternarColoresTabla() {
-    tblVehiculos.setDefaultRenderer(Object.class, new javax.swing.table.DefaultTableCellRenderer() {
-        @Override
-        public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            java.awt.Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            
-            // Si la fila está seleccionada, mantiene el color de selección por defecto
-            if (isSelected) {
-                c.setBackground(table.getSelectionBackground());
-                c.setForeground(table.getSelectionForeground());
-            } else {
-                // Si no está seleccionada, alterna entre blanco y un gris muy claro
-                if (row % 2 == 0) {
-                    c.setBackground(java.awt.Color.WHITE);
-                } else {
-                    c.setBackground(new java.awt.Color(240, 245, 250)); // Un tono azulado/grisáceo suave
-                }
-                c.setForeground(java.awt.Color.BLACK);
-            }
-            return c;
-        }
-    });
-}
-    
-    
     public static void main(String args[]) {
-        
-        java.awt.EventQueue.invokeLater(() -> new FrmGestionVehiculos().setVisible(true));
-        /*try {
+        try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(FrmVehiculos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmVehiculos().setVisible(true);
-            }
-        });*/
+        java.awt.EventQueue.invokeLater(() -> new FrmGestionVehiculos().setVisible(true));
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardarOtraMarca;
     private javax.swing.JButton btnGuardarVehiculo;
@@ -886,5 +854,5 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
     private javax.swing.JTextField txtOtraMarca;
     private javax.swing.JTextField txtOtroModelo;
     private javax.swing.JTextField txtPlaca;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }

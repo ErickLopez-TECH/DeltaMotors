@@ -5,6 +5,7 @@
 package Logica;
 import Datos.objVehiculo;
 import Datos.Estructuras;
+import Datos.objGestionMante;
 import java.util.ArrayList;
 /**
  *
@@ -21,6 +22,11 @@ public class logicaVehiculo {
     private double kilometraje;
     private int anio;
     private String estado;*/
+    private Estructuras est;
+    public logicaVehiculo() {
+        this.est = new Estructuras();
+    }
+    
     public boolean registrarVehiculo( String placa,String marca, String modelo,String tipoMotor,
         String combustible, double kilometraje,int anio,String estado){
         
@@ -28,14 +34,14 @@ public class logicaVehiculo {
         objVehiculo nuevoVehiculo = new objVehiculo(0, placa, marca, modelo, tipoMotor, combustible, kilometraje, anio, estado);
         
         //estructura de guardado
-        Estructuras est = new Estructuras();
+        
         est.agregarVehiculo(nuevoVehiculo);
         
         return true;
     }
     
     public boolean existenciaVehiculo(String placa){
-        Estructuras est = new Estructuras();
+        
         est.leerArchivoVehiculo();
         
         for (int i = 0; i <est.getListaVehiculo().size(); i++) {
@@ -50,10 +56,16 @@ public class logicaVehiculo {
     }
     
     public ArrayList<objVehiculo> obtenerListaVehiculos() {
-        Estructuras est = new Estructuras();
+       
         est.leerArchivoVehiculo();
         return est.getListaVehiculo();
 }
+    
+    public boolean modificarVehiculo(String placa, double kilometraje) {
+    return est.actualizarKilometrajeVehiculo(placa, kilometraje);
 }
+    
+}
+
 
 

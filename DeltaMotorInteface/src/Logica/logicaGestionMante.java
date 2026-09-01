@@ -118,4 +118,7 @@ public class logicaGestionMante {
     // 3. Devolvemos la lista ya filtrada a la interfaz
     return listaFiltrada;
 }
+    
+    
+
 }
