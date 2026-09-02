@@ -537,8 +537,9 @@ public class Estructuras {
                String linea = b.getId() + ";" +
                               b.getPlacaVehiculo() + ";" +
                               b.getKmActual() + ";" +
-                              b.getTipoCombustible()+ ";" +
+                              b.getCombustible()+ ";" +
                               b.getCantidadCombustible()+ ";" +
+                              b.getCantidadKWH()+ ";"+
                               fechaDispensado + ";";
                pw.println(linea);
            }
@@ -569,12 +570,13 @@ public class Estructuras {
                    b.setId(Integer.parseInt(segmento[0].trim()));
                    b.setPlacaVehiculo(segmento[1].trim());
                    b.setKmActual(Double.parseDouble(segmento[2].trim()));
-                   b.setTipoCombustible(segmento[3].trim());
+                   b.setCombustible(segmento[3].trim());
                    b.setCantidadCombustible(Double.parseDouble(segmento[4].trim()));
+                   b.setCantidadKWH(Double.parseDouble(segmento[5].trim()));
                    
                    try {
-                       if (segmento.length > 6 && !segmento[5].trim().isEmpty()) {
-                           b.setFecha(sdf.parse(segmento[5].trim()));
+                       if (segmento.length > 6 && !segmento[6].trim().isEmpty()) {
+                           b.setFecha(sdf.parse(segmento[6].trim()));
                        }
                    } catch (java.text.ParseException e) {
                        System.err.println("Error al parsear fechas: " + e.getMessage());

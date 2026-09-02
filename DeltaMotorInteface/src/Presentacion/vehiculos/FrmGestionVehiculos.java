@@ -11,10 +11,12 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
 
     private DefaultTableModel modeloTabla;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmGestionVehiculos.class.getName());
-
-    public FrmGestionVehiculos() {
+    private boolean rolActual;
+    
+    public FrmGestionVehiculos(boolean rol) {
         initComponents();
         
+        this.rolActual = rol;
         // Pantalla completa idéntica al diseño moderno de usuarios
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         
@@ -820,7 +822,7 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(() -> new FrmGestionVehiculos().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new FrmGestionVehiculos(false).setVisible(true));
     }
 
     // Variables declaration - do not modify                     

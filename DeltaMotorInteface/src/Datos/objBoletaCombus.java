@@ -15,19 +15,21 @@ public class objBoletaCombus {
     private int id;
     private String placaVehiculo; //conexion con vehiculos
     private double kmActual;
-    private String tipoCombustible;
+    private String Combustible;
     private double cantidadCombustible;
+    private double cantidadKWH;
     private Date fecha;
 
     public objBoletaCombus() {
     }
 
-    public objBoletaCombus(int id, String placaVehiculo, double kmActual, String tipoCombustible, double cantidadCombustible, Date fecha) {
+    public objBoletaCombus(int id, String placaVehiculo, double kmActual, String Combustible, double cantidadCombustible,double cantidadKWH,Date fecha) {
         this.id = id;
         this.placaVehiculo = placaVehiculo;
         this.kmActual = kmActual;
-        this.tipoCombustible = tipoCombustible;
+        this.Combustible = Combustible;
         this.cantidadCombustible = cantidadCombustible;
+        this.cantidadKWH = cantidadKWH;
         this.fecha = fecha;
     }
 
@@ -37,6 +39,10 @@ public class objBoletaCombus {
 
     public double getCantidadCombustible() {
         return cantidadCombustible;
+    }
+
+    public double getCantidadKWH() {
+        return cantidadKWH;
     }
 
     
@@ -57,8 +63,8 @@ public class objBoletaCombus {
         return placaVehiculo;
     }
 
-    public String getTipoCombustible() {
-        return tipoCombustible;
+    public String getCombustible() {
+        return Combustible;
     }
     
     //setters
@@ -85,8 +91,14 @@ public class objBoletaCombus {
         this.placaVehiculo = placaVehiculo;
     }
 
-    public void setTipoCombustible(String tipoCombustible) {
-        this.tipoCombustible = tipoCombustible;
+    public void setCombustible(String Combustible) {
+        this.Combustible = Combustible;
     }
+
+    public void setCantidadKWH(double cantidadKWH) {
+        this.cantidadKWH = cantidadKWH;
+    }
+    
+    
     
 }
