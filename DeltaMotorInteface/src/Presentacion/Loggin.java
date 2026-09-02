@@ -20,6 +20,8 @@ public class Loggin extends javax.swing.JFrame {
      */
     public Loggin() {
         initComponents();
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -32,124 +34,164 @@ public class Loggin extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jPanelFondo = new javax.swing.JPanel();
+        jPanelTarjeta = new javax.swing.JPanel();
+        lblTitulo = new javax.swing.JLabel();
+        lblSubtitulo = new javax.swing.JLabel();
+        lblUsuario = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
+        lblContrasena = new javax.swing.JLabel();
         txtContrasena = new javax.swing.JPasswordField();
         btnIngresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Delta Motors - Iniciar Sesión");
 
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        jPanelFondo.setBackground(new java.awt.Color(240, 243, 246));
+        jPanelFondo.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("Loggin Delta Motors");
+        jPanelTarjeta.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelTarjeta.setBorder(javax.swing.BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        jPanelTarjeta.setLayout(new java.awt.GridBagLayout());
+
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(41, 128, 185));
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("Delta Motors");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(16, 22, 0, 139);
-        jPanel1.add(jLabel1, gridBagConstraints);
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+        jPanelTarjeta.add(lblTitulo, gridBagConstraints);
 
-        jLabel2.setText("Usuario: ");
+        lblSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblSubtitulo.setForeground(new java.awt.Color(127, 140, 141));
+        lblSubtitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSubtitulo.setText("Ingrese sus credenciales para continuar");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(33, 44, 0, 0);
-        jPanel1.add(jLabel2, gridBagConstraints);
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
+        jPanelTarjeta.add(lblSubtitulo, gridBagConstraints);
 
-        jLabel3.setText("Contrasena:");
+        lblUsuario.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        lblUsuario.setForeground(new java.awt.Color(52, 73, 94));
+        lblUsuario.setText("Usuario:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        jPanelTarjeta.add(lblUsuario, gridBagConstraints);
+
+        txtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtUsuario.setMargin(new java.awt.Insets(6, 8, 6, 8));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(23, 44, 0, 0);
-        jPanel1.add(jLabel3, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 26;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(28, 18, 0, 0);
-        jPanel1.add(txtUsuario, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 26;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 18, 0, 0);
-        jPanel1.add(txtContrasena, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 220;
+        gridBagConstraints.ipady = 8;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        jPanelTarjeta.add(txtUsuario, gridBagConstraints);
 
-        btnIngresar.setText("Ingresar");
-        btnIngresar.addActionListener(this::btnIngresarActionPerformed);
+        lblContrasena.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        lblContrasena.setForeground(new java.awt.Color(52, 73, 94));
+        lblContrasena.setText("Contraseña:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 8, 0);
+        jPanelTarjeta.add(lblContrasena, gridBagConstraints);
+
+        txtContrasena.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtContrasena.setMargin(new java.awt.Insets(6, 8, 6, 8));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(33, 35, 103, 0);
-        jPanel1.add(btnIngresar, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 220;
+        gridBagConstraints.ipady = 8;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
+        jPanelTarjeta.add(txtContrasena, gridBagConstraints);
+
+        btnIngresar.setBackground(new java.awt.Color(41, 128, 185));
+        btnIngresar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnIngresar.setForeground(new java.awt.Color(255, 255, 255));
+        btnIngresar.setText("Ingresar");
+        btnIngresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnIngresar.setFocusPainted(false);
+        btnIngresar.addActionListener(this::btnIngresarActionPerformed);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipady = 10;
+        jPanelTarjeta.add(btnIngresar, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanelFondo.add(jPanelTarjeta, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelFondo, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        // TODO add your handling code here:
         logicaLoggin logica = new logicaLoggin();
         
-        String user = txtUsuario.getText();
-        String contrasena = new String(txtContrasena.getPassword()).toString();
-        
-        boolean existe = logica.existenciaUser(user, contrasena);
+        String user = txtUsuario.getText().trim();
+        String contrasena = new String(txtContrasena.getPassword());
         
         if(user.isEmpty()){
-            JOptionPane.showMessageDialog(this, "¡Por favor complete el campo de Usuario", "Informacion",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "¡Por favor complete el campo de Usuario!", "Información", JOptionPane.ERROR_MESSAGE);
             txtUsuario.requestFocus();
             return;
         }
         
         if(contrasena.isEmpty()){
-            JOptionPane.showMessageDialog(this, "¡Por favor complete el campo de contrasena!","Informacion", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "¡Por favor complete el campo de contraseña!", "Información", JOptionPane.ERROR_MESSAGE);
             txtContrasena.requestFocus();
             return;
         }
+        
+        boolean existe = logica.existenciaUser(user, contrasena);
+        
         if(!existe){
-            JOptionPane.showMessageDialog(this, "¡Usuario o contrasena incorrecto!","Informacion", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "¡Usuario o contraseña incorrectos!", "Información", JOptionPane.ERROR_MESSAGE);
             return;
-        }else{
+        } else {
+            JOptionPane.showMessageDialog(this, "¡Bienvenido, " + user + "!", "Información", JOptionPane.INFORMATION_MESSAGE);
             
             boolean rol = logica.tipoRol(user);
-            
+
             if(rol){
-                FrmMenuAdmin ventanaAdmin = new FrmMenuAdmin();
+                FrmMenuAdmin ventanaAdmin = new FrmMenuAdmin(rol);
                 ventanaAdmin.setVisible(true);
-                
-                this.dispose();
-            }else{
-                FrmMenuOperador ventaOperadir = new FrmMenuOperador();
-                ventaOperadir.setVisible(true);
-                
-                this.dispose();
+            } else {
+                FrmMenuOperador ventaOperador = new FrmMenuOperador(rol);
+                ventaOperador.setVisible(true);
             }
-            JOptionPane.showMessageDialog(this, "¡Bienvenido! "+user,"Informacion", JOptionPane.ERROR_MESSAGE);
-            return;
+            this.dispose();
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
@@ -157,11 +199,6 @@ public class Loggin extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -172,18 +209,18 @@ public class Loggin extends javax.swing.JFrame {
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new Loggin().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblContrasena;
+    private javax.swing.JLabel lblSubtitulo;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblUsuario;
+    private javax.swing.JPanel jPanelFondo;
+    private javax.swing.JPanel jPanelTarjeta;
     private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables

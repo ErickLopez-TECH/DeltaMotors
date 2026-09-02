@@ -4,6 +4,10 @@
  */
 package Presentacion.MenusPrincipales;
 import Presentacion.Usuario.FrmGestionUsuarios;
+import Presentacion.Gmante.FrmGestionMante;
+import Presentacion.vehiculos.FrmGestionVehiculos;
+import Presentacion.AsignacionMante.FrmAsignarMantenimiento;
+import Presentacion.Loggin;
 /**
  *
  * @author triamus
@@ -11,12 +15,15 @@ import Presentacion.Usuario.FrmGestionUsuarios;
 public class FrmMenuAdmin extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmMenuAdmin.class.getName());
-
+    private boolean rolAdmin;
     /**
-     * Creates new form FrmMenuOperador
+     * Creates new form FrmMenuAdmin
      */
-    public FrmMenuAdmin() {
+    public FrmMenuAdmin(boolean rol) {
         initComponents();
+        this.rolAdmin = rol;
+        setLocationRelativeTo(null); // Centra la ventana en pantalla
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -29,66 +36,233 @@ public class FrmMenuAdmin extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanelPrincipal = new javax.swing.JPanel();
+        lblTitulo = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jPanelContenedorCentrado = new javax.swing.JPanel();
+        jPanelTarjetaMenu = new javax.swing.JPanel();
+        lblSubtitulo = new javax.swing.JLabel();
+        jPanelGridBotones = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-
-        jRadioButton1.setText("jRadioButton1");
+        btnGestionVehiculos = new javax.swing.JButton();
+        btnGestionMante = new javax.swing.JButton();
+        btnAsigancion = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("DELTAMOTORS - ADMINISTRADOR");
 
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        jPanelPrincipal.setBackground(new java.awt.Color(240, 243, 246));
+        jPanelPrincipal.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("DELTAMOTORS ADMINISTRADOR");
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(41, 128, 185));
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("DELTAMOTORS - ADMINISTRADOR");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(19, 104, 0, 97);
-        jPanel1.add(jLabel1, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(30, 20, 10, 20);
+        jPanelPrincipal.add(lblTitulo, gridBagConstraints);
 
-        jButton1.setText("Gestion usuarios");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        jSeparator1.setForeground(new java.awt.Color(200, 200, 200));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(35, 49, 200, 0);
-        jPanel1.add(jButton1, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 40, 20, 40);
+        jPanelPrincipal.add(jSeparator1, gridBagConstraints);
+
+        jPanelContenedorCentrado.setOpaque(false);
+        jPanelContenedorCentrado.setLayout(new java.awt.GridBagLayout());
+
+        jPanelTarjetaMenu.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelTarjetaMenu.setBorder(javax.swing.BorderFactory.createEmptyBorder(30, 40, 35, 40));
+        jPanelTarjetaMenu.setLayout(new java.awt.GridBagLayout());
+
+        lblSubtitulo.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        lblSubtitulo.setForeground(new java.awt.Color(127, 140, 141));
+        lblSubtitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSubtitulo.setText("Panel de Control y Gestión del Sistema");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 25, 0);
+        jPanelTarjetaMenu.add(lblSubtitulo, gridBagConstraints);
+
+        jPanelGridBotones.setOpaque(false);
+        jPanelGridBotones.setLayout(new java.awt.GridLayout(5, 2, 20, 15));
+
+        jButton1.setBackground(new java.awt.Color(41, 128, 185));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Gestión Usuarios");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setFocusPainted(false);
+        jButton1.setPreferredSize(new java.awt.Dimension(230, 42));
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+        jPanelGridBotones.add(jButton1);
+
+        btnGestionVehiculos.setBackground(new java.awt.Color(41, 128, 185));
+        btnGestionVehiculos.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnGestionVehiculos.setForeground(new java.awt.Color(255, 255, 255));
+        btnGestionVehiculos.setText("Gestión Vehículos");
+        btnGestionVehiculos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGestionVehiculos.setFocusPainted(false);
+        btnGestionVehiculos.setPreferredSize(new java.awt.Dimension(230, 42));
+        btnGestionVehiculos.addActionListener(this::btnGestionVehiculosActionPerformed);
+        jPanelGridBotones.add(btnGestionVehiculos);
+
+        btnGestionMante.setBackground(new java.awt.Color(41, 128, 185));
+        btnGestionMante.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnGestionMante.setForeground(new java.awt.Color(255, 255, 255));
+        btnGestionMante.setText("Gestión Mantenimientos");
+        btnGestionMante.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGestionMante.setFocusPainted(false);
+        btnGestionMante.setPreferredSize(new java.awt.Dimension(230, 42));
+        btnGestionMante.addActionListener(this::btnGestionManteActionPerformed);
+        jPanelGridBotones.add(btnGestionMante);
+
+        btnAsigancion.setBackground(new java.awt.Color(41, 128, 185));
+        btnAsigancion.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnAsigancion.setForeground(new java.awt.Color(255, 255, 255));
+        btnAsigancion.setText("Asignación de Mantenimientos");
+        btnAsigancion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAsigancion.setFocusPainted(false);
+        btnAsigancion.setPreferredSize(new java.awt.Dimension(230, 42));
+        btnAsigancion.addActionListener(this::btnAsigancionActionPerformed);
+        jPanelGridBotones.add(btnAsigancion);
+
+        jButton5.setBackground(new java.awt.Color(52, 73, 94));
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Boleta de Combustible");
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.setFocusPainted(false);
+        jButton5.setPreferredSize(new java.awt.Dimension(230, 42));
+        jPanelGridBotones.add(jButton5);
+
+        jButton6.setBackground(new java.awt.Color(52, 73, 94));
+        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("Gestión de Mecánicos");
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton6.setFocusPainted(false);
+        jButton6.setPreferredSize(new java.awt.Dimension(230, 42));
+        jPanelGridBotones.add(jButton6);
+
+        jButton7.setBackground(new java.awt.Color(52, 73, 94));
+        jButton7.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("Boleta de Taller");
+        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton7.setFocusPainted(false);
+        jButton7.setPreferredSize(new java.awt.Dimension(230, 42));
+        jPanelGridBotones.add(jButton7);
+
+        jButton8.setBackground(new java.awt.Color(52, 73, 94));
+        jButton8.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setText("Reportes del Sistema");
+        jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton8.setFocusPainted(false);
+        jButton8.setPreferredSize(new java.awt.Dimension(230, 42));
+        jPanelGridBotones.add(jButton8);
+
+        jButton9.setBackground(new java.awt.Color(52, 73, 94));
+        jButton9.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setText("Configuración General");
+        jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton9.setFocusPainted(false);
+        jButton9.setPreferredSize(new java.awt.Dimension(230, 42));
+        jPanelGridBotones.add(jButton9);
+
+        btnCerrar.setBackground(new java.awt.Color(231, 76, 60));
+        btnCerrar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnCerrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnCerrar.setText("Cerrar Sesión");
+        btnCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCerrar.setFocusPainted(false);
+        btnCerrar.setPreferredSize(new java.awt.Dimension(230, 42));
+        btnCerrar.addActionListener(this::btnCerrarActionPerformed);
+        jPanelGridBotones.add(btnCerrar);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanelTarjetaMenu.add(jPanelGridBotones, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanelContenedorCentrado.add(jPanelTarjetaMenu, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 30, 20);
+        jPanelPrincipal.add(jPanelContenedorCentrado, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        FrmGestionUsuarios ventana = new FrmGestionUsuarios();
+        FrmGestionUsuarios ventana = new FrmGestionUsuarios(this.rolAdmin);
         ventana.setVisible(true);
-        
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnGestionManteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionManteActionPerformed
+        FrmGestionMante ventanaGestion = new FrmGestionMante(this.rolAdmin);
+        ventanaGestion.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnGestionManteActionPerformed
+
+    private void btnGestionVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionVehiculosActionPerformed
+        FrmGestionVehiculos ventana = new FrmGestionVehiculos(this.rolAdmin);
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnGestionVehiculosActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        Loggin login = new Loggin();
+        login.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void btnAsigancionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsigancionActionPerformed
+        FrmAsignarMantenimiento ventana = new FrmAsignarMantenimiento(this.rolAdmin);
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnAsigancionActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -99,16 +273,27 @@ public class FrmMenuAdmin extends javax.swing.JFrame {
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrmMenuAdmin().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new FrmMenuAdmin(false).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAsigancion;
+    private javax.swing.JButton btnCerrar;
+    private javax.swing.JButton btnGestionMante;
+    private javax.swing.JButton btnGestionVehiculos;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JPanel jPanelContenedorCentrado;
+    private javax.swing.JPanel jPanelGridBotones;
+    private javax.swing.JPanel jPanelPrincipal;
+    private javax.swing.JPanel jPanelTarjetaMenu;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblSubtitulo;
+    private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }
