@@ -1,15 +1,22 @@
 package Presentacion.BoletaCombus;
 
 import Datos.objVehiculo;
+import Datos.objBoletaCombus;
 import Logica.logicaBoletaCombus;
 import Logica.logicaVehiculo;
+
 import java.awt.Color;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class FrmBoletaCombus extends javax.swing.JFrame {
 
+    
     // Paleta de Colores Moderna
     private final Color COLOR_PRIMARY = new Color(41, 128, 185);     
     private final Color COLOR_SECONDARY = new Color(52, 152, 219);   
@@ -17,6 +24,8 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
     private final Color COLOR_PANEL = new Color(255, 255, 255);      
     private final Color COLOR_TEXT = new Color(44, 62, 80);  
     
+    private DefaultTableModel modeloTabla;
+    private SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
     private String placa;
 
     private ArrayList<String> listaOriginalVehiculos;
@@ -28,6 +37,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
         aplicarEstilosModernos();
         panelKWH.setVisible(false);
         cargarListasOriginales();
+        cargarTabla();
         configurarComboAutocompletado(cmbVehiculo, listaOriginalVehiculos);
     }
     
@@ -57,16 +67,16 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
         estilizarBoton(btnModificar, COLOR_SECONDARY);
         estilizarBoton(btnEliminar, new Color(231, 76, 60));
         
-        if (tblAsignaciones != null) {
-            tblAsignaciones.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-            tblAsignaciones.setRowHeight(28);
-            if (tblAsignaciones.getTableHeader() != null) {
-                tblAsignaciones.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
-                tblAsignaciones.getTableHeader().setBackground(COLOR_PRIMARY);
-                tblAsignaciones.getTableHeader().setForeground(Color.WHITE);
+        if (tblBoleta != null) {
+            tblBoleta.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+            tblBoleta.setRowHeight(28);
+            if (tblBoleta.getTableHeader() != null) {
+                tblBoleta.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
+                tblBoleta.getTableHeader().setBackground(COLOR_PRIMARY);
+                tblBoleta.getTableHeader().setForeground(Color.WHITE);
             }
-            tblAsignaciones.setSelectionBackground(new Color(189, 195, 199));
-            tblAsignaciones.setSelectionForeground(Color.BLACK);
+            tblBoleta.setSelectionBackground(new Color(189, 195, 199));
+            tblBoleta.setSelectionForeground(Color.BLACK);
         }
     }
 
@@ -177,7 +187,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
     
     
     // Asignas el nuevo modelo al ComboBox de combustible
-    cmbMantenimiento.setModel(modeloCombustible);
+    cmbTipoCombus.setModel(modeloCombustible);
 }
 
     @SuppressWarnings("unchecked")
@@ -193,7 +203,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
         txtCantidadC = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         cmbVehiculo = new javax.swing.JComboBox<>();
-        cmbMantenimiento = new javax.swing.JComboBox<>();
+        cmbTipoCombus = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         txtKmUltimo = new javax.swing.JTextField();
         panelKWH = new javax.swing.JPanel();
@@ -201,7 +211,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
         txtCantidadKWH = new javax.swing.JTextField();
         jPanelModificar = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblAsignaciones = new javax.swing.JTable();
+        tblBoleta = new javax.swing.JTable();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
@@ -230,10 +240,15 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
         });
 
         btnGuardar.setText("Guardar Boleta");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         cmbVehiculo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        cmbMantenimiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbTipoCombus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel5.setText("Km Último:");
 
@@ -282,7 +297,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
                         .addGap(30, 30, 30)
                         .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cmbVehiculo, 0, 280, Short.MAX_VALUE)
-                            .addComponent(cmbMantenimiento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbTipoCombus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtCantidadC)
                             .addComponent(txtKmUltimo)))
                     .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -302,7 +317,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(cmbMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbTipoCombus, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelIngresarLayout.createSequentialGroup()
@@ -321,7 +336,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab1", jPanelIngresar);
 
-        jScrollPane1.setViewportView(tblAsignaciones);
+        jScrollPane1.setViewportView(tblBoleta);
 
         btnModificar.setText("Modificar");
 
@@ -389,15 +404,137 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadKWHActionPerformed
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        if (!validarCampos()) {
+            return;
+        }
+        
+        //en vehiculo seleccionado tiene placa, marca y modleo, se tiene que extarer solo placa
+        String vehiculoSeleccionado = cmbVehiculo.getSelectedItem().toString().trim();
+        String placa = vehiculoSeleccionado.split(" - ")[0].trim();
+        
+        String tipocombustible = cmbTipoCombus.getSelectedItem().toString().trim();
+        
+        double cantidadCombus = Double.parseDouble(txtCantidadC.getText().trim());
+        double kmUltimo = Double.parseDouble(txtKmUltimo.getText().trim());
+        
+        //validacion si el campo de kwh es vacio
+        String combusKWH = txtCantidadKWH.getText().trim();
+        
+        //uno para validar si esta vacio y configuarr en 0
+        double combusElectrico;
+        if(combusKWH.isEmpty()){
+            combusElectrico = 0;
+        }else{
+            
+                if(!esNumero(combusKWH)){
+                JOptionPane.showMessageDialog(this, "La cantidad de KWH actual debe ser un valor numérico.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                txtCantidadKWH.requestFocus();
+                return;
+            }else{
+                    combusElectrico = Double.parseDouble(txtCantidadKWH.getText().trim());
+                }
+        }
+        
+        //configuarr fecha de hoy
+        Date ingreso = new Date();
+        
+        //actualizar km
+        logicaVehiculo logicaV = new logicaVehiculo();
+        logicaV.modificarVehiculo(placa, kmUltimo);
+        
+        //sctus;iza en la spartes relevantess del sistema
+        logicaBoletaCombus logicaC = new logicaBoletaCombus();
+        logicaC.actualizarKmAsigancion(placa, kmUltimo);
+        
+        //guardqar la boleta
+        boolean exito =logicaC.registrarBoletaCombus(placa, tipocombustible, cantidadCombus, combusElectrico, kmUltimo, ingreso);
+        
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Boleta registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            //tsbla aqui;
+            txtKmUltimo.setText("");
+            txtCantidadKWH.setText("");
+            txtCantidadC.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error: Sucedio un error inesperado.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    //validar campos vacios
+    public boolean validarCampos(){
+        
+        if (txtCantidadC.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe de digitar la cantidad de combustible actual.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            txtCantidadC.requestFocus();
+            return false;
+        }
+        
+        if(!esNumero(txtCantidadC.getText().trim())){
+            JOptionPane.showMessageDialog(this, "La cantidad de combustible actual debe ser un valor numérico.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            txtCantidadC.requestFocus();
+            return false;
+        }
+        
+        if (txtKmUltimo.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe de digitar el kilometraje actual.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            txtKmUltimo.requestFocus();
+            return false;
+        }
+
+        if(!esNumero(txtKmUltimo.getText().trim())){
+            JOptionPane.showMessageDialog(this, "El kilometraje actual debe ser un valor numérico.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            txtKmUltimo.requestFocus();
+            return false;
+        }
+        
+        return true;
+    }
+    
+    
+    public void cargarTabla(){
+        logicaBoletaCombus logica = new logicaBoletaCombus();
+        ArrayList<objBoletaCombus> lista= logica.obtenerListaBoleta();
+        
+        String[] columnas = {"ID", "Placa", "Combustible", "Cantidad Combustible", "Cantidad KWH", "Kilometraje", "Registrada"};
+        Object[][] datos = new Object[lista.size()][7];
+        
+        for (int i = 0; i < lista.size(); i++) {
+            objBoletaCombus b= lista.get(i);
+            
+            datos[i][0] = b.getId();
+            datos[i][1] = b.getPlacaVehiculo();
+            datos[i][2] = b.getCombustible();
+            datos[i][3] = b.getCantidadCombustible();
+            datos[i][4] = b.getCantidadKWH();
+            datos[i][5] = b.getKmActual();
+            
+            String fechaFmt = "";
+            if (b.getFecha()!= null) {
+                fechaFmt = formatoFecha.format(b.getFecha());
+            }
+            datos[i][6] = fechaFmt;
+            
+        }
+        
+        modeloTabla = new DefaultTableModel(datos, columnas);
+        tblBoleta.setModel(modeloTabla);
+        
+    }
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new FrmBoletaCombus(false).setVisible(true));
+    }
+    
+    public boolean esNumero(String texto) {
+        return texto != null && texto.matches("^\\d+(\\.\\d+)?$");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JComboBox<String> cmbMantenimiento;
+    private javax.swing.JComboBox<String> cmbTipoCombus;
     private javax.swing.JComboBox<String> cmbVehiculo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -412,7 +549,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
     private javax.swing.JLabel labelCantidadC;
     private javax.swing.JLabel labelKWH;
     private javax.swing.JPanel panelKWH;
-    private javax.swing.JTable tblAsignaciones;
+    private javax.swing.JTable tblBoleta;
     private javax.swing.JTextField txtBuscador;
     private javax.swing.JTextField txtCantidadC;
     private javax.swing.JTextField txtCantidadKWH;
