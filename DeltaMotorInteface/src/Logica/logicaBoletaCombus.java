@@ -7,6 +7,8 @@ package Logica;
 import Datos.Estructuras;
 import Datos.objBoletaCombus;
 import Datos.objVehiculo;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -18,6 +20,13 @@ public class logicaBoletaCombus {
     1.Obtener datos del tipo de motor para solamente mostrar la lista correspondiente de si es gasolina o kwh
     2.pasar parametros de modificar,eliminar,lista y ingresar
     */
+    private Estructuras est;
+
+    public logicaBoletaCombus() {
+        
+        this.est = new Estructuras();
+    }
+    
     
     //selecciona el tipo de motor para mostarrle explicitamente las opciones
     //Ejemplo: motor de combustion interna le muestra el el cmb solo Super o Regular por ser las subdivisiones
@@ -47,5 +56,25 @@ public class logicaBoletaCombus {
     }
     
     
+    //gaurdar boleta
+    public boolean registrarBoletaCombus(String placa,String tipoCombus,double cantidadC,double cantidadKWH,
+            double km,Date fecha){
+        
+        objBoletaCombus nuevaBoleta = new objBoletaCombus(0, placa, km, tipoCombus, cantidadC, cantidadKWH, fecha);
+        
+        est.agregarBoletaCombus(nuevaBoleta);
+        return true;
+    }
     
+    //actualiza el km Asiganciones para amntener todo actual
+   public boolean actualizarKmAsigancion(String placa, double kmActual){
+       return est.actualizarKmVehiculoAsigna(placa, kmActual);
+   }
+    
+   
+   //obtener lista
+   public ArrayList<objBoletaCombus> obtenerListaBoleta() {
+        est.leerArchivoBoletaCombus();
+        return est.getListaBoletaCombus();
+    }
 }

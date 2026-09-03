@@ -510,6 +510,20 @@ public class Estructuras {
        return false;
    }
   
+   public boolean actualizarKmVehiculoAsigna(String placa, double nuevoKm) {
+       leerArchivoAsignacionMante(); 
+       boolean encontrado = false;
+       
+       for (objAsignacionMante v : listaAsignacionesMante) {
+           if (v.getPlacaVehiculo().equalsIgnoreCase(placa.trim())) {
+               v.setKmUltimo(nuevoKm);
+               escribeArchivoAsignacionMante();
+               encontrado = true;
+               break;
+           }
+       }
+       return false;
+   }
    /*---------------------------------------------------------------------------
    Funciones getter, setter y demas funciones del listaBoletaCombus
  -------------------------------------------------------------------------  */
@@ -638,6 +652,10 @@ public class Estructuras {
        
        return false;
    }
+   
+   
+   
+   
   
    /*---------------------------------------------------------------------------
    Funciones getter, setter y demas funciones del listaMecanicos
