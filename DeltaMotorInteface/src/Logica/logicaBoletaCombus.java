@@ -77,4 +77,11 @@ public class logicaBoletaCombus {
         est.leerArchivoBoletaCombus();
         return est.getListaBoletaCombus();
     }
+   
+   public boolean eliminarBoletaCombus(int idBoleta){
+       
+       return est.eliminarBoletaCombus(idBoleta);
+   }
+   
+   
 }

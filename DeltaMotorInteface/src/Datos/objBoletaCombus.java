@@ -100,5 +100,10 @@ public class objBoletaCombus {
     }
     
     
+    public boolean eliminarBoleta(String id){
+        
+        return true;
+    }
+    
     
 }

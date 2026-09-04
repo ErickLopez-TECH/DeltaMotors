@@ -6,6 +6,8 @@ import Logica.logicaGestionMante;
 import Datos.objAsignacionMante;
 import Datos.objVehiculo;
 import Datos.objGestionMante;
+import Presentacion.MenusPrincipales.FrmMenuAdmin;
+import Presentacion.MenusPrincipales.FrmMenuOperador;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class FrmAsignarMantenimiento extends javax.swing.JFrame {
 
@@ -105,6 +109,24 @@ public class FrmAsignarMantenimiento extends javax.swing.JFrame {
             public void removeUpdate(javax.swing.event.DocumentEvent e) { filtrarAsignacion(); }
             @Override
             public void changedUpdate(javax.swing.event.DocumentEvent e) { filtrarAsignacion(); }
+        });
+        
+        jTabbedPane1.addChangeListener(new ChangeListener(){
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if(jTabbedPane1.getSelectedIndex() == 2){
+                    if(rolActual){
+                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual);
+                        panelAdmin.setVisible(true);
+                    }else{
+                        FrmMenuOperador panelOperador = new FrmMenuOperador(rolActual);
+                        panelOperador.setVisible(true);
+                    }
+                    
+                    dispose();
+                }
+            }
+            
         });
     }
 

@@ -5,6 +5,9 @@ import Datos.objVehiculo;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Logica.logicaVehiculo;
+import Presentacion.Loggin;
+import Presentacion.MenusPrincipales.FrmMenuAdmin;
+
 import java.util.ArrayList;
 
 public class FrmGestionVehiculos extends javax.swing.JFrame {
@@ -14,9 +17,17 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
     private boolean rolActual;
     
     public FrmGestionVehiculos(boolean rol) {
+        //bloquear el acceso a otros roles
+        this.rolActual = rol;
+        if(!rolActual){
+        JOptionPane.showMessageDialog(this, "No tienes permisos para acceder a este modulo. Cerrando aplicacion","Error",JOptionPane.WARNING_MESSAGE);
+        this.dispose();
+        return;
+    }
+        
         initComponents();
         
-        this.rolActual = rol;
+        
         // Pantalla completa idéntica al diseño moderno de usuarios
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         
@@ -222,6 +233,7 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
         cargarTipoMotor();
         inicializarTabla();
         
+        
         txtBuscador.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) { filtrarVehiculo(); }
@@ -238,6 +250,28 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
                     cargarCombustibles();
+                }
+            }
+        });
+        
+        // Agrega una pestaña vacía que actuará como el botón de salida/regreso
+        jTabbedPane1.addTab("⬅ Volver al Menú", new javax.swing.JPanel());
+        // listener de las pestañas:
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            @Override
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                if (jTabbedPane1.getSelectedIndex() == 2) {
+                    
+                    // Evaluamos el booleano guardado para regresar al menú correcto pasándole su rol
+                    if (rolActual) {
+                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual);
+                        panelAdmin.setVisible(true);
+                    } else {
+                        Presentacion.Loggin loggin = new Loggin();
+                        loggin.setVisible(true);
+                    }
+                    
+                    dispose(); // Cierra la ventana actual
                 }
             }
         });
@@ -846,6 +880,7 @@ public class FrmGestionVehiculos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanelIngresar;
     private javax.swing.JPanel jPanelModificar;
+   
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel panelPersonalizado;
