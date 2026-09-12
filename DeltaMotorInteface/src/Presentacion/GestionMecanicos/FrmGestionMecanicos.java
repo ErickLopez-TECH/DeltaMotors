@@ -5,6 +5,16 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import Logica.logicaMecanicos;
+import Datos.objMecanicos;
+import Presentacion.MenusPrincipales.FrmMenuAdmin;
+import Presentacion.MenusPrincipales.FrmMenuOperador;
+import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
 public class FrmGestionMecanicos extends javax.swing.JFrame {
 
@@ -13,14 +23,58 @@ public class FrmGestionMecanicos extends javax.swing.JFrame {
     private final Color COLOR_SECONDARY = new Color(52, 152, 219);   
     private final Color COLOR_BACKGROUND = new Color(245, 247, 250); 
     private final Color COLOR_PANEL = new Color(255, 255, 255);      
-    private final Color COLOR_TEXT = new Color(44, 62, 80);          
-
+    private final Color COLOR_TEXT = new Color(44, 62, 80);   
+    
+    private DefaultTableModel modeloTabla;
+    private boolean rolActual;
+    
+    
     public FrmGestionMecanicos(boolean rol) {
+        this.rolActual = rol;
+    
         initComponents();
         this.setLocationRelativeTo(null);
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         aplicarEstilosModernos();
-    }
+        
+        cargarTabla();
+        
+        
+        txtBuscador.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                 filtrarBuscador();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filtrarBuscador();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filtrarBuscador();
+            }
+        });
+        
+        jTabbedPane1.addChangeListener(new ChangeListener(){
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if(jTabbedPane1.getSelectedIndex() == 2){
+                    if(rolActual){
+                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual);
+                        panelAdmin.setVisible(true);
+                    }else{
+                        FrmMenuOperador panelOperador = new FrmMenuOperador(rolActual);
+                        panelOperador.setVisible(true);
+                    }
+                    
+                    dispose();
+                }
+            }
+    });
+                
+                }
     
     private void aplicarEstilosModernos() {
         jPanelIngresar.setBackground(COLOR_PANEL);
@@ -42,14 +96,19 @@ public class FrmGestionMecanicos extends javax.swing.JFrame {
         estilizarBoton(btnModificar, COLOR_SECONDARY);
         estilizarBoton(btnEliminar, new Color(231, 76, 60));
         
-        /*
-        tblAsignaciones.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        tblAsignaciones.setRowHeight(28);
-        tblAsignaciones.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
-        tblAsignaciones.getTableHeader().setBackground(COLOR_PRIMARY);
-        tblAsignaciones.getTableHeader().setForeground(Color.WHITE);
-        tblAsignaciones.setSelectionBackground(new Color(189, 195, 199));
-        tblAsignaciones.setSelectionForeground(Color.BLACK);*/
+        
+                
+        if (tblMecanicos != null) {
+            tblMecanicos.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+            tblMecanicos.setRowHeight(28);
+            if (tblMecanicos.getTableHeader() != null) {
+                tblMecanicos.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
+                tblMecanicos.getTableHeader().setBackground(COLOR_PRIMARY);
+                tblMecanicos.getTableHeader().setForeground(Color.WHITE);
+            }
+            tblMecanicos.setSelectionBackground(new Color(189, 195, 199));
+            tblMecanicos.setSelectionForeground(Color.BLACK);
+        }
     }
 
     private void estilizarBoton(javax.swing.JButton boton, Color colorFondo) {
@@ -75,6 +134,7 @@ public class FrmGestionMecanicos extends javax.swing.JFrame {
         txtCedula = new javax.swing.JTextField();
         jPanelModificar = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
+        tblMecanicos = new javax.swing.JTable();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
@@ -143,9 +203,27 @@ public class FrmGestionMecanicos extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab1", jPanelIngresar);
 
+        tblMecanicos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblMecanicos);
+
         btnModificar.setText("Modificar");
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Buscador: ");
 
@@ -229,11 +307,86 @@ public class FrmGestionMecanicos extends javax.swing.JFrame {
         
         if(exito){
             JOptionPane.showMessageDialog(this, "El mecanico se ha registrado","Exito",JOptionPane.INFORMATION_MESSAGE);
+            cargarTabla();
         }else{
             JOptionPane.showMessageDialog(this, "Ha sucedido un error inesperado, Vuelva a intentar","Error",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarBoletaActionPerformed
 
+    
+    //boton de elominar
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        int filaSeleccionada = tblMecanicos.getSelectedRow();
+        
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un mecanico para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        int id = Integer.parseInt(tblMecanicos.getValueAt(filaSeleccionada, 0).toString());
+        logicaMecanicos logica = new logicaMecanicos();
+        
+        boolean eliminado = logica.eliminarMecanico(id);
+        
+        if (eliminado) {
+            JOptionPane.showMessageDialog(this, "Mecanico eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarTabla();
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar el mecanico.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    
+    public void filtrarBuscador(){
+        String filtro = txtBuscador.getText().toLowerCase().trim();
+        
+        logicaMecanicos logica = new logicaMecanicos();
+        
+        //esta tendra la lista de la boleta
+        ArrayList<objMecanicos> lista = logica.obtenerListaMecanicos();
+        
+        //establecer que se msotrara despuesde hacer el filtro(columnas)
+        String[] columnas = {"ID","Nombre","Cedula"};
+        DefaultTableModel modeloFiltrado = new DefaultTableModel(new Object[0][3],columnas);
+        
+        for (objMecanicos M: lista) {
+            //el nombre puede estar en minusculas todo y no aparesera(case-sentive)
+            String nombre =M.getNombre().toLowerCase();
+            if((nombre.contains(filtro))||(M.getCedula().contains(filtro))){
+                
+                Object[] fila = {
+                    M.getId(),
+                    M.getNombre(),
+                    M.getCedula()
+                };
+                modeloFiltrado.addRow(fila);
+            }
+              
+        }
+        
+        tblMecanicos.setModel(modeloFiltrado);
+    }
+    
+    public void cargarTabla() {
+    logicaMecanicos logica = new logicaMecanicos();
+    ArrayList lista = logica.obtenerListaMecanicos();
+    
+    String[] columnas = {"ID", "Nombre", "Cedula"};
+    Object[][] Datos = new Object[lista.size()][3];
+    
+    for (int i = 0; i < lista.size(); i++) {
+        objMecanicos M = (objMecanicos) lista.get(i);
+        Datos[i][0] = M.getId();
+        Datos[i][1] = M.getNombre();
+        Datos[i][2] = M.getCedula();
+    }
+    
+    modeloTabla = new DefaultTableModel(Datos, columnas);
+    
+    tblMecanicos.setModel(modeloTabla);
+}
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new FrmGestionMecanicos(false).setVisible(true));
     }
@@ -251,7 +404,7 @@ public class FrmGestionMecanicos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPaneRegresar;
-    private javax.swing.JTable tblAsignaciones;
+    private javax.swing.JTable tblMecanicos;
     private javax.swing.JTextField txtBuscador;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtNombre;

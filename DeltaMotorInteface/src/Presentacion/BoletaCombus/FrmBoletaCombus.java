@@ -34,6 +34,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
     private DefaultTableModel modeloTabla;
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
     private String placa;
+    
 
     private ArrayList<String> listaOriginalVehiculos;
     
@@ -47,6 +48,8 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
         panelKWH.setVisible(false);
         cargarListasOriginales();
         cargarTabla();
+        
+        
         configurarComboAutocompletado(cmbVehiculo, listaOriginalVehiculos);
         
         txtBuscador.getDocument().addDocumentListener(new DocumentListener(){
@@ -146,6 +149,8 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
             listaOriginalVehiculos.add(v.getPlaca() + " - " + v.getMarca() + " " + v.getModelo());
             placa = v.getPlaca();
         }
+        
+        
     }
     
     private void configurarComboAutocompletado(javax.swing.JComboBox<String> comboBox, ArrayList<String> elementosOriginales) {
@@ -209,6 +214,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
     private void cargarDatosVehiculoSeleccionado(String placaVehiculo) {
         logicaBoletaCombus logicaB = new logicaBoletaCombus();
     
+        //busca que combustible el usa segun el guatdado incial del sistema de agestion Vehiculos
         int tipo = logicaB.opcionesCombus(placaVehiculo);
         DefaultComboBoxModel<String> modeloCombustible;
         
