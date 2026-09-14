@@ -5,6 +5,7 @@
 package Logica;
 import Datos.Estructuras;
 import Datos.objUsuarios;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 /**
  *
@@ -45,4 +46,33 @@ public class logicaUsuarios {
         }
         return false;
     }
+    
+    public boolean cambiarContrasena( String user, String contrasena) {
+    Estructuras est = new Estructuras();
+    
+    // 1. Leemos el archivo para cargar la lista actual
+    est.leerArchivoUsuarios(); 
+    ArrayList<objUsuarios> lista = est.getListaUsuarios();
+    
+    boolean modificado = false;
+    
+    
+    for (int i = 0; i < lista.size(); i++) {
+        objUsuarios item = lista.get(i);
+        
+        if (item.getNombre().equalsIgnoreCase(user)) {
+            item.setContrasena(contrasena);
+            modificado = true;
+            break; 
+        }
+    }
+    
+    //  Si se modificó, guardamos la lista actualizada en el archivo
+    if (modificado) {
+        est.setListaUsuarios(lista);
+        est.escribeArchivoUsuarios();
+    }
+    
+    return modificado;
+}
 }

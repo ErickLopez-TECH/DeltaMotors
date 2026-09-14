@@ -15,7 +15,11 @@ import Logica.logicaMecanicos;
 import Logica.logicaVehiculo;
 import Logica.logicaAsignacionMante;
 import Logica.logicaBoletaTaller;
+import Presentacion.MenusPrincipales.FrmMenuAdmin;
+import Presentacion.MenusPrincipales.FrmMenuOperador;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class FrmBoletaTaller extends javax.swing.JFrame {
 
@@ -25,7 +29,7 @@ public class FrmBoletaTaller extends javax.swing.JFrame {
     private final Color COLOR_BACKGROUND = new Color(245, 247, 250); 
     private final Color COLOR_PANEL = new Color(255, 255, 255);      
     private final Color COLOR_TEXT = new Color(44, 62, 80);          
-
+    private boolean rolActual;
     //variable con uso en diferentes metodos
     private String placa;
     private String nombreMeca;
@@ -48,6 +52,7 @@ public class FrmBoletaTaller extends javax.swing.JFrame {
 
     */
     public FrmBoletaTaller(boolean rol) {
+        this.rolActual = rol;
         initComponents();
         this.setLocationRelativeTo(null);
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
@@ -66,6 +71,23 @@ public class FrmBoletaTaller extends javax.swing.JFrame {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
                     actualizarComboMantenimientos();
+                }
+            }
+        });
+        
+        jTabbedPane1.addChangeListener(new ChangeListener(){
+            @Override
+            public void stateChanged(ChangeEvent e){
+                
+                if(jTabbedPane1.getSelectedIndex()==2){
+                    if(rolActual){
+                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual,null);
+                        panelAdmin.setVisible(true);
+                    }else{
+                        FrmMenuOperador panelOpera = new FrmMenuOperador(rolActual);
+                        panelOpera.setVisible(true);
+                    }
+                    dispose();
                 }
             }
         });
@@ -311,7 +333,7 @@ public class FrmBoletaTaller extends javax.swing.JFrame {
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("tab1", jPanelIngresar);
+        jTabbedPane1.addTab("Ingresar", jPanelIngresar);
 
         tblBoleta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -366,8 +388,8 @@ public class FrmBoletaTaller extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        jTabbedPane1.addTab("tab2", jPanelModificar);
-        jTabbedPane1.addTab("tab3", jTabbedPaneRegresar);
+        jTabbedPane1.addTab("Consultar", jPanelModificar);
+        jTabbedPane1.addTab("Regresar", jTabbedPaneRegresar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

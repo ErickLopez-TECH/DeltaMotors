@@ -62,7 +62,7 @@ public class FrmGestionMecanicos extends javax.swing.JFrame {
             public void stateChanged(ChangeEvent e) {
                 if(jTabbedPane1.getSelectedIndex() == 2){
                     if(rolActual){
-                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual);
+                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual,null);
                         panelAdmin.setVisible(true);
                     }else{
                         FrmMenuOperador panelOperador = new FrmMenuOperador(rolActual);
@@ -201,7 +201,7 @@ public class FrmGestionMecanicos extends javax.swing.JFrame {
                 .addContainerGap(63, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("tab1", jPanelIngresar);
+        jTabbedPane1.addTab("Agregar", jPanelIngresar);
 
         tblMecanicos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -261,8 +261,8 @@ public class FrmGestionMecanicos extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        jTabbedPane1.addTab("tab2", jPanelModificar);
-        jTabbedPane1.addTab("tab3", jTabbedPaneRegresar);
+        jTabbedPane1.addTab("Consultar", jPanelModificar);
+        jTabbedPane1.addTab("Regresar", jTabbedPaneRegresar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
