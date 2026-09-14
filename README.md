@@ -52,4 +52,4 @@ El sistema está diseñado bajo principios de código limpio y separación de re
 ## 📅 Estado del Proyecto
 
 * **Fase:** Desarrollo y validación técnica.
-* **Fecha de finalización:** 11 de septiembre de 2026.
+* **Fecha de finalización:** 25 de septiembre de 2026.
