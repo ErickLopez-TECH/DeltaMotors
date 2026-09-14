@@ -17,6 +17,7 @@ public class objVehiculo {
     private String tipoMotor;
     private String combustible;
     private double kilometraje;
+    
     private int anio;
     private String estado;
     

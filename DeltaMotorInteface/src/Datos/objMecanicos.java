@@ -13,6 +13,7 @@ public class objMecanicos {
     private int id;
     private String nombre;
     private String cedula;
+    
 
     public objMecanicos() {
     }

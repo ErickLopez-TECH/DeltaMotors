@@ -3,7 +3,11 @@ package Logica;
 import Datos.Estructuras;
 import Datos.objAsignacionMante;
 import Datos.objVehiculo;
+import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 public class logicaAsignacionMante {
@@ -76,6 +80,58 @@ public class logicaAsignacionMante {
         return estructuras.eliminarAsignacionManteArchivo(id);
     }
     
+   
+    
+    //Directamente a reportes de dias
+    public ArrayList listaFiltradaDias() {
+    ArrayList listaFiltrada = new ArrayList<>();
+    
+    //ajusta fecha para las 23:59 sin dejar nada por fuera del dia de hoy
+    Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.HOUR_OF_DAY, 23);
+    cal.set(Calendar.MINUTE, 59);
+    cal.set(Calendar.SECOND, 59);
+    cal.set(Calendar.MILLISECOND, 999);
+    Date fechaHoy = cal.getTime();
+    
+    
+    
+    
+    for (objAsignacionMante mante : obtenerListaAsignaciones()) {
+        if (mante.getTipoPeriodo().equalsIgnoreCase("Dias")) {
+            
+            long diferenciaMilisegundos = fechaHoy.getTime() - mante.getVencimiento().getTime();
+            long diasPasados = diferenciaMilisegundos / (1000*60*60*24);
+            
+            if (diasPasados < 0) {
+                diasPasados = 0;
+            }
+            
+            
+            //formato de fecha sencilla
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+            
+            String fechaConsultaStr = sdf.format(fechaHoy);
+            String fechaVencimientoStr = sdf.format(mante.getVencimiento());
+            
+            //comprobar si fecha es <= a la de hoy
+            if (mante.getVencimiento() != null && !mante.getVencimiento().after(fechaHoy)) {
+                Object[] fila ={
+                    mante.getPlacaVehiculo(),
+                    mante.getNombreMantenimiento(),
+                    fechaConsultaStr,
+                    fechaVencimientoStr,
+                    diasPasados
+                };
+                listaFiltrada.add(fila);
+            }
+            
+        }
+    }
+    
+    return listaFiltrada;
+}
     
     
 }

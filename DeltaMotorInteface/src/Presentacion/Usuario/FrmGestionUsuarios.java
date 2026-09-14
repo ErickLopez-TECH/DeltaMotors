@@ -237,7 +237,7 @@ public class FrmGestionUsuarios extends javax.swing.JFrame {
                     
                     // Evaluamos el booleano guardado para regresar al menú correcto pasándole su rol
                     if (rolActual) {
-                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual);
+                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual,null);
                         panelAdmin.setVisible(true);
                     } else {
                         FrmMenuOperador panelOperador = new FrmMenuOperador(rolActual);

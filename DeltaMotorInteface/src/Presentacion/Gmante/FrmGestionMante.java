@@ -195,7 +195,7 @@ public class FrmGestionMante extends javax.swing.JFrame {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 if (jTabbedPane1.getSelectedIndex() == 2) {
                     if (rolActual) {
-                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual);
+                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual,null);
                         panelAdmin.setVisible(true);
                     } else {
                         FrmMenuOperador panelOperador = new FrmMenuOperador(rolActual);

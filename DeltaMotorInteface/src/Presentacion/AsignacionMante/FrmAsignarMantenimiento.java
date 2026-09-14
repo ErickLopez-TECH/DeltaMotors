@@ -6,6 +6,8 @@ import Logica.logicaGestionMante;
 import Datos.objAsignacionMante;
 import Datos.objVehiculo;
 import Datos.objGestionMante;
+import Presentacion.MenusPrincipales.FrmMenuAdmin;
+import Presentacion.MenusPrincipales.FrmMenuOperador;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Calendar;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class FrmAsignarMantenimiento extends javax.swing.JFrame {
 
@@ -105,6 +110,24 @@ public class FrmAsignarMantenimiento extends javax.swing.JFrame {
             public void removeUpdate(javax.swing.event.DocumentEvent e) { filtrarAsignacion(); }
             @Override
             public void changedUpdate(javax.swing.event.DocumentEvent e) { filtrarAsignacion(); }
+        });
+        
+        jTabbedPane1.addChangeListener(new ChangeListener(){
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if(jTabbedPane1.getSelectedIndex() == 2){
+                    if(rolActual){
+                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual,null);
+                        panelAdmin.setVisible(true);
+                    }else{
+                        FrmMenuOperador panelOperador = new FrmMenuOperador(rolActual);
+                        panelOperador.setVisible(true);
+                    }
+                    
+                    dispose();
+                }
+            }
+            
         });
     }
 
@@ -499,7 +522,16 @@ public class FrmAsignarMantenimiento extends javax.swing.JFrame {
         double kmUltimo = Double.parseDouble(txtKmUltimo.getText().trim());
         
         Date ingreso = new Date();
-        Date vencimiento = new Date(); 
+        
+        //ajustar el vencimiento
+                //  Usar Calendar para sumar los días
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(ingreso);
+        cal.add(Calendar.DAY_OF_YEAR, (int) periodicidad);
+
+        //  Asignar la fecha resultante a vencimiento
+        Date vencimiento = cal.getTime();
+       
         
         logicaAsignacionMante logica = new logicaAsignacionMante();
         boolean exito = logica.registrarAsignacion(placaVehiculo, mantenimiento, tipoPeriodo, periodicidad, kmUltimo, ingreso, vencimiento);

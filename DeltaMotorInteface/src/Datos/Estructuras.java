@@ -527,6 +527,7 @@ public class Estructuras {
    /*---------------------------------------------------------------------------
    Funciones getter, setter y demas funciones del listaBoletaCombus
  -------------------------------------------------------------------------  */
+   
   
    public ArrayList<objBoletaCombus> getListaBoletaCombus() {
        return listaBoletaCombus;

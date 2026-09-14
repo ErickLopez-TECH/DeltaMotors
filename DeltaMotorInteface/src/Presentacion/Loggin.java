@@ -185,7 +185,7 @@ public class Loggin extends javax.swing.JFrame {
             boolean rol = logica.tipoRol(user);
 
             if(rol){
-                FrmMenuAdmin ventanaAdmin = new FrmMenuAdmin(rol);
+                FrmMenuAdmin ventanaAdmin = new FrmMenuAdmin(rol,user);
                 ventanaAdmin.setVisible(true);
             } else {
                 FrmMenuOperador ventaOperador = new FrmMenuOperador(rol);

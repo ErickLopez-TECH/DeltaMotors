@@ -4,6 +4,8 @@ import Datos.objVehiculo;
 import Datos.objBoletaCombus;
 import Logica.logicaBoletaCombus;
 import Logica.logicaVehiculo;
+import Presentacion.MenusPrincipales.FrmMenuAdmin;
+import Presentacion.MenusPrincipales.FrmMenuOperador;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 public class FrmBoletaCombus extends javax.swing.JFrame {
@@ -24,13 +30,17 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
     private final Color COLOR_PANEL = new Color(255, 255, 255);      
     private final Color COLOR_TEXT = new Color(44, 62, 80);  
     
+    private boolean rolActual;
     private DefaultTableModel modeloTabla;
     private SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
     private String placa;
+    
 
     private ArrayList<String> listaOriginalVehiculos;
     
     public FrmBoletaCombus(boolean rol) {
+        
+        this.rolActual = rol;
         initComponents();
         this.setLocationRelativeTo(null);
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
@@ -38,7 +48,46 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
         panelKWH.setVisible(false);
         cargarListasOriginales();
         cargarTabla();
+        
+        
         configurarComboAutocompletado(cmbVehiculo, listaOriginalVehiculos);
+        
+        txtBuscador.getDocument().addDocumentListener(new DocumentListener(){
+            
+            @Override
+            public void insertUpdate(DocumentEvent e){
+                filtrarBuscador();
+            }
+            
+            @Override
+            public void removeUpdate(DocumentEvent e){
+                filtrarBuscador();
+            }
+            
+            @Override
+            public void changedUpdate(DocumentEvent e){
+                filtrarBuscador();
+            }
+        });
+        
+        
+        jTabbedPane1.addChangeListener(new ChangeListener(){
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                if(jTabbedPane1.getSelectedIndex() == 2){
+                    if(rolActual){
+                        FrmMenuAdmin panelAdmin = new FrmMenuAdmin(rolActual,null);
+                        panelAdmin.setVisible(true);
+                    }else{
+                        FrmMenuOperador panelOperador = new FrmMenuOperador(rolActual);
+                        panelOperador.setVisible(true);
+                    }
+                    
+                    dispose();
+                }
+            }
+            
+        });
     }
     
     private void aplicarEstilosModernos() {
@@ -100,6 +149,8 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
             listaOriginalVehiculos.add(v.getPlaca() + " - " + v.getMarca() + " " + v.getModelo());
             placa = v.getPlaca();
         }
+        
+        
     }
     
     private void configurarComboAutocompletado(javax.swing.JComboBox<String> comboBox, ArrayList<String> elementosOriginales) {
@@ -163,6 +214,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
     private void cargarDatosVehiculoSeleccionado(String placaVehiculo) {
         logicaBoletaCombus logicaB = new logicaBoletaCombus();
     
+        //busca que combustible el usa segun el guatdado incial del sistema de agestion Vehiculos
         int tipo = logicaB.opcionesCombus(placaVehiculo);
         DefaultComboBoxModel<String> modeloCombustible;
         
@@ -334,13 +386,18 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("tab1", jPanelIngresar);
+        jTabbedPane1.addTab("Ingresar", jPanelIngresar);
 
         jScrollPane1.setViewportView(tblBoleta);
 
         btnModificar.setText("Modificar");
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Buscador: ");
 
@@ -378,8 +435,8 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        jTabbedPane1.addTab("tab2", jPanelModificar);
-        jTabbedPane1.addTab("tab3", jTabbedPaneRegresar);
+        jTabbedPane1.addTab("Consultar/Procesos", jPanelModificar);
+        jTabbedPane1.addTab("Regresar", jTabbedPaneRegresar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -453,7 +510,7 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
         
         if (exito) {
             JOptionPane.showMessageDialog(this, "Boleta registrada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            //tsbla aqui;
+            cargarTabla();
             txtKmUltimo.setText("");
             txtCantidadKWH.setText("");
             txtCantidadC.setText("");
@@ -461,6 +518,29 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error: Sucedio un error inesperado.", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        
+        int filaSeleccionada = tblBoleta.getSelectedRow();
+        
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una Boleta para eliminar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        int id = Integer.parseInt(tblBoleta.getValueAt(filaSeleccionada, 0).toString());
+        logicaBoletaCombus logica = new logicaBoletaCombus();
+        
+        boolean eliminado = logica.eliminarBoletaCombus(id);
+        
+        if (eliminado) {
+            JOptionPane.showMessageDialog(this, "Asignación eliminada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            cargarTabla();
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo eliminar la asignación.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     //validar campos vacios
     public boolean validarCampos(){
@@ -529,6 +609,38 @@ public class FrmBoletaCombus extends javax.swing.JFrame {
     public boolean esNumero(String texto) {
         return texto != null && texto.matches("^\\d+(\\.\\d+)?$");
     }
+    
+    public void filtrarBuscador(){
+        String filtro = txtBuscador.getText().toLowerCase().trim();
+        //instanciar logica para poder acceder a sus metodos
+        logicaBoletaCombus logica = new logicaBoletaCombus();
+        
+        //teber la lista
+        ArrayList<objBoletaCombus> lista = logica.obtenerListaBoleta();
+        
+        //lo ocupamos para mostra los datos es el molde
+        String[] columnas = {"ID", "Placa", "Combustible", "Cantidad Combustible", "Cantidad KWH", "Kilometraje", "Registrada"};
+        DefaultTableModel modeloFiltrado = new DefaultTableModel(new Object[0][7],columnas);
+        
+        for (objBoletaCombus b: lista) {
+            //para las fechas
+            String fechaFmt = b.getFecha()!= null ? formatoFecha.format(b.getFecha()) : "";
+            
+            if(b.getPlacaVehiculo().contains(filtro)){
+                Object[] fila = {b.getId(),
+                                 b.getPlacaVehiculo(),
+                                 b.getCombustible(),
+                                 b.getCantidadCombustible(),
+                                 b.getCantidadKWH(),
+                                 b.getKmActual(),
+                                 fechaFmt        
+            };
+                modeloFiltrado.addRow(fila);   
+        }
+        }
+        tblBoleta.setModel(modeloFiltrado);
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;

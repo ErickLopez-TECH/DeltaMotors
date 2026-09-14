@@ -1,3 +1,4 @@
-1;admin;1234;1234;Administrador;Activo;
+1;admin;1234;123456;Administrador;Activo;
 2;operador;12345;1234;Operador;Activo;
 3;Erick;155852559332;1234;Administrador;Activo;
+4;ErickL;1234567;1234;Administrador;Activo;
